@@ -21,6 +21,8 @@ $(document).ready(function() {
         map: map
     };
 
+    map.setMaxBounds(map.getBounds().pad(0.025));
+
 
 
     var mapData = new Data();
@@ -78,6 +80,32 @@ $(document).ready(function() {
         }
     };
 
+    var layerControls = {
+        "survey-approved": L.control.layers({}, tabs["survey-approved"]["layerGroups"], {
+            collapsed: false
+        }),
+        "survey-applied": L.control.layers({}, tabs["survey-applied"]["layerGroups"], {
+            collapsed: false
+        }),
+        "construction-approved": L.control.layers({}, tabs["construction-approved"]["layerGroups"], {
+            collapsed: false
+        }),
+        "construction-applied": L.control.layers({}, tabs["construction-applied"]["layerGroups"], {
+            collapsed: false
+        }),
+        "operational": L.control.layers({}, tabs["operational"]["layerGroups"], {
+            collapsed: false
+        })
+    };
+
+    layerControls["construction-approved"].addTo(map);
+    layerControls["survey-approved"].addTo(map);
+    layerControls["operational"].addTo(map);
+    layerControls["survey-applied"].addTo(map);
+    layerControls["construction-applied"].addTo(map);
+
+    //console.log(layerControls["construction-approved"]._container);
+
     /*function drawPoints(options) {
      var modelQueryPoints = mapData.fetchData({
      query: {
@@ -105,6 +133,20 @@ $(document).ready(function() {
      });
      });
      }*/
+    
+    function TableContent_fix(jsonData, invert) {
+            var content = $('<div></div>').addClass('table-content');
+            for (var key in jsonData) {
+                if (!(key === "sn" || key === "start_lat" || key === "start_lng" || key === "end_lat" || key === "start_lng")) {
+                    var tableRow = $('<div></div>').addClass('table-row').append(function() {
+
+                        return jsonData[key] ? $("<div></div>").html("<div class='row-label'>" + key.replace(/_/g, " ").replace("(", " (") + "  :</div>").append($("<div class='val'></div>").text((jsonData[key] + "").replace(/,/g, ", "))) : $("<div class='row-label'></div>").text(key.replace(/_/g, " ").replace("(", " (") + "  :").append($("<div class='val not-available'></div>").text("Not Available"));
+                    });
+                    invert ? tableRow.prependTo(content).addClass(key) : tableRow.appendTo(content).addClass(key);
+                }
+            }
+            return $(content)[0];
+        }
 
     (new UI_VerticalTabbedColumn({
         tabs: $.map(config["map-features"], function(item, index) {
@@ -114,6 +156,18 @@ $(document).ready(function() {
                 eventHandlers: {
                     click: function(e) {
                         var deferred = $.Deferred();
+                        //a=$(layerControls[index]._container).find("input")[0];
+
+                        $.map(layerControls, function(layerControl, c) {
+                            $(layerControl._container).hide();
+                            //console.log($(layerControl._container).find("input"));
+                            $(layerControl._container).find("input").each(function() {
+                                if ($(this)[0].checked)
+                                    $(this).click();
+                            });
+                        });
+                        $(layerControls[index]._container).show();
+                        $(layerControls[index]._container).find("input").click();
                         var modelQueryPoints = mapData.fetchData({
                             query: {
                                 geometries: {
@@ -139,7 +193,11 @@ $(document).ready(function() {
                                     "data": l1_item
                                 }).appendTo(overviewCollection);
                             });
-                            deferred.resolve(overviewCollection);
+                            deferred.resolve({
+                                data: data,
+                                params: params,
+                                jqObj: overviewCollection
+                            });
                         });
 
                         return deferred.promise();
@@ -150,21 +208,43 @@ $(document).ready(function() {
                     click: function(e, callbackOptions) {
                         var data = callbackOptions.data;
                         var params = callbackOptions.params;
-                        L.geoJson(data, {
-                            pointToLayer: function(feature, latlng) {
-                                return L.marker(latlng, {
-                                    icon: L.divIcon({
-                                        className: feature.properties.getAttributes().capacity,
-                                        html: "<img src='" + item["icon-src"] + "'/>"
-                                    })
-                                });
-                            },
-                            onEachFeature: function(feature, layer) {
 
-                            }
-                        });
+
+                        for (var feature in data.features) {
+                            var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
+                                icon: L.divIcon({
+                                    className: data.features[feature].properties.getAttributes().capacity,
+                                    html: "<img src='" + item["icon-src"] + "'/>"
+                                })
+                            });
+                            var popup = L.popup({});
+                            marker.on('click', function(e) {
+                                popup.setLatLng(e.latlng);
+                                popup.setContent(new TableContent_fix(data.features[feature].properties.getAttributes()));
+                                popup.openOn(map);
+                            });
+                            marker.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project_Si"].split("(")[0].trim().toLowerCase()]);
+                            //marker.addTo(map);
+                        }
+
+                        /*L.geoJson(data, {
+                         pointToLayer: function(feature, latlng) {
+                         //console.log(feature);
+                         return L.marker(latlng, {
+                         icon: L.divIcon({
+                         className: feature.properties.getAttributes().capacity,
+                         html: "<img src='" + item["icon-src"] + "'/>"
+                         })
+                         });
+                         },
+                         onEachFeature: function(feature, layer) {
+                         console.log(feature);
+                         tabs["construction-approved"]["layerGroups"]["small"].addLayer(layer);
+                         }
+                         });*/
                     }
-                }
+                },
+                layerControl: layerControls[index]
             };
             return tabDef;
         })

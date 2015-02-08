@@ -4,6 +4,10 @@ function Map(options) {
         center: [28.478348, 83.342285],
         zoom: config["map-options"]["init-zoom"],
         minZoom: config["map-options"]["min-zoom"],
+        /*maxBounds: L.latLngBounds(
+            L.latLng(config["map-options"]["map-bounds"]["northeast"]),
+            L.latLng(config["map-options"]["map-bounds"]["southwest"])
+        ),*/
         doubleClickZoom: true
     };
 
@@ -1124,10 +1128,16 @@ function UI_VerticalTabbedColumn(options) {
                         $(this).addClass("active");
 
                         var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
+                        
+                        var context = this;
 
-                        deferred.done(function(jqObj) {
+                        deferred.done(function(obj) {
                             uiLoadingAnim.remove();
-                            content.append(jqObj.children());
+                            content.append(obj.jqObj.children());
+                            options.tabs[$(context).attr("_id")]["eventCallbacks"]["click"](e,{
+                                data: obj.data,
+                                params: obj.params
+                            });
 
                         });
                     }
