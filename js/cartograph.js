@@ -1075,7 +1075,7 @@ function UI_FeatureInfoOverview(options) {
     var titleBar = $("<div></div>").addClass("ui-infobox-titlebar");
     var content = $("<div></div>").addClass("ui-infobox-content");
 
-    titleBar.append($("<h3 class='searchable'></h3>").text(options.title))
+    titleBar.append($("<h5 class='searchable'></h5>").text(options.title))
 
     //setTimeout(function() {
     for (var c in options.infoKeys) {

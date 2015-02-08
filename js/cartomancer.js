@@ -133,20 +133,20 @@ $(document).ready(function() {
      });
      });
      }*/
-    
-    function TableContent_fix(jsonData, invert) {
-            var content = $('<div></div>').addClass('table-content');
-            for (var key in jsonData) {
-                if (!(key === "sn" || key === "start_lat" || key === "start_lng" || key === "end_lat" || key === "start_lng")) {
-                    var tableRow = $('<div></div>').addClass('table-row').append(function() {
 
-                        return jsonData[key] ? $("<div></div>").html("<div class='row-label'>" + key.replace(/_/g, " ").replace("(", " (") + "  :</div>").append($("<div class='val'></div>").text((jsonData[key] + "").replace(/,/g, ", "))) : $("<div class='row-label'></div>").text(key.replace(/_/g, " ").replace("(", " (") + "  :").append($("<div class='val not-available'></div>").text("Not Available"));
-                    });
-                    invert ? tableRow.prependTo(content).addClass(key) : tableRow.appendTo(content).addClass(key);
-                }
+    function TableContent_fix(jsonData, invert) {
+        var content = $('<div></div>').addClass('table-content');
+        for (var key in jsonData) {
+            if (!(key === "sn" || key === "start_lat" || key === "start_lng" || key === "end_lat" || key === "start_lng" || key === "S_No" || key === "_metaX")) {
+                var tableRow = $('<div></div>').addClass('table-row').append(function() {
+
+                    return jsonData[key] ? $("<div></div>").html("<div class='row-label'>" + key.replace(/_/g, " ").replace("(", " (") + "  :</div>").append($("<div class='val'></div>").text((jsonData[key] + "").replace(/,/g, ", "))) : $("<div class='row-label'></div>").text(key.replace(/_/g, " ").replace("(", " (") + "  :").append($("<div class='val not-available'></div>").text("Not Available"));
+                });
+                invert ? tableRow.prependTo(content).addClass(key) : tableRow.appendTo(content).addClass(key);
             }
-            return $(content)[0];
         }
+        return $(content)[0];
+    }
 
     (new UI_VerticalTabbedColumn({
         tabs: $.map(config["map-features"], function(item, index) {
@@ -187,12 +187,45 @@ $(document).ready(function() {
                             });
                             var overviewCollection = $("<div></div>");
                             var featuresOverview = $.map(pointAttributeList, function(l1_item, l1_index) {
-                                new UI_FeatureInfoOverview({
+                                var overviewBox = new UI_FeatureInfoOverview({
                                     "title": l1_item.Project + ", " + l1_item.Capacity__ + "MW",
                                     "infoKeys": ["River", "Promoter"],
                                     "data": l1_item
-                                }).appendTo(overviewCollection);
+                                });
+
+                                overviewBox.click(function(e) {
+                                    //var pointOfAttributes = mapData.getGeometries()["points"][index]["features"][$(this).attr("_id")];
+                                    var pointOfAttributes = mapData.getGeometries()["points"][index]["features"][l1_item["_cartomancer_id"]];
+                                    var popup = L.popup({});
+                                    //popup.setLatLng(e.latlng);
+                                    popup.setContent(new TableContent_fix(pointOfAttributes.properties.getAttributes()));
+                                    //popup.openOn(map);
+                                    console.log(pointOfAttributes);
+                                    var latlng = L.latLng(pointOfAttributes.geometry.coordinates[0]+0.03, pointOfAttributes.geometry.coordinates[1]);
+
+                                    
+                                    map.setView(latlng, 12, {
+                                        animate: false
+                                    });
+                                    
+                                    
+                                    latlng = L.latLng(pointOfAttributes.geometry.coordinates[0], pointOfAttributes.geometry.coordinates[1]);
+                                    popup.setLatLng(latlng);
+
+                                    //map.once("zoomend", function() {
+                                        setTimeout(function() {
+                                            popup.openOn(map);
+
+                                            popup.update();
+                                        }, 300);
+                                    //});
+                                });
+
+                                overviewBox.appendTo(overviewCollection);
                             });
+
+
+
                             deferred.resolve({
                                 data: data,
                                 params: params,
