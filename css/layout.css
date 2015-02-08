@@ -473,6 +473,14 @@ div.leaflet-control-layers-separator{
     width: 34px;
     height: 34px;
 }
+.leaflet-marker-icon.mega img{
+    width: 48px;
+    height: 48px;
+    -webkit-filter: brightness(1.2) hue-rotate(-120deg) saturate(5);
+}
+.legend-icon:last-child{
+    -webkit-filter: brightness(1.2) hue-rotate(-120deg) saturate(5);
+}
 
 .leaflet-marker-icon img{
     margin-top: -100%;

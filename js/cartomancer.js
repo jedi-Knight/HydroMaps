@@ -104,7 +104,7 @@ $(document).ready(function() {
     layerControls["survey-applied"].addTo(map);
     layerControls["construction-applied"].addTo(map);
 
-    var markerURLs = ["img/marker_small.png", "img/marker_medium.png", "img/marker_large.png", "img/marker_mega.png"]
+    var markerURLs = ["img/marker_small.png", "img/marker_medium.png", "img/marker_large.png", "img/marker_large.png"]
     //setTimeout(function() {
     $.map(layerControls, function(layerControl, index) {
         $(layerControl._container).find("input").each(function(c) {
@@ -261,7 +261,11 @@ $(document).ready(function() {
                                 icon: L.divIcon({
                                     className: data.features[feature].properties.getAttributes().Project_Si.split("(")[0].trim().toLowerCase(),
                                     //html: "<img src='" + item["icon-src"] + "'/>"
-                                    html: "<img src='img/marker_" + data.features[feature].properties.getAttributes().Project_Si.split("(")[0].trim().toLowerCase() + ".png'/>"
+                                    html: function(){
+                                        var markerCategory = data.features[feature].properties.getAttributes().Project_Si.split("(")[0].trim().toLowerCase();
+                                        if(markerCategory==="mega")markerCategory="large";
+                                        return "<img src='img/marker_" + markerCategory + ".png'/>";
+                                    }()
                                 })
                             });
                             var popup = L.popup({});

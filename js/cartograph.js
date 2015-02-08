@@ -36,7 +36,7 @@ function Map(options) {
     L.control.attribution({
         position: "bottomright",
         //prefix: false
-    }).addAttribution('Basemap data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors | Map by <a href="http://kathmandulivinglabs.org"><div class="logo"><img class="klllogo" src="../images/klllogo.gif"/></div>Kathmandu Living Labs </a>').addTo(map);
+    }).addAttribution('Project By <a href="http://www.facebook.com/nitifoundation">Niti Foundation</a>| Map by <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs </a>  |   Data from <a href="http://www.doed.gov.np/issued_licenses.php">Department of Electricity</a>').addTo(map);
     L.control.scale().addTo(map);
 
     //map.addLayer(osmTileLayer);
