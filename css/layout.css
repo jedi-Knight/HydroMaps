@@ -118,6 +118,8 @@ body{
 }
 
 .ui-tab-trigger{
+    text-transform: capitalize;
+    padding-left: 2px;
     cursor: pointer;
 }
 
