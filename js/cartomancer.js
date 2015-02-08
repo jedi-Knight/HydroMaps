@@ -104,6 +104,19 @@ $(document).ready(function() {
     layerControls["survey-applied"].addTo(map);
     layerControls["construction-applied"].addTo(map);
 
+    var markerURLs = ["img/marker_small.png", "img/marker_medium.png", "img/marker_large.png", "img/marker_mega.png"]
+    //setTimeout(function() {
+    $.map(layerControls, function(layerControl, index) {
+        $(layerControl._container).find("input").each(function(c) {
+            $(this).after(function() {
+                return $("<span></span>").addClass("legend-icon").css({
+                    "background-image": "url('" + markerURLs[c] + "')"
+                });
+            })
+        });
+    });
+    //}, 0);
+
     //console.log(layerControls["construction-approved"]._container);
 
     /*function drawPoints(options) {
@@ -324,13 +337,23 @@ $(document).ready(function() {
                 }, 0);
             }
         }));
-        
+
         boundaryLayersControl.addOverlay(districtLayers, "District");
         districtLayers.addTo(map);
         boundaryLayersControl.addTo(map);
+        $($(boundaryLayersControl._container).find("input")[1]).after(function() {
+            return $("<span></span>").addClass("legend-icon").css({
+                "background-image": "url('img/district.png')"
+            });
+        });
+        $($(boundaryLayersControl._container).find("input")[0]).after(function() {
+            return $("<span></span>").addClass("legend-icon").css({
+                "background-image": "url('img/country.png')"
+            });
+        });
     });
-    
-    
+
+
     var modelQueryCountry = mapData.fetchData({
         query: {
             geometries: {
@@ -361,9 +384,10 @@ $(document).ready(function() {
                 }, 0);
             }
         });
-        
+
         boundaryLayersControl.addOverlay(countryBoundary, "Nepal");
         countryBoundary.addTo(map);
+        
         //boundaryLayersControl.addTo(map);
     });
 

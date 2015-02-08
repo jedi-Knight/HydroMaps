@@ -73,6 +73,49 @@ body{
 }
 
 
+.ui-infobox-row div{
+    display: inline-block
+}
+.ui-infobox-row div.searchable{
+    margin-right: 4px;
+}
+
+.ui-infobox-row{
+    margin-left: 6px;
+    color: #999999;
+    font-size: 10pt;
+}
+
+.ui-infobox-row:last-child div:first-child{
+    font-style: italic;
+    /*border-bottom: #999999 thin solid;*/
+}
+
+.ui-infobox-row:last-child div:first-child:before{
+    content: ":";
+}
+
+.ui-infobox h5{
+    margin: 0px;
+}
+
+.ui-infobox{
+    margin-bottom: 8px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.ui-infobox:hover{
+    background-color: #eeeeee;
+}
+
+.ui-infobox:hover .ui-infobox-titlebar{
+    color: #3366aa;
+}
+
+.ui-infobox .ui-infobox-titlebar{
+    /*cursor: pointer;*/
+}
 
 body,html
 {
