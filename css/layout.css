@@ -18,3 +18,47 @@ body{
 .leaflet-left.leaflet-top{
     display: none;
 }
+
+.ui-column-tabs{
+    position: absolute;
+    top: 6px;
+    left: 218px;
+    box-shadow: 4px 2px 4px rgba(0,0,0,0.4);
+    border: #333333 thin solid;
+    border-left: none;
+}
+
+.ui-column-tabs a{
+    position: relative;
+    display: inline-block;
+    background-color: #cccccc;
+    border: #333333 thin solid;
+}
+
+.ui-column-tabs a.active{
+    background-color: #e7dfd6;
+    border-left: #e7dfd6 thin solid;
+}
+
+.ui-column-tabs a span{
+    display: inline-block;
+    width: 80px;
+    height: 40px;
+}
+
+
+.ui-column-content{
+    height: 540px;
+    overflow: auto;
+    direction:rtl;
+    text-align: left;
+    background-color: #ffffff;
+    padding: 0px 6px 0px 6px;
+}
+
+.ui-tabbed-column{
+    background-color: #e7dfd6;
+    padding: 0px 12px 0px 6px;
+    border-right: #333333 thin solid;
+    box-shadow: 4px 2px 4px rgba(0,0,0,0.4);
+}

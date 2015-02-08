@@ -30,7 +30,7 @@ function Map(options) {
 
 
     L.control.attribution({
-        position: "bottomleft",
+        position: "bottomright",
         //prefix: false
     }).addAttribution('Basemap data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors | Map by <a href="http://kathmandulivinglabs.org"><div class="logo"><img class="klllogo" src="../images/klllogo.gif"/></div>Kathmandu Living Labs </a>').addTo(map);
     L.control.scale().addTo(map);
@@ -1116,11 +1116,14 @@ function UI_VerticalTabbedColumn(options) {
                     click: function(e) {
 
                         content.children().remove();
-                        titleBar.find("h3").text(options.tabs[$(e.target).attr("_id")]["title"]);
+                        titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
                         var uiLoadingAnim = $("<img class='ui-loading-anim' src='images/loading-anim.gif'/>");
                         content.append(uiLoadingAnim);
+                        
+                        $(this).siblings().removeClass("active");
+                        $(this).addClass("active");
 
-                        var deferred = options.tabs[$(e.target).attr("_id")]["eventHandlers"]["click"](e);
+                        var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
 
                         deferred.done(function(jqObj) {
                             uiLoadingAnim.remove();
