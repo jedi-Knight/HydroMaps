@@ -969,7 +969,8 @@ function UI_PictureBox(options) {
 function UI_Control_Filter(options) {
     var uiElement = $("<input/>").attr({
         "type": "text",
-        "id": options["ui-control-id"]
+        "id": options["ui-control-id"],
+        "placeholder": "Search.."
     })[0];
 
     $(uiElement).on("keydown", function() {
@@ -984,22 +985,19 @@ function UI_Control_Filter(options) {
             /*var filteredSelection = selection.filter(function() {
              return ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1) ? true : false;
              }).closest(".body-row").show();*/
+            
+            
 
             var filteredSelection = selection.filter(function() {
                 return ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1) ? true : false;
             });
 
-            $.map(filteredSelection, function(item, index) {
-                if (index > 9)
-                    delete filteredSelection[index];
-            });
+//            $.map(filteredSelection, function(item, index) {
+//                //if (index > 9)
+//                    //delete filteredSelection[index];
+//            });
 
             filteredSelection.closest(".ui-infobox").show();
-
-            if (Boolean(uiElement.value))
-                $(".ui-column-page-switcher").addClass("inactive");
-            else
-                $(".ui-column-page-switcher").removeClass("inactive");
         }, 100);
     });
 
@@ -1054,8 +1052,6 @@ function UI_Control_Filter(options) {
                         buttonTarget.closest(".col-header").find("h3").animate({
                             "opacity": 1
                         });
-
-                        $(".ui-column-page-switcher").removeClass("inactive");
 
 
                     }

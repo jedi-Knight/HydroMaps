@@ -117,6 +117,14 @@ body{
     /*cursor: pointer;*/
 }
 
+.ui-tab-trigger{
+    cursor: pointer;
+}
+
+#filter-search{
+    width: 200px;
+}
+
 body,html
 {
     height:100%;
