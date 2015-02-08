@@ -355,6 +355,12 @@ $(document).ready(function() {
                 "background-image": "url('img/country.png')"
             });
         });
+        
+        $($(boundaryLayersControl._container).find("input")[0]).css({
+           opacity: 0,
+           "pointer-events": "none"
+        });
+        
     });
 
 
