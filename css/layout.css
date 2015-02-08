@@ -1,0 +1,20 @@
+body{
+    margin: 0px;
+    overflow: hidden;
+}
+
+#map{
+    width: 100%;
+    height: 650px;
+}
+
+.ui-tabbed-column{
+    position: absolute;
+    height: 650px;
+    width: 200px;
+    z-index: 10000;
+}
+
+.leaflet-left.leaflet-top{
+    display: none;
+}
