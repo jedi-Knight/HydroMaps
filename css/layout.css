@@ -170,6 +170,12 @@ div.title{
     height: 55px;
 }
 
+.leaflet-right.leaflet-right .leaflet-control-layers{
+    margin-top: 0px;
+    width: 160px;
+    border-radius: 0px;
+}
+
 /**zoom controls**/
 div.leaflet-control-zoom{
     top:5px;
