@@ -404,6 +404,25 @@ div.leaflet-control-layers-separator{
     -webkit-filter: brightness(1.2) contrast(1.05);
 }
 
+.leaflet-marker-icon.small img{
+    width: 20px;
+    height: 20px;
+}
+.leaflet-marker-icon.medium img{
+    width: 26px;
+    height: 26px;
+}
+.leaflet-marker-icon.large img{
+    width: 34px;
+    height: 34px;
+}
+
+.leaflet-marker-icon img{
+    margin-top: -100%;
+    margin-left: -100%;
+}
+
+
 span.marker-label-districts{
     color: #d5aad0;
     /*background-color: #cccccc;*/

@@ -200,24 +200,24 @@ $(document).ready(function() {
                                     //popup.setLatLng(e.latlng);
                                     popup.setContent(new TableContent_fix(pointOfAttributes.properties.getAttributes()));
                                     //popup.openOn(map);
-                                    console.log(pointOfAttributes);
-                                    var latlng = L.latLng(pointOfAttributes.geometry.coordinates[0]+0.03, pointOfAttributes.geometry.coordinates[1]);
+                                    //console.log(pointOfAttributes);
+                                    var latlng = L.latLng(pointOfAttributes.geometry.coordinates[0] + 0.03, pointOfAttributes.geometry.coordinates[1]);
 
-                                    
+
                                     map.setView(latlng, 12, {
                                         animate: false
                                     });
-                                    
-                                    
+
+
                                     latlng = L.latLng(pointOfAttributes.geometry.coordinates[0], pointOfAttributes.geometry.coordinates[1]);
                                     popup.setLatLng(latlng);
 
                                     //map.once("zoomend", function() {
-                                        setTimeout(function() {
-                                            popup.openOn(map);
+                                    setTimeout(function() {
+                                        popup.openOn(map);
 
-                                            popup.update();
-                                        }, 300);
+                                        popup.update();
+                                    }, 300);
                                     //});
                                 });
 
@@ -246,8 +246,9 @@ $(document).ready(function() {
                         for (var feature in data.features) {
                             var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
                                 icon: L.divIcon({
-                                    className: data.features[feature].properties.getAttributes().capacity,
-                                    html: "<img src='" + item["icon-src"] + "'/>"
+                                    className: data.features[feature].properties.getAttributes().Project_Si.split("(")[0].trim().toLowerCase(),
+                                    //html: "<img src='" + item["icon-src"] + "'/>"
+                                    html: "<img src='img/marker_" + data.features[feature].properties.getAttributes().Project_Si.split("(")[0].trim().toLowerCase() + ".png'/>"
                                 })
                             });
                             var popup = L.popup({});
@@ -284,6 +285,87 @@ $(document).ready(function() {
     })).getUI().prependTo("body");
 
     $($(".ui-tab-trigger")[2]).click();
+
+
+    var boundaryLayersControl = L.control.layers({}, {}, {
+        collapsed: false,
+        position: "topright"
+    });
+
+    var districtLayers = L.featureGroup();
+
+    var modelQueryDistrict = mapData.fetchData({
+        query: {
+            geometries: {
+                type: "polygons",
+                group: "districts"
+            },
+            url: "districts.geojson"
+        },
+        returnDataMeta: {
+        }
+    });
+
+    modelQueryDistrict.done(function(data, params) {
+
+        districtLayers.addLayer(L.geoJson(data, {
+            style: config["layer-styles"]["districts"],
+            onEachFeature: function(feature, layer) {
+                setTimeout(function() {
+                    //districtLabelsOverlay.addLayer(new L.LabelOverlays(L.latLng(getPolygonCentroid(feature.geometry)), "123"));
+                    //districtLabelsOverlay.addLayer(new L.LabelOverlays(layer.getBounds().getCenter(), feature.properties.Name));
+                    districtLayers.addLayer(function() {
+                        return L.marker(layer.getBounds().getCenter(), {
+                            icon: L.divIcon({
+                                html: "<span class='marker-label-districts' title='" + feature.properties.getAttributes().Name + "'>" + feature.properties.getAttributes().Name + "</span>"
+                            })
+                        });
+                    }());
+                }, 0);
+            }
+        }));
+        
+        boundaryLayersControl.addOverlay(districtLayers, "District");
+        districtLayers.addTo(map);
+        boundaryLayersControl.addTo(map);
+    });
+    
+    
+    var modelQueryCountry = mapData.fetchData({
+        query: {
+            geometries: {
+                type: "polygons",
+                group: "districts"
+            },
+            url: "nepal.geojson"
+        },
+        returnDataMeta: {
+        }
+    });
+
+    modelQueryCountry.done(function(data, params) {
+
+        var countryBoundary = L.geoJson(data, {
+            style: config["layer-styles"]["country"],
+            onEachFeature: function(feature, layer) {
+                setTimeout(function() {
+                    //districtLabelsOverlay.addLayer(new L.LabelOverlays(L.latLng(getPolygonCentroid(feature.geometry)), "123"));
+                    //districtLabelsOverlay.addLayer(new L.LabelOverlays(layer.getBounds().getCenter(), feature.properties.Name));
+                    districtLayers.addLayer(function() {
+                        return L.marker(layer.getBounds().getCenter(), {
+                            icon: L.divIcon({
+                                html: "<span class='marker-label-districts' title='" + feature.properties.getAttributes().Name + "'>" + feature.properties.getAttributes().Name + "</span>"
+                            })
+                        });
+                    }());
+                }, 0);
+            }
+        });
+        
+        boundaryLayersControl.addOverlay(countryBoundary, "Nepal");
+        countryBoundary.addTo(map);
+        //boundaryLayersControl.addTo(map);
+    });
 
 
 

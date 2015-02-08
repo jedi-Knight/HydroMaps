@@ -1,7 +1,7 @@
 config = {
     "map-of": "Hydropower Projects in Nepal",
     "map-options": {
-        "init-center":[28.478348, 83.342285],
+        "init-center": [28.478348, 83.342285],
         "map-bounds": {
             "northeast": [30.688485, 88.847341],
             "southwest": [26.487043, 79.739439],
@@ -38,6 +38,25 @@ config = {
             "src": "operational.geojson",
             "title": "Operational Projects",
             "icon-src": "markers/operational.png"
+        }
+    },
+    "layer-styles": {
+        "districts": {
+            fillColor: '#ffffff',
+            weight: 1,
+            opacity: 1,
+            color: '#d5aad0',
+            dashArray: '6',
+            fillOpacity: 0,
+            clickable: false
+        },
+        "country": {
+            fillColor: '#956690',
+            weight: 3,
+            opacity: 0,
+            color: '#d5aad0',
+            fillOpacity: 0,
+            clickable: false
         }
     }
 };
