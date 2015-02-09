@@ -261,9 +261,10 @@ $(document).ready(function() {
                                 icon: L.divIcon({
                                     className: data.features[feature].properties.getAttributes().Project_Si.split("(")[0].trim().toLowerCase(),
                                     //html: "<img src='" + item["icon-src"] + "'/>"
-                                    html: function(){
+                                    html: function() {
                                         var markerCategory = data.features[feature].properties.getAttributes().Project_Si.split("(")[0].trim().toLowerCase();
-                                        if(markerCategory==="mega")markerCategory="large";
+                                        if (markerCategory === "mega")
+                                            markerCategory = "large";
                                         return "<img src='img/marker_" + markerCategory + ".png'/>";
                                     }()
                                 })
@@ -355,12 +356,12 @@ $(document).ready(function() {
                 "background-image": "url('img/country.png')"
             });
         });
-        
+
         $($(boundaryLayersControl._container).find("input")[0]).css({
-           opacity: 0,
-           "pointer-events": "none"
+            opacity: 0,
+            "pointer-events": "none"
         });
-        
+
     });
 
 
@@ -397,12 +398,45 @@ $(document).ready(function() {
 
         boundaryLayersControl.addOverlay(countryBoundary, "Nepal");
         countryBoundary.addTo(map);
-        
+
         //boundaryLayersControl.addTo(map);
     });
 
 
 
+
+    var tooltip = $('<div id="toolTipSlider" />');
+
+    var year = "BS 207";
+
+    var arrayYear = [1, 2, 3, 4, 5];
+
+    var capacityYear = {
+        1: 100,
+        2: 200,
+        3: 300,
+        4: 400,
+        5: 500
+    };
+
+    $('#slider').slider({
+        min: 1,
+        max: 5,
+        slide: function(event, ui) {
+            if ($.inArray(ui.value, arrayYear)) {
+                tooltip.text(year + ui.value);
+                $('.numberCircle').text(capacityYear[ui.value]);
+            } else {
+                tooltip.text("BS 2071");
+                $('.numberCircle').text(capacityYear[1]);
+            }
+        }
+    }).find(".ui-slider-handle").append(tooltip).hover(function() {
+        tooltip.show();
+    });
+
+    tooltip.text("BS 2071");
+    $('.numberCircle').text(capacityYear[1]);
 
 
 
