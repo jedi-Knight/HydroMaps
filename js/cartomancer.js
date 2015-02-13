@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    $(".numberCircle").hide();
+    
     var cartograph = new Map({
         "basemaps": {
             "OpenStreetMap": {
@@ -269,12 +271,16 @@ $(document).ready(function() {
                                     }()
                                 })
                             });
-                            var popup = L.popup({});
+                            
+                            marker.bindPopup(new TableContent_fix(data.features[feature].properties.getAttributes()));
+                            
+                            /*var popup = L.popup({});
                             marker.on('click', function(e) {
+                                console.log(marker);
                                 popup.setLatLng(e.latlng);
                                 popup.setContent(new TableContent_fix(data.features[feature].properties.getAttributes()));
                                 popup.openOn(map);
-                            });
+                            });*/
                             marker.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project_Si"].split("(")[0].trim().toLowerCase()]);
                             //marker.addTo(map);
                         }
@@ -401,8 +407,12 @@ $(document).ready(function() {
 
         //boundaryLayersControl.addTo(map);
     });
+    
+    
 
-
+if(window.decodeURIComponent(window.location.href).split("#")[1]==="prototype"){
+    
+    $(".numberCircle").show();
 
 
     var tooltip = $('<div id="toolTipSlider" />');
@@ -425,19 +435,23 @@ $(document).ready(function() {
         slide: function(event, ui) {
             if ($.inArray(ui.value, arrayYear)) {
                 tooltip.text(year + ui.value);
-                $('.numberCircle').text(capacityYear[ui.value]);
+                $('.numberCircle').text(capacityYear[ui.value]+" MW");
             } else {
                 tooltip.text("BS 2071");
-                $('.numberCircle').text(capacityYear[1]);
+                $('.numberCircle').text(capacityYear[1]+" MW");
             }
         }
     }).find(".ui-slider-handle").append(tooltip).hover(function() {
         tooltip.show();
     });
+    
+    $(".ui-slider-handle").append(function(){
+        return "<img src='img/sliderknob.png'/>";
+    });
 
     tooltip.text("BS 2071");
-    $('.numberCircle').text(capacityYear[1]);
-
+    $('.numberCircle').text(capacityYear[1]+" MW");
+    }
 
 
 
@@ -458,6 +472,7 @@ $(document).ready(function() {
     map.fire("moveend");
 
 });
+
 $.fn.attrByFunction = function(fn) {
     return $(this).each(function() {
         $(this).attr(fn.call(this));
