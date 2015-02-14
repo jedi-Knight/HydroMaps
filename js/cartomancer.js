@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $(".numberCircle").hide();
-    
+
     var cartograph = new Map({
         "basemaps": {
             "OpenStreetMap": {
@@ -79,6 +79,14 @@ $(document).ready(function() {
                 "large": L.layerGroup(),
                 "mega": L.layerGroup()
             }
+        },
+        "all-projects": {
+            "layerGroups": {
+                "small": L.layerGroup(),
+                "medium": L.layerGroup(),
+                "large": L.layerGroup(),
+                "mega": L.layerGroup()
+            }
         }
     };
 
@@ -97,6 +105,9 @@ $(document).ready(function() {
         }),
         "operational": L.control.layers({}, tabs["operational"]["layerGroups"], {
             collapsed: false
+        }),
+        "all-projects": L.control.layers({}, tabs["all-projects"]["layerGroups"], {
+            collapsed: false
         })
     };
 
@@ -105,6 +116,7 @@ $(document).ready(function() {
     layerControls["operational"].addTo(map);
     layerControls["survey-applied"].addTo(map);
     layerControls["construction-applied"].addTo(map);
+    layerControls["all-projects"].addTo(map);
 
     var markerURLs = ["img/marker_small.png", "img/marker_medium.png", "img/marker_large.png", "img/marker_large.png"]
     //setTimeout(function() {
@@ -170,6 +182,16 @@ $(document).ready(function() {
                 label: index.replace(/-/g, " "),
                 eventHandlers: {
                     click: function(e) {
+                        
+                        if(index!=="construction-approved"){
+                            $("#slider").hide();
+                            $(".numberCircle").hide();
+                        }else{
+                            $("#slider").show();
+                            if(!$("#slider").css("display")==="none")
+                            $(".numberCircle").show();
+                        }
+                        
                         var deferred = $.Deferred();
                         //a=$(layerControls[index]._container).find("input")[0];
 
@@ -181,9 +203,75 @@ $(document).ready(function() {
                                     $(this).click();
                             });
                         });
+
+
+
                         $(layerControls[index]._container).show();
                         $(layerControls[index]._container).find("input").click();
-                        var modelQueryPoints = mapData.fetchData({
+
+                        var modelQueryPoints;
+                        /*if (index === "all-projects") {
+                         modelQueryPoints = $.Deferred();
+                         var modelQueryQueue = [];
+                         setTimeout(function() {
+                         $.map(config["map-features"], function(fnlocal_item, fnlocal_index) {
+                         if (fnlocal_index === "all-projects")
+                         return;
+                         modelQueryQueue.push(mapData.fetchData({
+                         query: {
+                         geometries: {
+                         type: "points",
+                         group: index
+                         },
+                         url: fnlocal_item["src"]
+                         },
+                         returnDataMeta: {}
+                         }));
+                         });
+                         $.when.apply(null, modelQueryQueue).done(function(dataConstructionApproved, dataSurveyApproved, dataSurveyApplied, dataConstructionApplied, dataOperational) {
+                         
+                         //var allPoints = $.extend(true, {}, mapData.getGeometries()["points"]["construction-applied"]);
+                         //console.log(JSON.stringify(dataOperational));
+                         //console.log(JSON.stringify(dataSurveyApproved));
+                         var allPoints = {
+                         "type": "FeatureCollection",
+                         "crs": {
+                         "type": "name",
+                         "properties": {
+                         "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+                         }
+                         },
+                         "features": []
+                         };
+                         
+                         //setTimeout(function(){
+                         for(var feature in dataConstructionApproved.features){
+                         allPoints.features.push(dataConstructionApproved.features[feature]);
+                         }
+                         for(var feature in dataSurveyApproved.features){
+                         allPoints.features.push(dataSurveyApproved.features[feature]);
+                         }
+                         for(var feature in dataSurveyApplied.features){
+                         allPoints.features.push(dataSurveyApplied.features[feature]);
+                         }
+                         for(var feature in dataConstructionApplied.features){
+                         allPoints.features.push(dataConstructionApplied.features[feature]);
+                         }
+                         for(var feature in dataOperational.features){
+                         allPoints.features.push(dataOperational.features[feature]);
+                         }
+                         //},0);
+                         
+                         
+                         modelQueryPoints.resolve(allPoints, {
+                         type: "points",
+                         group: index
+                         });
+                         });
+                         }, 0);
+                         } else {*/
+
+                        modelQueryPoints = mapData.fetchData({
                             query: {
                                 geometries: {
                                     type: "points",
@@ -194,18 +282,22 @@ $(document).ready(function() {
                             returnDataMeta: {}
                         });
 
+                        //}
+
                         modelQueryPoints.done(function(data, params) {
                             var pointAttributeList = mapData.getAttributes({
                                 "order-by": "Project",
                                 "geometry-type": "points",
                                 "feature-group": index
                             });
+                            //console.log(pointAttributeList);
                             var overviewCollection = $("<div></div>");
                             var featuresOverview = $.map(pointAttributeList, function(l1_item, l1_index) {
                                 var overviewBox = new UI_FeatureInfoOverview({
                                     "title": l1_item.Project + ", " + l1_item.Capacity__ + "MW",
                                     "infoKeys": ["River", "Promoter"],
-                                    "data": l1_item
+                                    "data": l1_item,
+                                    "index": l1_index
                                 });
 
                                 overviewBox.click(function(e) {
@@ -271,17 +363,22 @@ $(document).ready(function() {
                                     }()
                                 })
                             });
-                            
+
                             marker.bindPopup(new TableContent_fix(data.features[feature].properties.getAttributes()));
-                            
+
                             /*var popup = L.popup({});
-                            marker.on('click', function(e) {
-                                console.log(marker);
-                                popup.setLatLng(e.latlng);
-                                popup.setContent(new TableContent_fix(data.features[feature].properties.getAttributes()));
-                                popup.openOn(map);
-                            });*/
-                            marker.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project_Si"].split("(")[0].trim().toLowerCase()]);
+                             marker.on('click', function(e) {
+                             console.log(marker);
+                             popup.setLatLng(e.latlng);
+                             popup.setContent(new TableContent_fix(data.features[feature].properties.getAttributes()));
+                             popup.openOn(map);
+                             });*/
+                            try {
+                                marker.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project_Si"].split("(")[0].trim().toLowerCase()]);
+                            } catch (e) {
+                                console.log(e);
+                            }
+//marker.addTo(tabs["operational"]["layerGroups"][data.features[feature].properties.getAttributes()["Project_Si"].split("(")[0].trim().toLowerCase()]);
                             //marker.addTo(map);
                         }
 
@@ -407,50 +504,50 @@ $(document).ready(function() {
 
         //boundaryLayersControl.addTo(map);
     });
-    
-    
-
-if(window.decodeURIComponent(window.location.href).split("#")[1]==="prototype"){
-    
-    $(".numberCircle").show();
 
 
-    var tooltip = $('<div id="toolTipSlider" />');
 
-    var year = "BS 207";
+    if (window.decodeURIComponent(window.location.href).split("#")[1] === "prototype") {
 
-    var arrayYear = [1, 2, 3, 4, 5];
+        $(".numberCircle").show();
 
-    var capacityYear = {
-        1: 100,
-        2: 200,
-        3: 300,
-        4: 400,
-        5: 500
-    };
 
-    $('#slider').slider({
-        min: 1,
-        max: 5,
-        slide: function(event, ui) {
-            if ($.inArray(ui.value, arrayYear)) {
-                tooltip.text(year + ui.value);
-                $('.numberCircle').text(capacityYear[ui.value]+" MW");
-            } else {
-                tooltip.text("BS 2071");
-                $('.numberCircle').text(capacityYear[1]+" MW");
+        var tooltip = $('<div id="toolTipSlider" />');
+
+        var year = "BS 207";
+
+        var arrayYear = [1, 2, 3, 4, 5];
+
+        var capacityYear = {
+            1: 718,
+            2: 718,
+            3: 718,
+            4: 718,
+            5: 718
+        };
+
+        $('#slider').slider({
+            min: 1,
+            max: 5,
+            slide: function(event, ui) {
+                if ($.inArray(ui.value, arrayYear)) {
+                    tooltip.text(year + ui.value);
+                    $('.numberCircle').text(capacityYear[ui.value] + " MW");
+                } else {
+                    tooltip.text("BS 2071");
+                    $('.numberCircle').text(capacityYear[1] + " MW");
+                }
             }
-        }
-    }).find(".ui-slider-handle").append(tooltip).hover(function() {
-        tooltip.show();
-    });
-    
-    $(".ui-slider-handle").append(function(){
-        return "<img src='img/sliderknob.png'/>";
-    });
+        }).find(".ui-slider-handle").append(tooltip).hover(function() {
+            tooltip.show();
+        });
 
-    tooltip.text("BS 2071");
-    $('.numberCircle').text(capacityYear[1]+" MW");
+        $(".ui-slider-handle").append(function() {
+            return "<img src='img/sliderknob.png'/>";
+        });
+
+        tooltip.text("BS 2071");
+        $('.numberCircle').text(capacityYear[1] + " MW");
     }
 
 

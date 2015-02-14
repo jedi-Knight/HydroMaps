@@ -1071,7 +1071,10 @@ function UI_FeatureInfoOverview(options) {
     var titleBar = $("<div></div>").addClass("ui-infobox-titlebar");
     var content = $("<div></div>").addClass("ui-infobox-content");
 
-    titleBar.append($("<h5 class='searchable'></h5>").text(options.title))
+    //titleBar.append($("<span class='ui-sn'></span>").text(". "+options.index));
+    //titleBar.append($("<h5 class='searchable'></h5>").text(options.title));
+    titleBar.append($("<h5 class='searchable'></h5>").text(options.title));
+    
 
     //setTimeout(function() {
     for (var c in options.infoKeys) {
@@ -1117,7 +1120,7 @@ function UI_VerticalTabbedColumn(options) {
 
                         content.children().remove();
                         titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
-                        var uiLoadingAnim = $("<img class='ui-loading-anim' src='images/loading-anim.gif'/>");
+                        var uiLoadingAnim = $("<img class='ui-loading-anim' src='img/loading-anim.gif'/>");
                         content.append(uiLoadingAnim);
                         
                         $(this).siblings().removeClass("active");

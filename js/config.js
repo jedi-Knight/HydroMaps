@@ -38,6 +38,11 @@ config = {
             "src": "operational.geojson",
             "title": "Operational Projects",
             "icon-src": "markers/operational.png"
+        },
+        "all-projects": {
+            "src": "all-projects.geojson",
+            "title": "All Projects",
+            "icon-src":"markers/all-projects.png"
         }
     },
     "layer-styles": {

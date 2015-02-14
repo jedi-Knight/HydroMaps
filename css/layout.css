@@ -96,9 +96,14 @@ body{
 }
 
 .ui-infobox h5{
+    display: inline-block;
     margin: 0px;
 }
 
+.ui-infobox .ui-infobox-titlebar .ui-sn{
+    font-size: 10pt;
+    /*margin-right: 4px;*/
+}
 .ui-infobox{
     margin-bottom: 8px;
     padding: 2px;
@@ -618,6 +623,14 @@ span.marker-label-districts{
 /*.ui-slider-handle .ui-state-default .ui-corner-all{
     background:red;
 }*/
+
+.ui-loading-anim{
+    width: 60px;
+    height: 60px;
+    margin-left: 35%;
+    margin-top: 50%;
+}
+
 .toolTip {
     position:absolute;
     border:1px solid #333;
