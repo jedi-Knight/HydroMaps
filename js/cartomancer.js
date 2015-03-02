@@ -164,7 +164,7 @@ $(document).ready(function() {
     function TableContent_fix(jsonData, invert) {
         var content = $('<div></div>').addClass('table-content');
         for (var key in jsonData) {
-            if (!(key === "sn" || key === "start_lat" || key === "start_lng" || key === "end_lat" || key === "start_lng" || key === "S_No" || key === "_metaX")) {
+            if (!((key.indexOf("field")+1) ||(key.indexOf("atitiude")+1)||(key.indexOf("atitude")+1)||(key.indexOf("ongitude")+1) || key === "sn" || key === "start_lat" || key === "start_lng" || key === "end_lat" || key === "start_lng" || key === "S_No" || key === "_metaX")) {
                 var tableRow = $('<div></div>').addClass('table-row').append(function() {
 
                     return jsonData[key] ? $("<div></div>").html("<div class='row-label'>" + key.replace(/_/g, " ").replace("(", " (") + "  :</div>").append($("<div class='val'></div>").text((jsonData[key] + "").replace(/,/g, ", "))) : $("<div class='row-label'></div>").text(key.replace(/_/g, " ").replace("(", " (") + "  :").append($("<div class='val not-available'></div>").text("Not Available"));
@@ -353,10 +353,10 @@ $(document).ready(function() {
                         for (var feature in data.features) {
                             var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
                                 icon: L.divIcon({
-                                    className: data.features[feature].properties.getAttributes().Project_Si.split("(")[0].trim().toLowerCase(),
+                                    className: data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase(),
                                     //html: "<img src='" + item["icon-src"] + "'/>"
                                     html: function() {
-                                        var markerCategory = data.features[feature].properties.getAttributes().Project_Si.split("(")[0].trim().toLowerCase();
+                                        var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
                                         if (markerCategory === "mega")
                                             markerCategory = "large";
                                         return "<img src='img/marker_" + markerCategory + ".png'/>";
@@ -374,7 +374,7 @@ $(document).ready(function() {
                              popup.openOn(map);
                              });*/
                             try {
-                                marker.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project_Si"].split("(")[0].trim().toLowerCase()]);
+                                marker.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
                             } catch (e) {
                                 console.log(e);
                             }
