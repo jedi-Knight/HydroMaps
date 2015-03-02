@@ -24,6 +24,10 @@ $(document).ready(function() {
     };
 
     map.setMaxBounds(map.getBounds().pad(0.025));
+    
+    L.control.zoom({
+        position: "bottomright"
+    }).addTo(map);
 
 
 
