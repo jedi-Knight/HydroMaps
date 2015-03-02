@@ -182,16 +182,16 @@ $(document).ready(function() {
                 label: index.replace(/-/g, " "),
                 eventHandlers: {
                     click: function(e) {
-                        
-                        if(index!=="construction-approved"){
+
+                        if (index !== "construction-approved") {
                             $("#slider").hide();
                             $(".numberCircle").hide();
-                        }else{
+                        } else {
                             $("#slider").show();
-                            if(!$("#slider").css("display")==="none")
-                            $(".numberCircle").show();
+                            if ($("#slider").css("display") !== "none")
+                                $(".numberCircle").show();
                         }
-                        
+
                         var deferred = $.Deferred();
                         //a=$(layerControls[index]._container).find("input")[0];
 
@@ -414,6 +414,7 @@ $(document).ready(function() {
     });
 
     var districtLayers = L.featureGroup();
+    var vdcLayer = L.featureGroup();
 
     var modelQueryDistrict = mapData.fetchData({
         query: {
@@ -468,6 +469,114 @@ $(document).ready(function() {
     });
 
 
+    var modelQueryVDC = mapData.fetchData({
+        query: {
+            geometries: {
+                type: "polygons",
+                group: "vdc"
+            },
+            url: "vdc.geojson"
+        },
+        returnDataMeta: {
+        }
+    });
+
+    modelQueryVDC.done(function(data, params) {
+
+        vdcLayer.addLayer(L.geoJson(data, {
+            style: config["layer-styles"]["vdc"],
+            onEachFeature: function(feature, layer) {
+                setTimeout(function() {
+                    //districtLabelsOverlay.addLayer(new L.LabelOverlays(L.latLng(getPolygonCentroid(feature.geometry)), "123"));
+                    //districtLabelsOverlay.addLayer(new L.LabelOverlays(layer.getBounds().getCenter(), feature.properties.Name));
+                    vdcLayer.addLayer(function() {
+                        return L.marker(layer.getBounds().getCenter(), {
+                            icon: L.divIcon({
+                                html: "<span class='marker-label-districts' title='" + feature.properties.getAttributes().name + "'>" + feature.properties.getAttributes().name + "</span>"
+                            })
+                        });
+                    }());
+                }, 0);
+            }
+        }));
+
+        //boundaryLayersControl.addTo(map);
+
+        map.on("zoomend", function(e) {
+
+            if (this.getZoom() > 12) {
+
+
+                //districtLayers.addTo(map);
+
+                boundaryLayersControl.addOverlay(vdcLayer, "VDC");
+
+                $($(boundaryLayersControl._container).find("input")[2]).after(function() {
+                    return $("<span></span>").addClass("legend-icon").css({
+                        "background-image": "url('img/district.png')"
+                    });
+                });
+
+                $($(boundaryLayersControl._container).find("input")[1]).after(function() {
+                    return $("<span></span>").addClass("legend-icon").css({
+                        "background-image": "url('img/district.png')"
+                    });
+                });
+                $($(boundaryLayersControl._container).find("input")[0]).after(function() {
+                    return $("<span></span>").addClass("legend-icon").css({
+                        "background-image": "url('img/country.png')"
+                    });
+                });
+
+                $($(boundaryLayersControl._container).find("input")[0]).css({
+                    opacity: 0,
+                    "pointer-events": "none"
+                });
+            } else {
+                
+                if($(boundaryLayersControl._container).find("input")[2] && $(boundaryLayersControl._container).find("input")[2].checked){
+                    $($(boundaryLayersControl._container).find("input")[2]).click();
+                }
+                
+                boundaryLayersControl.removeLayer(vdcLayer);
+
+                $($(boundaryLayersControl._container).find("input")[1]).after(function() {
+                    return $("<span></span>").addClass("legend-icon").css({
+                        "background-image": "url('img/district.png')"
+                    });
+                });
+                $($(boundaryLayersControl._container).find("input")[0]).after(function() {
+                    return $("<span></span>").addClass("legend-icon").css({
+                        "background-image": "url('img/country.png')"
+                    });
+                });
+
+                $($(boundaryLayersControl._container).find("input")[0]).css({
+                    opacity: 0,
+                    "pointer-events": "none"
+                });
+            }
+
+        });
+
+        $($(boundaryLayersControl._container).find("input")[1]).after(function() {
+            return $("<span></span>").addClass("legend-icon").css({
+                "background-image": "url('img/district.png')"
+            });
+        });
+        /*$($(boundaryLayersControl._container).find("input")[0]).after(function() {
+         return $("<span></span>").addClass("legend-icon").css({
+         "background-image": "url('img/country.png')"
+         });
+         });
+         
+         $($(boundaryLayersControl._container).find("input")[0]).css({
+         opacity: 0,
+         "pointer-events": "none"
+         });*/
+
+    });
+
     var modelQueryCountry = mapData.fetchData({
         query: {
             geometries: {
@@ -507,48 +616,48 @@ $(document).ready(function() {
 
 
 
-    if (window.decodeURIComponent(window.location.href).split("#")[1] === "prototype") {
+    //if (window.decodeURIComponent(window.location.href).split("#")[1] === "prototype") {
 
-        $(".numberCircle").show();
+    $(".numberCircle").show();
 
 
-        var tooltip = $('<div id="toolTipSlider" />');
+    var tooltip = $('<div id="toolTipSlider" />');
 
-        var year = "BS 207";
+    var year = "BS 207";
 
-        var arrayYear = [1, 2, 3, 4, 5];
+    var arrayYear = [1, 2, 3, 4, 5];
 
-        var capacityYear = {
-            1: 718,
-            2: 718,
-            3: 718,
-            4: 718,
-            5: 718
-        };
+    var capacityYear = {
+        1: 718,
+        2: 718,
+        3: 718,
+        4: 718,
+        5: 718
+    };
 
-        $('#slider').slider({
-            min: 1,
-            max: 5,
-            slide: function(event, ui) {
-                if ($.inArray(ui.value, arrayYear)) {
-                    tooltip.text(year + ui.value);
-                    $('.numberCircle').text(capacityYear[ui.value] + " MW");
-                } else {
-                    tooltip.text("BS 2071");
-                    $('.numberCircle').text(capacityYear[1] + " MW");
-                }
+    $('#slider').slider({
+        min: 1,
+        max: 5,
+        slide: function(event, ui) {
+            if ($.inArray(ui.value, arrayYear)) {
+                tooltip.text(year + ui.value);
+                $('.numberCircle').text(capacityYear[ui.value] + " MW");
+            } else {
+                tooltip.text("BS 2071");
+                $('.numberCircle').text(capacityYear[1] + " MW");
             }
-        }).find(".ui-slider-handle").append(tooltip).hover(function() {
-            tooltip.show();
-        });
+        }
+    }).find(".ui-slider-handle").append(tooltip).hover(function() {
+        tooltip.show();
+    });
 
-        $(".ui-slider-handle").append(function() {
-            return "<img src='img/sliderknob.png'/>";
-        });
+    $(".ui-slider-handle").append(function() {
+        return "<img src='img/sliderknob.png'/>";
+    });
 
-        tooltip.text("BS 2071");
-        $('.numberCircle').text(capacityYear[1] + " MW");
-    }
+    tooltip.text("BS 2071");
+    $('.numberCircle').text(capacityYear[1] + " MW");
+    //}
 
 
 

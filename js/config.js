@@ -46,12 +46,21 @@ config = {
         }
     },
     "layer-styles": {
-        "districts": {
+        "vdc": {
             fillColor: '#ffffff',
             weight: 1,
             opacity: 1,
             color: '#d5aad0',
-            dashArray: '6',
+            dashArray: '2 6',
+            fillOpacity: 0,
+            clickable: false
+        },
+        "districts": {
+            fillColor: '#ffffff',
+            weight: 1.4,
+            opacity: 1,
+            color: '#d5aad0',
+            dashArray: '4',
             fillOpacity: 0,
             clickable: false
         },
