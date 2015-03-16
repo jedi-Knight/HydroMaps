@@ -130,7 +130,7 @@ $(document).ready(function() {
                 return $("<span></span>").addClass("legend-icon").css({
                     "background-image": "url('" + markerURLs[c] + "')"
                 });
-            })
+            });
         });
     });
     //}, 0);
@@ -298,7 +298,7 @@ $(document).ready(function() {
                             var overviewCollection = $("<div></div>");
                             var featuresOverview = $.map(pointAttributeList, function(l1_item, l1_index) {
                                 var overviewBox = new UI_FeatureInfoOverview({
-                                    "title": l1_item.Project + ", " + l1_item.Capacity__ + "MW",
+                                    "title": l1_item.Project + ", " + l1_item["Capacity (MW)"] + "MW",
                                     "infoKeys": ["River", "Promoter"],
                                     "data": l1_item,
                                     "index": l1_index
@@ -308,12 +308,15 @@ $(document).ready(function() {
                                     //var pointOfAttributes = mapData.getGeometries()["points"][index]["features"][$(this).attr("_id")];
                                     var pointOfAttributes = mapData.getGeometries()["points"][index]["features"][l1_item["_cartomancer_id"]];
                                     var popup = L.popup({});
+                                    map.closePopup();
                                     //popup.setLatLng(e.latlng);
                                     popup.setContent(new TableContent_fix(pointOfAttributes.properties.getAttributes()));
                                     //popup.openOn(map);
                                     //console.log(pointOfAttributes);
-                                    var latlng = L.latLng(pointOfAttributes.geometry.coordinates[0] + 0.03, pointOfAttributes.geometry.coordinates[1]);
+                                    var latlng = L.latLng(Number(pointOfAttributes.geometry.coordinates[0]) + 0.03, Number(pointOfAttributes.geometry.coordinates[1]));
 
+
+                                    setTimeout(function(){
 
                                     map.setView(latlng, 12, {
                                         animate: false
@@ -328,8 +331,9 @@ $(document).ready(function() {
                                         popup.openOn(map);
 
                                         popup.update();
-                                    }, 300);
+                                    }, 500);
                                     //});
+                                },100);
                                 });
 
                                 overviewBox.appendTo(overviewCollection);
