@@ -4,11 +4,11 @@ $(document).ready(function() {
     var cartograph = new Map({
         "basemaps": {
             "OpenStreetMap": {
-                "tileLayer": L.tileLayer('http://104.131.69.181/osm/{z}/{x}/{y}.png', {})
-            },
-            "Satellite Imagery": {
-                "tileLayer": new L.Google()
+                "tileLayer": L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {})
             }
+            /*,"Satellite Imagery": {
+                "tileLayer": new L.Google()
+            }*/
         }
     });
     $("#map").find("a.leaflet-control-zoom-out").text("–");
@@ -115,6 +115,11 @@ $(document).ready(function() {
         })
     };
 
+    var currentTab = "";
+
+    var extentMarqueeGroup = L.layerGroup();
+    mapGlobals.extentMarqueeGroup = extentMarqueeGroup;
+
     layerControls["construction-approved"].addTo(map);
     layerControls["survey-approved"].addTo(map);
     layerControls["operational"].addTo(map);
@@ -168,7 +173,7 @@ $(document).ready(function() {
     function TableContent_fix(jsonData, invert) {
         var content = $('<div></div>').addClass('table-content');
         for (var key in jsonData) {
-            if (!((key.indexOf("field")+1) ||(key.indexOf("atitiude")+1)||(key.indexOf("atitude")+1)||(key.indexOf("ongitude")+1) || key === "sn" || key === "start_lat" || key === "start_lng" || key === "end_lat" || key === "start_lng" || key === "S_No" || key === "_metaX")) {
+            if (!(((key.indexOf("NL")+1))||((key.indexOf("SL")+1))||(key.indexOf("field")+1) ||(key.indexOf("atitiude")+1)||(key.indexOf("atitude")+1)||(key.indexOf("ongitude")+1) || key === "sn" || key === "start_lat" || key === "start_lng" || key === "end_lat" || key === "start_lng" || key === "S_No" || key === "_metaX")) {
                 var tableRow = $('<div></div>').addClass('table-row').append(function() {
 
                     return jsonData[key] ? $("<div></div>").html("<div class='row-label'>" + key.replace(/_/g, " ").replace("(", " (") + "  :</div>").append($("<div class='val'></div>").text((jsonData[key] + "").replace(/,/g, ", "))) : $("<div class='row-label'></div>").text(key.replace(/_/g, " ").replace("(", " (") + "  :").append($("<div class='val not-available'></div>").text("Not Available"));
@@ -179,6 +184,8 @@ $(document).ready(function() {
         return $(content)[0];
     }
 
+    setTimeout(function(){
+
     (new UI_VerticalTabbedColumn({
         tabs: $.map(config["map-features"], function(item, index) {
             var tabDef = {
@@ -186,6 +193,8 @@ $(document).ready(function() {
                 label: index.replace(/-/g, " "),
                 eventHandlers: {
                     click: function(e) {
+
+                        currentTab = index;
 
                         if (index !== "construction-approved") {
                             $("#slider").hide();
@@ -289,6 +298,13 @@ $(document).ready(function() {
                         //}
 
                         modelQueryPoints.done(function(data, params) {
+
+                            /*mapData.generateExtentRectangleFromData({
+                               "src-geometry-type": "points",
+                                "src-feature-group": index,
+                                "tgt-feature-group": index
+                            });*///todo: not used here..a rectangle overlay is used here instead (see code somewhere below)..explore use of such function in other cases..
+
                             var pointAttributeList = mapData.getAttributes({
                                 "order-by": "Project",
                                 "geometry-type": "points",
@@ -357,6 +373,10 @@ $(document).ready(function() {
                         var data = callbackOptions.data;
                         var params = callbackOptions.params;
 
+                        var _marqueeStyle = $.extend(true, {}, config["layer-styles"]["extent-marquee"]);
+                            _marqueeStyle.opacity=0;
+                            _marqueeStyle.fillOpacity=0;
+
 
                         for (var feature in data.features) {
                             var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
@@ -372,7 +392,16 @@ $(document).ready(function() {
                                 })
                             });
 
-                            marker.bindPopup(new TableContent_fix(data.features[feature].properties.getAttributes()));
+                            var popupContent = new TableContent_fix(data.features[feature].properties.getAttributes());
+
+                            marker.bindPopup(popupContent);
+
+
+
+                            var marquee = L.rectangle(L.latLngBounds(data.features[feature].properties.getAttributes().NE.split(",").reverse(), data.features[feature].properties.getAttributes().SW.split(",").reverse()),
+                                            _marqueeStyle
+                            );
+                            marquee.bindPopup(popupContent);
 
                             /*var popup = L.popup({});
                              marker.on('click', function(e) {
@@ -383,6 +412,9 @@ $(document).ready(function() {
                              });*/
                             try {
                                 marker.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
+                                marquee.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
+                                marquee.addTo(extentMarqueeGroup);
+                                //console.log(marquee.toGeoJSON());
                             } catch (e) {
                                 console.log(e);
                             }
@@ -415,6 +447,8 @@ $(document).ready(function() {
 
     $($(".ui-tab-trigger")[2]).click();
 
+    },0);
+
 
     var boundaryLayersControl = L.control.layers({}, {}, {
         collapsed: false,
@@ -437,6 +471,7 @@ $(document).ready(function() {
     });
 
     modelQueryDistrict.done(function(data, params) {
+        setTimeout(function(){
 
         districtLayers.addLayer(L.geoJson(data, {
             style: config["layer-styles"]["districts"],
@@ -473,6 +508,7 @@ $(document).ready(function() {
             opacity: 0,
             "pointer-events": "none"
         });
+        },0);
 
     });
 
@@ -490,6 +526,8 @@ $(document).ready(function() {
     });
 
     modelQueryVDC.done(function(data, params) {
+
+        setTimeout(function(){
 
         vdcLayer.addLayer(L.geoJson(data, {
             style: config["layer-styles"]["vdc"],
@@ -564,8 +602,9 @@ $(document).ready(function() {
                     "pointer-events": "none"
                 });
             }
-
         });
+
+        },0);
 
         $($(boundaryLayersControl._container).find("input")[1]).after(function() {
             return $("<span></span>").addClass("legend-icon").css({
@@ -599,9 +638,11 @@ $(document).ready(function() {
 
     modelQueryCountry.done(function(data, params) {
 
+        setTimeout(function(){
+
         var countryBoundary = L.geoJson(data, {
             style: config["layer-styles"]["country"],
-            onEachFeature: function(feature, layer) {
+            /*onEachFeature: function(feature, layer) {
                 setTimeout(function() {
                     //districtLabelsOverlay.addLayer(new L.LabelOverlays(L.latLng(getPolygonCentroid(feature.geometry)), "123"));
                     //districtLabelsOverlay.addLayer(new L.LabelOverlays(layer.getBounds().getCenter(), feature.properties.Name));
@@ -613,11 +654,12 @@ $(document).ready(function() {
                         });
                     }());
                 }, 0);
-            }
+            }*/
         });
 
         boundaryLayersControl.addOverlay(countryBoundary, "Nepal");
         countryBoundary.addTo(map);
+        },0);
 
         //boundaryLayersControl.addTo(map);
     });
@@ -673,15 +715,36 @@ $(document).ready(function() {
 
 
     map.on("zoomend", function() {
+        var element = this;
         setTimeout(function() {
-            $("#map").find("div.marker-cluster").attrByFunction(function() {
-                return {
-                    "title": $(this).find("span").text() + " " + config["map-of"] + " in this cluster. Click to zoom in."
-                };
-            });
+
+
+
+            if(element.getZoom()>11){
+                setTimeout(function(){
+                    $.map(extentMarqueeGroup._layers, function(layer, leafletID){
+                       layer.setStyle({
+                           opacity: config["layer-styles"]["extent-marquee"]["opacity"],
+                           fillOpacity: config["layer-styles"]["extent-marquee"]["fillOpacity"]
+                       })
+                    });
+                },0);
+
+            }else{
+                setTimeout(function(){
+                    $.map(extentMarqueeGroup._layers, function(layer, leafletID){
+                       layer.setStyle({
+                           opacity: 0,
+                           fillOpacity: 0
+                       })
+                    });
+                },0);
+            }
 
         }, 0);
     });
+
+
 
     map.fire("moveend");
 

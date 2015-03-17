@@ -71,6 +71,13 @@ config = {
             color: '#d5aad0',
             fillOpacity: 0,
             clickable: false
+        },
+        "extent-marquee":{
+            color: "#666666",
+            opacity: 1,
+            weight: 1,
+            fillColor: "#aaccee",
+            fillOpacity: 0.4
         }
     }
 };

@@ -20,7 +20,7 @@ function Map(options) {
 
 
     function osmTiles() {
-        return L.tileLayer('http://104.131.69.181/osm/{z}/{x}/{y}.png', {
+        return L.tileLayer('http://{s}.tile.openstreetmap.org/osm/{z}/{x}/{y}.png', {
             //attribution: 'Basemap data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors | Powered by <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs <img class="klllogo" src="../images/klllogo.gif"/></a>'
             //,maxZoom: 19,
             //minZoom: 1

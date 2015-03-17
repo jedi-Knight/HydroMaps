@@ -30,7 +30,7 @@ function Data() {
 
     this.plugins = _plugins;
 
-    /**temporary hack:**/
+    /**temporary hack: todo: use plugin-interface fn call solution?**/
     this.getGeometries = function(query) {
         if (query) {
             //console.log(geometries[query["geometry-type"]][query["feature-group"]]["features"]);
@@ -172,6 +172,26 @@ function Data() {
     /*this.getGeometryCenter = function(feature){
      switch(geojson.geometry.type)
      };*/
+
+    this.generateExtentRectangleFromData = function(options){
+        var deferred = $.Deferred();
+        setTimeout(function(){
+        geometries["polygons"][options["tgt-feature-group"]] = function(){
+            return {
+                type: "FeatureCollection",
+                _cartomancer_countstart: geometries[options["src-geometry-type"]][options["src-feature-group"]]._cartomancer_countstart,
+                features: $.map(geometries[options["src-geometry-type"]][options["src-feature-group"]].features, function(feature, index){
+                    var rect = L.rectangle(L.latLngBounds(feature.properties.getAttributes().NE.split(",").reverse(), feature.properties.getAttributes().SW.split(",").reverse())).toGeoJSON();
+                    rect.properties = feature.properties;
+                    return rect;
+                })
+            };
+        }();
+            deferred.resolve(geometries["polygons"][options["tgt-feature-group"]]);
+        },0);
+        return deferred.promise();
+    }
+
     /**:temporary hack**/
 
     var thirdPartyAPIQueue = false;
@@ -360,8 +380,8 @@ function Data() {
                         geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties = {
                             feature_id: geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties.id,
                             _cartomancer_id: c,
-                            getAttributes: function(_cartomancer_id) {
-                                //return attributes[params.query.geometries.type][_cartomancer_id];
+                            getAttributes: function(/*_cartomancer_id*/) {  //todo: _cartomancer_id argument not needed here..make adjustments to and eliminate from formhub_json and ushahidi_json handlers too..!!
+                                //return attributes[params.query.geometries.type][_cartomancer_id];  todo: remove this line
                                 return attributes[params.query.geometries.type][this._cartomancer_id];
                             }
                         };
