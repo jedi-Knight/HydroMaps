@@ -984,7 +984,11 @@ function UI_ZinoDropdown(options) {
     var selectMenuWidget = selectMenuWidgetSrc.zinoSelectbox({
         change: function(e, ui) {
             options.eventHandlers.select.call(this, e, ui);
-        }
+        }/*,
+        enable: function(e, ui) {
+            options.eventHandlers.enable.call(this, e, ui);
+
+        }*/
     });
     return selectMenuWidget;
 }
@@ -1054,7 +1058,7 @@ function UI_Control_Filter(options) {
         "id": options["ui-control-id"],
         "placeholder": "Search.."
     })[0];
-    var filterButton = new UI_JQueryDropdown({
+    var filterButton = new UI_ZinoDropdown({
         tabs: $.map(options.filterByElements, function(item, index) {
             return {
                 title: item.title,
@@ -1072,12 +1076,28 @@ function UI_Control_Filter(options) {
                 }
             };
         }),
-        menuType: "iconselectmenu"
+        eventHandlers: {
+            select: function(e, ui) {
+                $($(".zui-selectbox-holder")[0]).each(function(index){
+                    $(this).addClass("ui-filter-search-by-selector");
+                    $(this).find("img").remove();
+                    //if(!$(this).find("img").length){
+                        $("<img/>").attr({
+                            src: options.filterByElements[ui.value].icon,
+                            class: options.filterByElements[ui.value].className,
+                        }).prependTo($(this).children(".zui-selectbox-selector"));
+                    //}
+                });
+                
+            }
+        }
     });
 
-    filterButton.iconselectmenu("menuWidget").addClass(options.className);
+    //filterButton.selectmenu("menuWidget").addClass(options.className);
 
     filterButton.before(uiElement);
+    filterButton.zinoSelectbox("change","0");
+
 
     $(uiElement).on("keydown", function() {
         setTimeout(function() {

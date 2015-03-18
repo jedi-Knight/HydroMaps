@@ -644,7 +644,7 @@ span.marker-label-districts{
 }
 
 .zui-selectbox-holder{
-    z-index: 200000;
+    z-index: 100001;
 }
 
 .zui-selectbox-selector{
@@ -663,4 +663,22 @@ span.marker-label-districts{
     width: 208px;
     top: 8px !important;
     left: 4px !important;
+}
+
+.zui-selectbox-holder.ui-filter-search-by-selector{
+    z-index: 100000;
+    background: #ffffff;
+    height: 20px;
+    width: 60px;
+    top: 74px !important;
+    left: 4px !important;
+}
+
+.zui-selectbox-holder.ui-filter-search-by-selector .zui-selectbox-selector{
+    height:20px !important;
+    width:60px !important;
+    font-size: 12pt;
+}
+.zui-selectbox-holder.ui-filter-search-by-selector .zui-selectbox-options{
+    width: 60px;
 }

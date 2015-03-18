@@ -82,6 +82,12 @@ config = {
     },
     "filter-search-by-elements":[
         {
+            title: "No Filter",
+            label: "No Filter",
+            icon: "img/ui-filter-search-by-icon-none.png",
+            className: "ui-filter-search-by-icon"
+        },
+        {
             title: "River",
             label: "River",
             icon: "img/ui-filter-search-by-icon-river.png",
