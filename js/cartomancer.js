@@ -186,7 +186,7 @@ $(document).ready(function() {
 
     setTimeout(function(){
 
-    (new UI_VerticalTabbedColumn({
+    (new UI_DropdownMenuColumn({
         tabs: $.map(config["map-features"], function(item, index) {
             var tabDef = {
                 title: item["title"],

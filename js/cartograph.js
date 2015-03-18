@@ -1155,3 +1155,163 @@ function UI_VerticalTabbedColumn(options) {
         return _getUI();
     };
 }
+
+function UI_JQueryDropdown(options){
+    var selectMenuWidgetGenerator = document.createElement("select");
+    var selectMenuWidgetSrc = $(selectMenuWidgetGenerator);
+    //selectMenuWidget.attr(options["widget-attributes"]);
+    selectMenuWidgetSrc.attr({
+        name: "Category"
+    });
+    for(var tab in options.tabs){
+        selectMenuWidgetSrc.append(function(){
+            return $("<option/>").attr({
+                value: tab
+            }).text(options.tabs[tab]["title"]);
+        });
+    }
+    var content = options.content;
+    var selectMenuWidget = selectMenuWidgetSrc.selectmenu({
+        select : function(e, ui){
+
+
+                        content.children().remove();
+                        titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
+                        var uiLoadingAnim = $("<img class='ui-loading-anim' src='img/loading-anim.gif'/>");
+                        content.append(uiLoadingAnim);
+
+                        $(this).siblings().removeClass("active");
+                        $(this).addClass("active");
+
+                        var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
+
+                        var context = this;
+
+                        deferred.done(function(obj) {
+                            uiLoadingAnim.remove();
+                            content.append(obj.jqObj.children());
+                            options.tabs[$(context).attr("_id")]["eventCallbacks"]["click"](e,{
+                                data: obj.data,
+                                params: obj.params
+                            });
+
+                        });
+
+        }
+    });
+    return selectMenuWidget;
+}
+
+function UI_ZinoDropdown(options){
+    var selectMenuWidgetGenerator = document.createElement("select");
+    var selectMenuWidgetSrc = $(selectMenuWidgetGenerator);
+    //selectMenuWidget.attr(options["widget-attributes"]);
+    selectMenuWidgetSrc.attr({
+        name: "Category"
+    });
+    for(var tab in options.tabs){
+        selectMenuWidgetSrc.append(function(){
+            return $("<option/>").attr({
+                value: tab
+            }).text(options.tabs[tab]["title"]);
+        });
+    }
+    var content = options.content;
+    var selectMenuWidget = selectMenuWidgetSrc.zinoSelectbox({
+        change : function(e, ui){
+
+
+                        content.children().remove();
+                        titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
+                        var uiLoadingAnim = $("<img class='ui-loading-anim' src='img/loading-anim.gif'/>");
+                        content.append(uiLoadingAnim);
+
+                        $(this).siblings().removeClass("active");
+                        $(this).addClass("active");
+
+                        var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
+
+                        var context = this;
+
+                        deferred.done(function(obj) {
+                            uiLoadingAnim.remove();
+                            content.append(obj.jqObj.children());
+                            options.tabs[$(context).attr("_id")]["eventCallbacks"]["click"](e,{
+                                data: obj.data,
+                                params: obj.params
+                            });
+
+                        });
+
+        }
+    });
+    return selectMenuWidget;
+}
+
+function UI_DropdownMenuColumn(options){
+    var container = $("<div class='ui-tabbed-column'/>");
+    var titleBar = $("<div class='ui-column-titlebar'/>").append("<h3></h3>");
+    titleBar.appendTo(container);
+
+    var content = $("<div class='ui-column-content'/>");
+
+
+    var searchBar = new UI_Control_Filter({
+        "ui-control-id": "filter-search",
+        "target-container": content,
+        //"target-items-selector": ".body-row>div:first-child"
+        "target-items-selector": ".searchable"
+    }).getUI().appendTo(container);
+    content.appendTo(container);
+
+    (new UI_ZinoDropdown($.extend(true,{content: content},options))).appendTo(container);
+
+    /*var tabs = $("<div class='ui-column-tabs'/>").appendTo(container);
+    for (var tab in options.tabs) {
+        tabs.append(function() {
+            var tabTrigger = new UI_Button({
+                attributes: {
+                    class: "ui-tab-trigger",
+                    title: options.tabs[tab]["title"],
+                    "_id": tab
+                },
+                eventHandlers: {
+                    click: function(e) {
+
+                        content.children().remove();
+                        titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
+                        var uiLoadingAnim = $("<img class='ui-loading-anim' src='img/loading-anim.gif'/>");
+                        content.append(uiLoadingAnim);
+
+                        $(this).siblings().removeClass("active");
+                        $(this).addClass("active");
+
+                        var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
+
+                        var context = this;
+
+                        deferred.done(function(obj) {
+                            uiLoadingAnim.remove();
+                            content.append(obj.jqObj.children());
+                            options.tabs[$(context).attr("_id")]["eventCallbacks"]["click"](e,{
+                                data: obj.data,
+                                params: obj.params
+                            });
+
+                        });
+                    }
+                },
+                content: "<span>" + options.tabs[tab]["label"] + "</span>"
+            });
+            return tabTrigger;
+        });
+    }*/
+
+    function _getUI(options) {
+        return container;
+    }
+
+    this.getUI = function(options) {
+        return _getUI();
+    };
+}

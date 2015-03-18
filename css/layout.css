@@ -27,11 +27,12 @@ body{
 
 .ui-column-tabs{
     position: absolute;
-    top: 6px;
+    top: 0px;
     left: 218px;
     box-shadow: 4px 2px 4px rgba(0,0,0,0.4);
     border: #333333 thin solid;
     border-left: none;
+    display: flex;
 }
 
 .ui-column-tabs a{
@@ -39,6 +40,7 @@ body{
     display: inline-block;
     background-color: #cccccc;
     border: #333333 thin solid;
+    text-align: center;
 }
 
 .ui-column-tabs a.active{
@@ -48,9 +50,9 @@ body{
 
 .ui-column-tabs a span{
     display: inline-block;
-    width: 86px;
-    height: 40px;
-    font-size: 11pt;
+    width: 168px;
+    height: 26px;
+    font-size: 12pt;
 }
 
 
@@ -639,4 +641,8 @@ span.marker-label-districts{
     padding:10px;
     color:#fff;
     font-size:12px Arial;
+}
+
+.zui-selectbox-holder{
+    z-index: 200000;
 }
