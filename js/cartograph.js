@@ -5,9 +5,9 @@ function Map(options) {
         zoom: config["map-options"]["init-zoom"],
         minZoom: config["map-options"]["min-zoom"],
         /*maxBounds: L.latLngBounds(
-            L.latLng(config["map-options"]["map-bounds"]["northeast"]),
-            L.latLng(config["map-options"]["map-bounds"]["southwest"])
-        ),*/
+         L.latLng(config["map-options"]["map-bounds"]["northeast"]),
+         L.latLng(config["map-options"]["map-bounds"]["southwest"])
+         ),*/
         doubleClickZoom: true
     };
 
@@ -966,32 +966,137 @@ function UI_PictureBox(options) {
     };
 }
 
+function UI_ZinoDropdown(options) {
+    var selectMenuWidgetGenerator = document.createElement("select");
+    var selectMenuWidgetSrc = $(selectMenuWidgetGenerator);
+    //selectMenuWidget.attr(options["widget-attributes"]);
+    selectMenuWidgetSrc.attr({
+        name: "Category"
+    });
+    for (var tab in options.tabs) {
+        selectMenuWidgetSrc.append(function() {
+            return $("<option/>").attr({
+                value: tab
+            }).append($("<div/>").append("<img/>").text(options.tabs[tab]["title"]));
+        });
+    }
+
+    var selectMenuWidget = selectMenuWidgetSrc.zinoSelectbox({
+        change: function(e, ui) {
+            options.eventHandlers.select.call(this, e, ui);
+        }
+    });
+    return selectMenuWidget;
+}
+
+function UI_JQueryDropdown(options) {
+    var selectMenuWidgetGenerator = document.createElement("select");
+    var selectMenuWidgetSrc = $(selectMenuWidgetGenerator);
+    //selectMenuWidget.attr(options["widget-attributes"]);
+    selectMenuWidgetSrc.attr({
+        name: "Category"
+    });
+    for (var tab in options.tabs) {
+        selectMenuWidgetSrc.append(function() {
+            return $("<option/>").attr({
+                value: tab
+            }).text(options.tabs[tab]["title"]);
+        });
+    }
+
+    var selectMenuWidget;
+
+    switch (options.menuType) {
+        case "iconselectmenu":
+            {
+                $.widget("custom.iconselectmenu", $.ui.selectmenu, {
+                    _renderItem: function(ul, item) {
+                        var li = $("<li>", {text: item.label});
+
+                        if (item.disabled) {
+                            li.addClass("ui-state-disabled");
+                        }
+
+                        $("<span>", {
+                            style: item.element.attr("data-style"),
+                            "class": "ui-icon " + item.element.attr("data-class")
+                        })
+                                .appendTo(li);
+
+                        return li.appendTo(ul);
+                    }
+                });
+                selectMenuWidget = selectMenuWidgetSrc.iconselectmenu({
+                    select: function(e, ui) {
+                        options.eventHandlers.select.call(this, e, ui);
+                    }
+                });
+                break;
+            }
+        default:
+            {
+                selectMenuWidget = selectMenuWidgetSrc.selectmenu({
+                    change: function(e, ui) {
+                        options.eventHandlers.select.call(this, e, ui);
+                    }
+                });
+                break;
+            }
+    }
+
+    return selectMenuWidget;
+
+}
+
 function UI_Control_Filter(options) {
     var uiElement = $("<input/>").attr({
         "type": "text",
         "id": options["ui-control-id"],
         "placeholder": "Search.."
     })[0];
+    var filterButton = new UI_JQueryDropdown({
+        tabs: $.map(options.filterByElements, function(item, index) {
+            return {
+                title: item.title,
+                label: item.label,
+                icon: item.icon,
+                eventHandlers: {
+                    click: function(e) {
+
+                    }
+                },
+                eventCallbacks: {
+                    click: function(e, callbackOptions) {
+
+                    }
+                }
+            };
+        }),
+        menuType: "iconselectmenu"
+    });
+
+    filterButton.iconselectmenu("menuWidget").addClass(options.className);
+
+    filterButton.before(uiElement);
 
     $(uiElement).on("keydown", function() {
         setTimeout(function() {
-            //a=uiElement;
+//a=uiElement;
             var container = $(options["target-container"]);
             var selection = container.find(options["target-items-selector"]);
-            console.log(selection.filter(function() {
+            selection.filter(function() {
                 return ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1) ? true : false;
-            }));
+            });
             selection.closest(".ui-infobox").hide();
             /*var filteredSelection = selection.filter(function() {
              return ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1) ? true : false;
              }).closest(".body-row").show();*/
-            
-            
+
+
 
             var filteredSelection = selection.filter(function() {
                 return ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1) ? true : false;
             });
-
 //            $.map(filteredSelection, function(item, index) {
 //                //if (index > 9)
 //                    //delete filteredSelection[index];
@@ -1000,15 +1105,12 @@ function UI_Control_Filter(options) {
             filteredSelection.closest(".ui-infobox").show();
         }, 100);
     });
-
     $(uiElement).focus(function(e) {
         $(uiElement).parent().addClass("active");
     });
-
     $(uiElement).blur(function(e) {
         $(uiElement).parent().removeClass("active");
     });
-
     function _getUI() {
         return $("<div class='ui-control-filter'/>").append(uiElement).prepend(new UI_Button({
             attributes: {
@@ -1036,9 +1138,6 @@ function UI_Control_Filter(options) {
                         }, function() {
 //                            buttonTarget.closest(".col-header").find("h3").hide();
                         });
-
-
-
                     } else {
 //                            buttonTarget.closest(".col-header").find("h3").show();
 
@@ -1052,8 +1151,6 @@ function UI_Control_Filter(options) {
                         buttonTarget.closest(".col-header").find("h3").animate({
                             "opacity": 1
                         });
-
-
                     }
                 }
             }
@@ -1063,19 +1160,15 @@ function UI_Control_Filter(options) {
     this.getUI = function() {
         return _getUI();
     };
-
 }
 
 function UI_FeatureInfoOverview(options) {
     var container = $("<div></div>").addClass("ui-infobox").addClass(options.className);
     var titleBar = $("<div></div>").addClass("ui-infobox-titlebar");
     var content = $("<div></div>").addClass("ui-infobox-content");
-
     //titleBar.append($("<span class='ui-sn'></span>").text(". "+options.index));
     //titleBar.append($("<h5 class='searchable'></h5>").text(options.title));
     titleBar.append($("<h5 class='searchable'></h5>").text(options.title));
-    
-
     //setTimeout(function() {
     for (var c in options.infoKeys) {
         $("<div class='ui-infobox-row'></div>").append(function() {
@@ -1084,7 +1177,7 @@ function UI_FeatureInfoOverview(options) {
             return $("<div class='searchable'></div>").text(options.data[options.infoKeys[c]]);
         }).appendTo(content);
     }
-    //}, 0);
+//}, 0);
     titleBar.appendTo(container);
     content.appendTo(container);
     return container;
@@ -1094,18 +1187,15 @@ function UI_VerticalTabbedColumn(options) {
     var container = $("<div class='ui-tabbed-column'/>");
     var titleBar = $("<div class='ui-column-titlebar'/>").append("<h3></h3>");
     titleBar.appendTo(container);
-
     var content = $("<div class='ui-column-content'/>");
-    
-
     var searchBar = new UI_Control_Filter({
         "ui-control-id": "filter-search",
         "target-container": content,
         //"target-items-selector": ".body-row>div:first-child"
-        "target-items-selector": ".searchable"
+        "target-items-selector": ".searchable",
+        filterByElements: options.filterByElements
     }).getUI().appendTo(container);
     content.appendTo(container);
-
     var tabs = $("<div class='ui-column-tabs'/>").appendTo(container);
     for (var tab in options.tabs) {
         tabs.append(function() {
@@ -1122,22 +1212,17 @@ function UI_VerticalTabbedColumn(options) {
                         titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
                         var uiLoadingAnim = $("<img class='ui-loading-anim' src='img/loading-anim.gif'/>");
                         content.append(uiLoadingAnim);
-                        
                         $(this).siblings().removeClass("active");
                         $(this).addClass("active");
-
                         var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
-                        
                         var context = this;
-
                         deferred.done(function(obj) {
                             uiLoadingAnim.remove();
                             content.append(obj.jqObj.children());
-                            options.tabs[$(context).attr("_id")]["eventCallbacks"]["click"](e,{
+                            options.tabs[$(context).attr("_id")]["eventCallbacks"]["click"](e, {
                                 data: obj.data,
                                 params: obj.params
                             });
-
                         });
                     }
                 },
@@ -1156,157 +1241,84 @@ function UI_VerticalTabbedColumn(options) {
     };
 }
 
-function UI_JQueryDropdown(options){
-    var selectMenuWidgetGenerator = document.createElement("select");
-    var selectMenuWidgetSrc = $(selectMenuWidgetGenerator);
-    //selectMenuWidget.attr(options["widget-attributes"]);
-    selectMenuWidgetSrc.attr({
-        name: "Category"
-    });
-    for(var tab in options.tabs){
-        selectMenuWidgetSrc.append(function(){
-            return $("<option/>").attr({
-                value: tab
-            }).text(options.tabs[tab]["title"]);
-        });
-    }
-    var content = options.content;
-    var selectMenuWidget = selectMenuWidgetSrc.selectmenu({
-        select : function(e, ui){
 
-
-                        content.children().remove();
-                        titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
-                        var uiLoadingAnim = $("<img class='ui-loading-anim' src='img/loading-anim.gif'/>");
-                        content.append(uiLoadingAnim);
-
-                        $(this).siblings().removeClass("active");
-                        $(this).addClass("active");
-
-                        var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
-
-                        var context = this;
-
-                        deferred.done(function(obj) {
-                            uiLoadingAnim.remove();
-                            content.append(obj.jqObj.children());
-                            options.tabs[$(context).attr("_id")]["eventCallbacks"]["click"](e,{
-                                data: obj.data,
-                                params: obj.params
-                            });
-
-                        });
-
-        }
-    });
-    return selectMenuWidget;
-}
-
-function UI_ZinoDropdown(options){
-    var selectMenuWidgetGenerator = document.createElement("select");
-    var selectMenuWidgetSrc = $(selectMenuWidgetGenerator);
-    //selectMenuWidget.attr(options["widget-attributes"]);
-    selectMenuWidgetSrc.attr({
-        name: "Category"
-    });
-    for(var tab in options.tabs){
-        selectMenuWidgetSrc.append(function(){
-            return $("<option/>").attr({
-                value: tab
-            }).text(options.tabs[tab]["title"]);
-        });
-    }
-    var content = options.content;
-    var selectMenuWidget = selectMenuWidgetSrc.zinoSelectbox({
-        change : function(e, ui){
-
-
-                        content.children().remove();
-                        //titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
-                        var uiLoadingAnim = $("<img class='ui-loading-anim' src='img/loading-anim.gif'/>");
-                        content.append(uiLoadingAnim);
-
-                        //$(this).siblings().removeClass("active");
-                        //$(this).addClass("active");
-
-                        //var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
-                        var deferred = options.tabs[this.value]["eventHandlers"]["click"](e);
-
-                        var context = this;
-
-                        deferred.done(function(obj) {
-                            uiLoadingAnim.remove();
-                            content.append(obj.jqObj.children());
-                            options.tabs[context.value]["eventCallbacks"]["click"](e,{
-                                data: obj.data,
-                                params: obj.params
-                            });
-
-                        });
-
-        }
-    });
-    return selectMenuWidget;
-}
-
-function UI_DropdownMenuColumn(options){
+function UI_DropdownMenuColumn(options) {
     var container = $("<div class='ui-tabbed-column'/>");
     var titleBar = $("<div class='ui-column-titlebar'/>").append("<h3></h3>");
     titleBar.appendTo(container);
-
     var content = $("<div class='ui-column-content'/>");
-
-
     var searchBar = new UI_Control_Filter({
         "ui-control-id": "filter-search",
         "target-container": content,
         //"target-items-selector": ".body-row>div:first-child"
-        "target-items-selector": ".searchable"
+        "target-items-selector": ".searchable",
+        filterByElements: options.filterByElements
     }).getUI().appendTo(container);
     content.appendTo(container);
+    (new UI_ZinoDropdown($.extend(true, {
+        eventHandlers: {
+            select: function(e, ui) {
+                content.children().remove();
+                //titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
+                var uiLoadingAnim = $("<img class='ui-loading-anim' src='img/loading-anim.gif'/>");
+                content.append(uiLoadingAnim);
+                //$(this).siblings().removeClass("active");
+                //$(this).addClass("active");
 
-    (new UI_ZinoDropdown($.extend(true,{content: content},options)).zinoSelectbox("change", "2")).appendTo(container);
-
+                //var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
+                var deferred = options.tabs[this.value]["eventHandlers"]["click"](e);
+                var context = this;
+                deferred.done(function(obj) {
+                    uiLoadingAnim.remove();
+                    content.append(obj.jqObj.children());
+                    options.tabs[context.value]["eventCallbacks"]["click"](e, {
+                        data: obj.data,
+                        params: obj.params
+                    });
+                });
+            }
+        }
+    }, options)).zinoSelectbox("change", "2")).appendTo(container);
     /*var tabs = $("<div class='ui-column-tabs'/>").appendTo(container);
-    for (var tab in options.tabs) {
-        tabs.append(function() {
-            var tabTrigger = new UI_Button({
-                attributes: {
-                    class: "ui-tab-trigger",
-                    title: options.tabs[tab]["title"],
-                    "_id": tab
-                },
-                eventHandlers: {
-                    click: function(e) {
-
-                        content.children().remove();
-                        titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
-                        var uiLoadingAnim = $("<img class='ui-loading-anim' src='img/loading-anim.gif'/>");
-                        content.append(uiLoadingAnim);
-
-                        $(this).siblings().removeClass("active");
-                        $(this).addClass("active");
-
-                        var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
-
-                        var context = this;
-
-                        deferred.done(function(obj) {
-                            uiLoadingAnim.remove();
-                            content.append(obj.jqObj.children());
-                            options.tabs[$(context).attr("_id")]["eventCallbacks"]["click"](e,{
-                                data: obj.data,
-                                params: obj.params
-                            });
-
-                        });
-                    }
-                },
-                content: "<span>" + options.tabs[tab]["label"] + "</span>"
-            });
-            return tabTrigger;
-        });
-    }*/
+     for (var tab in options.tabs) {
+     tabs.append(function() {
+     var tabTrigger = new UI_Button({
+     attributes: {
+     class: "ui-tab-trigger",
+     title: options.tabs[tab]["title"],
+     "_id": tab
+     },
+     eventHandlers: {
+     click: function(e) {
+     
+     content.children().remove();
+     titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
+     var uiLoadingAnim = $("<img class='ui-loading-anim' src='img/loading-anim.gif'/>");
+     content.append(uiLoadingAnim);
+     
+     $(this).siblings().removeClass("active");
+     $(this).addClass("active");
+     
+     var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
+     
+     var context = this;
+     
+     deferred.done(function(obj) {
+     uiLoadingAnim.remove();
+     content.append(obj.jqObj.children());
+     options.tabs[$(context).attr("_id")]["eventCallbacks"]["click"](e,{
+     data: obj.data,
+     params: obj.params
+     });
+     
+     });
+     }
+     },
+     content: "<span>" + options.tabs[tab]["label"] + "</span>"
+     });
+     return tabTrigger;
+     });
+     }*/
 
     function _getUI(options) {
         return container;

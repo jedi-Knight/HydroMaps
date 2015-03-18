@@ -442,7 +442,8 @@ $(document).ready(function() {
                 layerControl: layerControls[index]
             };
             return tabDef;
-        })
+        }),
+                filterByElements: config["filter-search-by-elements"]
     })).getUI().prependTo("body");
 
     $($(".ui-tab-trigger")[2]).click();

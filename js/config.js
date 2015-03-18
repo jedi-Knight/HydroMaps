@@ -79,5 +79,13 @@ config = {
             fillColor: "#aaccee",
             fillOpacity: 0.4
         }
-    }
+    },
+    "filter-search-by-elements":[
+        {
+            title: "River",
+            label: "River",
+            icon: "img/ui-filter-search-by-icon-river.png",
+            className: "ui-filter-search-by-icon"
+        }
+    ]    
 };
