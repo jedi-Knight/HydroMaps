@@ -1222,21 +1222,22 @@ function UI_ZinoDropdown(options){
 
 
                         content.children().remove();
-                        titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
+                        //titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
                         var uiLoadingAnim = $("<img class='ui-loading-anim' src='img/loading-anim.gif'/>");
                         content.append(uiLoadingAnim);
 
-                        $(this).siblings().removeClass("active");
-                        $(this).addClass("active");
+                        //$(this).siblings().removeClass("active");
+                        //$(this).addClass("active");
 
-                        var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
+                        //var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
+                        var deferred = options.tabs[this.value]["eventHandlers"]["click"](e);
 
                         var context = this;
 
                         deferred.done(function(obj) {
                             uiLoadingAnim.remove();
                             content.append(obj.jqObj.children());
-                            options.tabs[$(context).attr("_id")]["eventCallbacks"]["click"](e,{
+                            options.tabs[context.value]["eventCallbacks"]["click"](e,{
                                 data: obj.data,
                                 params: obj.params
                             });
@@ -1264,7 +1265,7 @@ function UI_DropdownMenuColumn(options){
     }).getUI().appendTo(container);
     content.appendTo(container);
 
-    (new UI_ZinoDropdown($.extend(true,{content: content},options))).appendTo(container);
+    (new UI_ZinoDropdown($.extend(true,{content: content},options)).zinoSelectbox("change", "2")).appendTo(container);
 
     /*var tabs = $("<div class='ui-column-tabs'/>").appendTo(container);
     for (var tab in options.tabs) {
