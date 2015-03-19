@@ -1099,6 +1099,13 @@ function UI_Control_Filter(options) {
                     //}
                 });
                 filterMode=Number(ui.value);
+                
+                if(filterMode){
+                    uiElement.placeholder = "Search by "+options.filterByElements[ui.value].title+"..";
+                }else{
+                    uiElement.placeholder = "Search..";
+                }
+                
                 $(uiElement).trigger("keydown");
                 
             }
