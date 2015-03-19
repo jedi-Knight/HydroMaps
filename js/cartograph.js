@@ -1099,6 +1099,7 @@ function UI_Control_Filter(options) {
                     //}
                 });
                 filterMode=Number(ui.value);
+                $(uiElement).trigger("keydown");
                 
             }
         }
