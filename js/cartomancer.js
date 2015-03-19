@@ -458,7 +458,8 @@ $(document).ready(function() {
                     highlightLayer.clearLayers();
                     setTimeout(function(){
                         for(var c in resultArray){
-                           L.circle(mapData.getGeometries().points[currentTab].features[resultArray[c]].geometry.coordinates,2000000/(Math.pow(1.9,map.getZoom()/1.05)), config["layer-styles"]["highlight-circle"]).addTo(highlightLayer);
+                           //L.circle(mapData.getGeometries().points[currentTab].features[resultArray[c]].geometry.coordinates,2000000/(Math.pow(1.9,map.getZoom()/1.05)), config["layer-styles"]["highlight-circle"]).addTo(highlightLayer);
+                            L.circleMarker(mapData.getGeometries().points[currentTab].features[resultArray[c]].geometry.coordinates, config["layer-styles"]["highlight-circle"]).addTo(highlightLayer);
                         }
                     },0);
                 },

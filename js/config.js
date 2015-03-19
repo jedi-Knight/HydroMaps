@@ -86,7 +86,8 @@ config = {
             fillOpacity: 0,
             opacity: 1,
             weight: 2,
-            color: "#0080ff"
+            color: "#0080ff",
+            radius: 20
         }
     },
     "filter-search-by-elements":[
