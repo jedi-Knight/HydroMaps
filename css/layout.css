@@ -62,7 +62,7 @@ body{
     height: 556px;
     /*margin-bottom: 16px;*/
     overflow-y: scroll;
-    direction:rtl;
+/*    direction:rtl;*/
     text-align: left;
     background-color: #ffffff;
     padding: 0px 6px 0px 6px;
@@ -112,7 +112,7 @@ body{
     /*border-bottom: #999999 thin solid;*/
 }
 
-.ui-infobox-row:last-child div:first-child:before{
+.ui-infobox-row:last-child div:first-child:after{
     content: ":";
 }
 
@@ -142,6 +142,8 @@ body{
 
 .ui-infobox .ui-infobox-titlebar{
     /*cursor: pointer;*/
+    margin-left: 20px;
+    text-indent: -14px;
 }
 
 .ui-tab-trigger{
@@ -404,6 +406,10 @@ div.leaflet-control-search{
     border-radius: 0;
     background-color: #fff;
     text-shadow: 0 0 1px rgba(0,0,0,0.6);
+}
+
+.leaflet-control-container .leaflet-top{
+    border: #aaaaaa thin solid;
 }
 
 .msg

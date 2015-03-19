@@ -127,6 +127,9 @@ $(document).ready(function() {
     layerControls["construction-applied"].addTo(map);
     layerControls["all-projects"].addTo(map);
 
+    var highlightLayer = L.layerGroup();
+    highlightLayer.addTo(map);
+
     var markerURLs = ["img/marker_small.png", "img/marker_medium.png", "img/marker_large.png", "img/marker_large.png"]
     //setTimeout(function() {
     $.map(layerControls, function(layerControl, index) {
@@ -314,8 +317,11 @@ $(document).ready(function() {
                             var overviewCollection = $("<div></div>");
                             var featuresOverview = $.map(pointAttributeList, function(l1_item, l1_index) {
                                 var overviewBox = new UI_FeatureInfoOverview({
-                                    "title": l1_item.Project + ", " + l1_item["Capacity (MW)"] + "MW",
+                                    "title": l1_index+1 + ". " + l1_item.Project + ", " + l1_item["Capacity (MW)"] + "MW",
                                     "infoKeys": ["River", "Promoter"],
+                                    "attributes": {
+                                        "_id":l1_item._cartomancer_id
+                                    },
                                     "data": l1_item,
                                     "index": l1_index
                                 });
@@ -444,7 +450,23 @@ $(document).ready(function() {
             return tabDef;
         }),
         defaultSelection: "0",
-                filterByElements: config["filter-search-by-elements"]
+                filterByElements: config["filter-search-by-elements"],
+        searchControl:{
+            eventHandlers:{
+                found: function(resultArray){
+                    //console.log(currentTab);
+                    highlightLayer.clearLayers();
+                    setTimeout(function(){
+                        for(var c in resultArray){
+                           L.circle(mapData.getGeometries().points[currentTab].features[resultArray[c]].geometry.coordinates,2000000/(Math.pow(1.9,map.getZoom()/1.05)), config["layer-styles"]["highlight-circle"]).addTo(highlightLayer);
+                        }
+                    },0);
+                },
+                notFound: function(){
+                    highlightLayer.clearLayers();
+                }
+            }
+        }
     })).getUI().prependTo("body");
 
     $($(".ui-tab-trigger")[2]).click();

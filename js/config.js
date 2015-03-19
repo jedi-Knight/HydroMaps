@@ -81,6 +81,12 @@ config = {
             weight: 1,
             fillColor: "#aaccee",
             fillOpacity: 0.4
+        },
+        "highlight-circle":{
+            fillOpacity: 0,
+            opacity: 1,
+            weight: 2,
+            color: "#0080ff"
         }
     },
     "filter-search-by-elements":[

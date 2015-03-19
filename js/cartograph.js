@@ -49,8 +49,7 @@ function Map(options) {
     if (options.basemaps) {
         options.basemaps.OpenStreetMap.tileLayer.addTo(map);
 
-        var overlayMaps = {
-        };
+        var overlayMaps = {};
 
         var layersControl = L.control.layers({}, {}, {
             position: "topright",
@@ -216,17 +215,17 @@ function Cluster(features, options, map) {
              mediaOptions: {}
              }).createSlider()
              };
-             
+
              var headerJson = {
              "Contact Person": pointAttributes.contact_person,
              "Contact Number": pointAttributes.contact_number
              //                ,"city": pointAttributes.city
              };
-             
+
              var tabsJson = {
              triggers: {
              title: function() {
-             
+
              }
              },
              tabs: [
@@ -279,7 +278,7 @@ function Cluster(features, options, map) {
              }
              ]
              };
-             
+
              var documentModel = {
              titleBar: {
              title: "Summary",
@@ -318,13 +317,13 @@ function Cluster(features, options, map) {
 
 function TableContent(jsonData, invert) {
     var content = $("<div></div>").addClass("table-content");
-//        if (!jsonData.type) {
+    //        if (!jsonData.type) {
     for (var row in jsonData) {
         var tableRow = $("<div></div>")
-                .addClass("table-row")
-                .append(function() {
-                    return jsonData[row] === "999" || jsonData[row] === "999.0" || !jsonData[row] ? $("<div></div>").text(row).append($("<div></div>").addClass("not-available").text("उपलब्ध छैन")) : $("<div></div>").text(row).append($("<div></div>").text(jsonData[row].replace(/_/g, " ")));
-                });
+        .addClass("table-row")
+        .append(function() {
+            return jsonData[row] === "999" || jsonData[row] === "999.0" || !jsonData[row] ? $("<div></div>").text(row).append($("<div></div>").addClass("not-available").text("उपलब्ध छैन")) : $("<div></div>").text(row).append($("<div></div>").text(jsonData[row].replace(/_/g, " ")));
+        });
         invert ? tableRow.prependTo(content).addClass(row.toLowerCase().replace(/ /g, "_")) : tableRow.appendTo(content).addClass(row.toLowerCase().replace(/ /g, "_"));
     }
     /*}else if(jsonData.type==="image"){
@@ -343,8 +342,8 @@ function TableContent(jsonData, invert) {
 
 function Table(jsonData) {
     return $("<div></div>")
-            .addClass("table container").addClass(jsonData.type)
-            .append(new TableContent(jsonData.content));
+        .addClass("table container").addClass(jsonData.type)
+        .append(new TableContent(jsonData.content));
 }
 
 function PanelDocument(documentModel) {
@@ -367,8 +366,8 @@ function PanelDocument(documentModel) {
     var _body = $("<div/>").addClass("panel-document-body");
     var _footer = $("<div/>").addClass("panel-document-footer");
 
-//    var document_tabs = new Tabs();
-//    var document_header = new Header();
+    //    var document_tabs = new Tabs();
+    //    var document_header = new Header();
 
     $(_panelDocument).attr({
         class: "panel float panel-document has-tabs"
@@ -389,11 +388,11 @@ function PanelDocument(documentModel) {
                 });
             }
             if (titleBarJson.slider) {
-                (titleBarJson.slider).appendTo(_slider);     //TODO: careful here
+                (titleBarJson.slider).appendTo(_slider); //TODO: careful here
             }
             if (titleBarJson.controls) {
                 _controls.append(function() {
-                    return titleBarJson.controls;  //TODO: careful here
+                    return titleBarJson.controls; //TODO: careful here
                 });
             }
         }, 0);
@@ -544,7 +543,7 @@ function UI_SlidingTabs(options) {
  var uiElement = $("<div/>");
  options.attributes.class += " ui-sliding-tabs";
  uiElement.attr(options.attributes);
- 
+
  for (var c in options.tabs) {
  var tab = $("<div/>");
  var content = $("<div class='content'/>");
@@ -557,36 +556,36 @@ function UI_SlidingTabs(options) {
  //if($(this).parent().hasClass("expanded")) return;
  var element = this;
  //setTimeout(function() {
- 
+
  //$(element).parent().siblings().find("input").prop("checked", false);
  /*$(element).parent().siblings().find(".content").css({
  "height": "0px",
  "min-height": "0px",
  "opacity": 0
  });
- 
+
  $(element).siblings(".content").css({
  "min-height": "80px",
  "opacity": 1,
  "height": "auto"
  }, function() {
  $(this).css("height", "auto");
- 
+
  });*\/
- 
+
  $(element).parent().siblings().find(".content").css({
  "display": "none"
  });
- 
+
  $(element).siblings(".content").css({
  "display": "inline"
  });
  $(element).closest(".ui-sliding-tabs").find("label").css({
  "display":"block"
  });
- 
+
  var checkbox = $(this).parent().find("input");
- 
+
  /*if ($(this).parent().hasClass("expanded"))
  return;*\/
  $(this).parent().siblings().find("input").each(function(){
@@ -595,13 +594,13 @@ function UI_SlidingTabs(options) {
  checkbox.each(function(){
  if(!$(this)[0].checked)$(this).click();
  });
- 
+
  /*$(this).parent().addClass("expanded");
  $(this).parent().siblings().removeClass("expanded");*\/
- 
+
  //options["tabs-trigger-eventHandlers"]["click"].call(element, e);
  //}, 0);
- 
+
  }
  },
  content: "<div>" + options.tabs[c].title + "</div>"
@@ -615,7 +614,7 @@ function UI_SlidingTabs(options) {
  });
  tab.appendTo(uiElement);
  }
- 
+
  deferred.resolve(uiElement);
  }, 0);
  return deferred;
@@ -689,23 +688,28 @@ function UI_Thumbnail(thumbUrl, mediaOptions) {
 function UI_ThumbnailView(srcObject) {
     function _createSlider() {
         //var thumnailSlider = $("<div>").addClass("ui-thumbnail-slider");
-        var thumbnailSlider = $(document.createElement("div")).addClass("ui-thumbnail-slider").css({
-        });
+        var thumbnailSlider = $(document.createElement("div")).addClass("ui-thumbnail-slider").css({});
 
-        var thumbnailSlide = $("<div/>").addClass("ui-thumbnail-slide")/*.css({
+        var thumbnailSlide = $("<div/>").addClass("ui-thumbnail-slide")
+        /*.css({
          display: "inline-block",
          width: "120px",
          height: "80px",
          "margin-left": "20px",
          "overflow": "hidden"
-         })*/.appendTo(thumbnailSlider);
-        var thumnailStrip = $("<div/>").addClass("ui-thumbnail-strip")/*.css({
+         })*/
+        .appendTo(thumbnailSlider);
+        var thumnailStrip = $("<div/>").addClass("ui-thumbnail-strip")
+        /*.css({
          display: "inline-block",
          "white-space": "nowrap"
-         })*/.appendTo(thumbnailSlide);
+         })*/
+        .appendTo(thumbnailSlide);
         for (var thumbUrl in srcObject.thumbUrls) {
 
-            new UI_Thumbnail(srcObject.thumbUrls[thumbUrl], srcObject.mediaOptions({src: srcObject.photoUrls[thumbUrl]})).css({
+            new UI_Thumbnail(srcObject.thumbUrls[thumbUrl], srcObject.mediaOptions({
+                src: srcObject.photoUrls[thumbUrl]
+            })).css({
                 /*display: "inline-block",
                  margin: "0px 1px",
                  padding: "0px",*/
@@ -984,19 +988,20 @@ function UI_ZinoDropdown(options) {
     var selectMenuWidget = selectMenuWidgetSrc.zinoSelectbox({
         change: function(e, ui) {
             options.eventHandlers.select.call(this, e, ui);
-        }/*,
+        }
+        /*,
         enable: function(e, ui) {
             options.eventHandlers.enable.call(this, e, ui);
 
         }*/
     });
-    
-    if(options.defaultSelection){
+
+    if (options.defaultSelection) {
         //selectMenuWidget.zinoSelectbox("open");
-    selectMenuWidget.zinoSelectbox("change",options.defaultSelection);
-    //selectMenuWidget.zinoSelectbox("close");
-}
-    
+        selectMenuWidget.zinoSelectbox("change", options.defaultSelection);
+        //selectMenuWidget.zinoSelectbox("close");
+    }
+
     return selectMenuWidget;
 }
 
@@ -1022,7 +1027,9 @@ function UI_JQueryDropdown(options) {
             {
                 $.widget("custom.iconselectmenu", $.ui.selectmenu, {
                     _renderItem: function(ul, item) {
-                        var li = $("<li>", {text: item.label});
+                        var li = $("<li>", {
+                            text: item.label
+                        });
 
                         if (item.disabled) {
                             li.addClass("ui-state-disabled");
@@ -1032,7 +1039,7 @@ function UI_JQueryDropdown(options) {
                             style: item.element.attr("data-style"),
                             "class": "ui-icon " + item.element.attr("data-class")
                         })
-                                .appendTo(li);
+                            .appendTo(li);
 
                         return li.appendTo(ul);
                     }
@@ -1060,6 +1067,8 @@ function UI_JQueryDropdown(options) {
 }
 
 function UI_Control_Filter(options) {
+    var context = this;
+
     var uiElement = $("<input/>").attr({
         "type": "text",
         "id": options["ui-control-id"],
@@ -1088,26 +1097,26 @@ function UI_Control_Filter(options) {
         }),
         eventHandlers: {
             select: function(e, ui) {
-                $($(".zui-selectbox-holder")[0]).each(function(index){
+                $($(".zui-selectbox-holder")[0]).each(function(index) {
                     $(this).addClass("ui-filter-search-by-selector");
                     $(this).find("img").remove();
                     //if(!$(this).find("img").length){
-                        $("<img/>").attr({
-                            src: options.filterByElements[ui.value].icon,
-                            class: options.filterByElements[ui.value].className,
-                        }).prependTo($(this).children(".zui-selectbox-selector"));
+                    $("<img/>").attr({
+                        src: options.filterByElements[ui.value].icon,
+                        class: options.filterByElements[ui.value].className,
+                    }).prependTo($(this).children(".zui-selectbox-selector"));
                     //}
                 });
-                filterMode=Number(ui.value);
-                
-                if(filterMode){
-                    uiElement.placeholder = "Search by "+options.filterByElements[ui.value].title+"..";
-                }else{
+                filterMode = Number(ui.value);
+
+                if (filterMode) {
+                    uiElement.placeholder = "Search by " + options.filterByElements[ui.value].title + "..";
+                } else {
                     uiElement.placeholder = "Search..";
                 }
-                
+
                 $(uiElement).trigger("keydown");
-                
+
             }
         }
     });
@@ -1115,26 +1124,25 @@ function UI_Control_Filter(options) {
     //filterButton.selectmenu("menuWidget").addClass(options.className);
 
     filterButton.before(uiElement);
-    filterButton.zinoSelectbox("change","0");
+    filterButton.zinoSelectbox("change", "0");
 
 
     $(uiElement).on("keydown", function() {
         setTimeout(function() {
-//a=uiElement;
+            //a=uiElement;
             var container = $(options["target-container"]);
             var selection = container.find(options["target-items-selector"]);
             selection.filter(function() {
-                if(filterMode){
+                if (filterMode) {
                     var classCondition = $(this).hasClass(options.filterByElements[filterMode].title.toLowerCase());
-                    if(classCondition){
+                    if (classCondition) {
                         $(this).addClass("emphasize");
                     }
 
-                    return  classCondition && ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1)? true : false;
+                    return classCondition && ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1) ? true : false;
+                } else {
+                    $(this).removeClass("emphasize");
                 }
-                else{
-                        $(this).removeClass("emphasize");
-                    }
                 return ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1) ? true : false;
             });
             selection.closest(".ui-infobox").hide();
@@ -1145,17 +1153,40 @@ function UI_Control_Filter(options) {
 
 
             var filteredSelection = selection.filter(function() {
-                if(filterMode){
-                    return $(this).hasClass(options.filterByElements[filterMode].title.toLowerCase()) && ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1)? true : false;
+                if (filterMode) {
+                    return $(this).hasClass(options.filterByElements[filterMode].title.toLowerCase()) && ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1) ? true : false;
                 }
                 return ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1) ? true : false;
             });
-//            $.map(filteredSelection, function(item, index) {
-//                //if (index > 9)
-//                    //delete filteredSelection[index];
-//            });
+            //            $.map(filteredSelection, function(item, index) {
+            //                //if (index > 9)
+            //                    //delete filteredSelection[index];
+            //            });
 
-            filteredSelection.closest(".ui-infobox").show();
+            var filteredSelectionClosestInfobox = filteredSelection.closest(".ui-infobox");
+
+            filteredSelectionClosestInfobox.show();
+
+
+            setTimeout(function() {
+                if (uiElement.value) {
+                    try {
+                        //console.log(1);
+                        options.eventHandlers.found.call(context, $.map(filteredSelectionClosestInfobox, function(item, index) {
+                            //console.log($(item).attr("_id"));
+                            return $(item).attr("_id");
+                        }));
+                    } catch (e) {
+                        console.log("no filter search event handler defined");
+                    }
+                } else {
+                    options.eventHandlers.notFound.call(context);
+                }
+            }, 0);
+
+            //            $(filteredSelection.closest(".ui-infobox")).each(function({
+            //                //console.log($(this).attr("_id"));
+            //            }));
         }, 100);
     });
     $(uiElement).focus(function(e) {
@@ -1164,6 +1195,7 @@ function UI_Control_Filter(options) {
     $(uiElement).blur(function(e) {
         $(uiElement).parent().removeClass("active");
     });
+
     function _getUI() {
         return $("<div class='ui-control-filter'/>").append(uiElement).prepend(new UI_Button({
             attributes: {
@@ -1177,7 +1209,7 @@ function UI_Control_Filter(options) {
                     e.stopPropagation();
                     var buttonTarget = $(this).next("input");
                     if (buttonTarget.css("width") !== "140px") {
-//                        buttonTarget.show();
+                        //                        buttonTarget.show();
                         buttonTarget.animate({
                             "width": "140px",
                             "opacity": 1
@@ -1189,10 +1221,10 @@ function UI_Control_Filter(options) {
                         buttonTarget.closest(".col-header").find("h3").animate({
                             "opacity": 0
                         }, function() {
-//                            buttonTarget.closest(".col-header").find("h3").hide();
+                            //                            buttonTarget.closest(".col-header").find("h3").hide();
                         });
                     } else {
-//                            buttonTarget.closest(".col-header").find("h3").show();
+                        //                            buttonTarget.closest(".col-header").find("h3").show();
 
                         buttonTarget.animate({
                             "width": "0px",
@@ -1230,9 +1262,12 @@ function UI_FeatureInfoOverview(options) {
             return $("<div class='searchable'></div>").addClass(options.infoKeys[c].toLowerCase()).text(options.data[options.infoKeys[c]]);
         }).appendTo(content);
     }
-//}, 0);
+    //}, 0);
     titleBar.appendTo(container);
     content.appendTo(container);
+    if (options.attributes) {
+        container.attr(options.attributes);
+    }
     return container;
 }
 
@@ -1305,7 +1340,8 @@ function UI_DropdownMenuColumn(options) {
         "target-container": content,
         //"target-items-selector": ".body-row>div:first-child"
         "target-items-selector": ".searchable",
-        filterByElements: options.filterByElements
+        filterByElements: options.filterByElements,
+        eventHandlers: options.searchControl.eventHandlers
     }).getUI().appendTo(container);
     content.appendTo(container);
     (new UI_ZinoDropdown($.extend(true, {
@@ -1343,19 +1379,19 @@ function UI_DropdownMenuColumn(options) {
      },
      eventHandlers: {
      click: function(e) {
-     
+
      content.children().remove();
      titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
      var uiLoadingAnim = $("<img class='ui-loading-anim' src='img/loading-anim.gif'/>");
      content.append(uiLoadingAnim);
-     
+
      $(this).siblings().removeClass("active");
      $(this).addClass("active");
-     
+
      var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
-     
+
      var context = this;
-     
+
      deferred.done(function(obj) {
      uiLoadingAnim.remove();
      content.append(obj.jqObj.children());
@@ -1363,7 +1399,7 @@ function UI_DropdownMenuColumn(options) {
      data: obj.data,
      params: obj.params
      });
-     
+
      });
      }
      },
