@@ -14,15 +14,10 @@ config = {
         "requestType": "GET"
     },
     "map-features": {
-        "survey-approved": {
-            "src": "survey-approved.geojson",
-            "title": "Survey License Approved",
-            "icon-src": "markers/survey-approved.png"
-        },
-        "survey-applied": {
-            "src": "survey-applied.geojson",
-            "title": "Applied for Survey License",
-            "icon-src": "markers/survey-applied.png"
+        "operational": {
+            "src": "operational.geojson",
+            "title": "Operational Projects",
+            "icon-src": "markers/operational.png"
         },
         "construction-approved": {
             "src": "construction-approved.geojson",
@@ -34,11 +29,19 @@ config = {
             "title": "Applied for Construction License",
             "icon-src": "markers/construction-applied.png"
         },
-        "operational": {
-            "src": "operational.geojson",
-            "title": "Operational Projects",
-            "icon-src": "markers/operational.png"
+        "survey-approved": {
+            "src": "survey-approved.geojson",
+            "title": "Survey License Approved",
+            "icon-src": "markers/survey-approved.png"
         },
+        "survey-applied": {
+            "src": "survey-applied.geojson",
+            "title": "Applied for Survey License",
+            "icon-src": "markers/survey-applied.png"
+        },
+        
+        
+        
         "all-projects": {
             "src": "all-projects.geojson",
             "title": "All Projects",

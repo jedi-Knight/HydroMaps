@@ -990,6 +990,13 @@ function UI_ZinoDropdown(options) {
 
         }*/
     });
+    
+    if(options.defaultSelection){
+        //selectMenuWidget.zinoSelectbox("open");
+    selectMenuWidget.zinoSelectbox("change",options.defaultSelection);
+    //selectMenuWidget.zinoSelectbox("close");
+}
+    
     return selectMenuWidget;
 }
 
@@ -1316,7 +1323,7 @@ function UI_DropdownMenuColumn(options) {
                 });
             }
         }
-    }, options)).zinoSelectbox("change", "2")).appendTo(container);
+    }, options))).appendTo(container);
     /*var tabs = $("<div class='ui-column-tabs'/>").appendTo(container);
      for (var tab in options.tabs) {
      tabs.append(function() {
