@@ -1,6 +1,7 @@
 body{
     margin: 0px;
     overflow: hidden;
+	font-family: 'Raleway', 'Open Sans', sans-serif !important;
 }
 
 #map{
@@ -17,8 +18,8 @@ body{
     z-index: 10000;
 }
 
-.leaflet-left.leaflet-top{
-    /*display: none;*/
+.leaflet-left.leaflet-top .leaflet-control-zoom{
+    display: none;
 }
 
 .ui-column-titlebar{
@@ -60,15 +61,33 @@ body{
     /*height: inherit;*/
     height: 556px;
     /*margin-bottom: 16px;*/
-    overflow: auto;
+    overflow-y: scroll;
     direction:rtl;
     text-align: left;
     background-color: #ffffff;
     padding: 0px 6px 0px 6px;
 }
 
+.ui-column-content::-webkit-scrollbar{
+    width: 4px;
+    background-color: rgba(0,0,0,0);
+}
+.ui-column-content::-webkit-scrollbar-track{
+    background-color: rgba(0,0,0,0);
+}
+.ui-column-content::-webkit-scrollbar-track-piece{
+    background-color: rgba(0,0,0,0.1);
+    width: 2px;
+}
+.ui-column-content::-webkit-scrollbar-thumb{
+    border-radius: 4px;
+    width: 8px;
+    background-color: rgba(0,0,0,0.4);
+}
+
 .ui-tabbed-column{
-    background-color: #e7dfd6;
+    /*background-color: #e7dfd6;*/
+    background-color: rgba(255,255,255,0.8);
     padding: 0px 12px 0px 6px;
     border-right: #333333 thin solid;
     box-shadow: 4px 2px 4px rgba(0,0,0,0.4);
@@ -108,6 +127,7 @@ body{
 }
 .ui-infobox{
     margin-bottom: 8px;
+	border-bottom: #cccccc thin solid;
     padding: 2px;
     cursor: pointer;
 }
@@ -135,17 +155,22 @@ body{
     /*width: 200px;*/
     width: 180px;
     margin-left: 21px;
+	margin-top: -6px;
+	margin-bottom: 4px;
+	line-height: 20px;
 }
 
 body,html
 {
     height:100%;
     width: 100%;
-    font-family: 'Ubuntu', sans-serif !important;
+    font-family: 'Raleway', 'Open Sans', sans-serif !important;
 }
 
 .leaflet-container{
-    font: 12px/1.5 'Ubuntu',sans-serif;
+    font: 12px/1.5 'Raleway', 'Open Sans',sans-serif;
+	font-weight: 600;
+	text-transform: capitalize;
 }
 
 div.title{
@@ -404,7 +429,9 @@ span.legend-icon{
 
 div.leaflet-control-layers-overlays label{
     border-bottom: #eeeeee thin solid;
+	margin-bottom: 4px;
 }
+
 
 /*div.leaflet-control-layers-overlays label:last-child input{
     opacity:0;
@@ -497,6 +524,17 @@ div.leaflet-control-layers-separator{
 .leaflet-marker-icon img{
     margin-top: -100%;
     margin-left: -100%;
+}
+
+.leaflet-right{
+right: 10px;
+}
+.leaflet-right .leaflet-control{
+margin-right: 0px;
+}
+
+.leaflet-top .leaflet-right{
+border: #aaaaaa thin solid;
 }
 
 
@@ -708,7 +746,8 @@ span.marker-label-districts{
 .zui-selectbox-selector{
     height:60px !important;
     width: 240px !important;
-    font-size: 1.7em;
+    /*font-size: 1.7em;*/
+	font-size: 1.64em;
 }
 
 .zui-selectbox-options{
@@ -716,16 +755,24 @@ span.marker-label-districts{
 }
 
 .zui-selectbox-holder{
-    background: #ffffff;
+    background: transparent;
+    border: rgba(0,0,0,0) thin solid;
+    box-sizing: content-box;
     height: 60px;
     width: 208px;
     top: 8px !important;
     left: 4px !important;
+	font-family: 'Raleway', 'Open Sans', sans serif;
+}
+
+.zui-selectbox-holder:hover{
+    background: #ffffff;
+    border: #cccccc thin solid;
 }
 
 .zui-selectbox-holder.ui-filter-search-by-selector{
     z-index: 100000;
-    background: #ffffff;
+    /*background: #ffffff;*/
     height: 20px;
     width: 20px;
     top: 74px !important;
@@ -736,13 +783,7 @@ span.marker-label-districts{
     display: none;
 }
 
-.zui-selectbox-holder.ui-filter-search-by-selector .zui-selectbox-selector{
-    height:20px !important;
-    width:20px !important;
-    font-size: 12pt;
-	color: transparent;
-	padding: 2px;
-}
+
 
 .zui-selectbox-holder.ui-filter-search-by-selector .zui-selectbox-selector img{
 width: 16px;
@@ -753,6 +794,25 @@ float: left;
 
 .zui-selectbox-holder.ui-filter-search-by-selector .zui-selectbox-options{
     width: 60px;
+	left: 22px;
+	width: 178px;
+}
+
+.zui-selectbox-selector{
+width: 180px !important;
+height: 50px !important;
+overflow: hidden;
+text-indent: initial;
+padding: 6px;
+}
+
+
+.zui-selectbox-holder.ui-filter-search-by-selector .zui-selectbox-selector{
+    height:20px !important;
+    width:20px !important;
+    font-size: 12pt;
+	color: transparent;
+	padding: 2px;
 }
 
 .emphasize{
