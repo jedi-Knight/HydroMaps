@@ -1058,6 +1058,9 @@ function UI_Control_Filter(options) {
         "id": options["ui-control-id"],
         "placeholder": "Search.."
     })[0];
+
+    var filterMode = 0;
+
     var filterButton = new UI_ZinoDropdown({
         tabs: $.map(options.filterByElements, function(item, index) {
             return {
@@ -1088,6 +1091,7 @@ function UI_Control_Filter(options) {
                         }).prependTo($(this).children(".zui-selectbox-selector"));
                     //}
                 });
+                filterMode=Number(ui.value);
                 
             }
         }
@@ -1105,6 +1109,17 @@ function UI_Control_Filter(options) {
             var container = $(options["target-container"]);
             var selection = container.find(options["target-items-selector"]);
             selection.filter(function() {
+                if(filterMode){
+                    var classCondition = $(this).hasClass(options.filterByElements[filterMode].title.toLowerCase());
+                    if(classCondition){
+                        $(this).addClass("emphasize");
+                    }
+
+                    return  classCondition && ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1)? true : false;
+                }
+                else{
+                        $(this).removeClass("emphasize");
+                    }
                 return ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1) ? true : false;
             });
             selection.closest(".ui-infobox").hide();
@@ -1115,6 +1130,9 @@ function UI_Control_Filter(options) {
 
 
             var filteredSelection = selection.filter(function() {
+                if(filterMode){
+                    return $(this).hasClass(options.filterByElements[filterMode].title.toLowerCase()) && ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1)? true : false;
+                }
                 return ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1) ? true : false;
             });
 //            $.map(filteredSelection, function(item, index) {
@@ -1194,7 +1212,7 @@ function UI_FeatureInfoOverview(options) {
         $("<div class='ui-infobox-row'></div>").append(function() {
             return $("<div></div>").text(options.infoKeys[c]);
         }).append(function() {
-            return $("<div class='searchable'></div>").text(options.data[options.infoKeys[c]]);
+            return $("<div class='searchable'></div>").addClass(options.infoKeys[c].toLowerCase()).text(options.data[options.infoKeys[c]]);
         }).appendTo(content);
     }
 //}, 0);

@@ -682,3 +682,9 @@ span.marker-label-districts{
 .zui-selectbox-holder.ui-filter-search-by-selector .zui-selectbox-options{
     width: 60px;
 }
+
+.emphasize{
+    text-decoration: underline;
+    font-weight: 700;
+    color: #000000;
+}
