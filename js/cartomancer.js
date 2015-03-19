@@ -679,16 +679,29 @@ $(document).ready(function() {
     var arrayYear = [1, 2, 3, 4, 5];
 
     var capacityYear = {
-        1: 718,
-        2: 718,
-        3: 718,
-        4: 718,
-        5: 718
+        2051: 291,
+        2052: 334,
+        2053: 523,
+        2054: 552,
+        2055: 552,
+        2056: 552,
+        2057: 625,
+        2058: 625,
+        2059: 628,
+        2060: 633,
+        2061: 640,
+        2062: 640,
+        2063: 647,
+        2064: 654,
+        2065: 660,
+        2066: 703,
+        2067: 708,
+        2068: 718
     };
 
     $('#slider').slider({
-        min: 1,
-        max: 5,
+        min: 2052,
+        max: 2068,
         slide: function(event, ui) {
             if ($.inArray(ui.value, arrayYear)) {
                 tooltip.text(year + ui.value);
@@ -701,13 +714,15 @@ $(document).ready(function() {
     }).find(".ui-slider-handle").append(tooltip).hover(function() {
         tooltip.show();
     });
+    
+    $('#slider').slider("value",2068);
 
     $(".ui-slider-handle").append(function() {
         return "<img src='img/sliderknob.png'/>";
     });
 
     tooltip.text("BS 2071");
-    $('.numberCircle').text(capacityYear[1] + " MW");
+    $('.numberCircle').text(capacityYear[2068] + " MW");
     //}
 
 

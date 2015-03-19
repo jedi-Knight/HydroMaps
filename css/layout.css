@@ -132,7 +132,9 @@ body{
 }
 
 #filter-search{
-    width: 200px;
+    /*width: 200px;*/
+    width: 180px;
+    margin-left: 21px;
 }
 
 body,html
@@ -537,8 +539,23 @@ span.marker-label-districts{
     width: 100%;
 }*/
 
-#slider{
+/*#slider{
     width: 700px;
+    height: 2px;
+    border: #cccccc 19px solid;
+    border-right: #cccccc 120px solid;
+    margin-top: 80px;
+    border-style: solid;
+    background-color: #666666;
+    background: url('../img/bg-track.png') repeat top left;
+    box-shadow: inset 0 1px 5px 0px rgba(0, 0, 0, .5), 
+     0 1px 0 0px rgba(250, 250, 250, .5);  
+    margin-top: -80px;
+    margin-left: 260px;
+}*/
+
+#slider{
+    width: 714px;
     height: 2px;
     border: #cccccc 19px solid;
     border-right: #cccccc 120px solid;
@@ -552,13 +569,53 @@ span.marker-label-districts{
     margin-left: 260px;
 }
 
-#slider span.label{
+/*#slider span.label{
     font-size: 10pt;
     margin-right: 124px;
     margin-right: 122px;
     border-left: #999999 thin solid;
     padding-left: 2px;
+}*/
+
+#slider span.label{
+    font-size: 10pt;
+    /*margin-right: 124px;*/
+    /*margin-left: 20px;*/
+    /*margin-right: 10px;*/
+/*    border-left: #999999 thin solid;*/
+    padding-left: 2px;
+    
+/*    margin-left: 246px;
+    margin-right: 156px;*/
+    float: right;
+    border-right: #999999 thin solid;
+    padding-left: 2px;
+    padding-right: 2px;
 }
+#slider span.label:first-child{
+    margin-left: initial;
+    margin-right: initial;
+    border-left: #999999 thin solid;
+    border-right: none;
+    float: left;
+}
+#slider span.label:last-of-type{
+    margin-left: initial;
+    margin-right: initial;
+    float: right;
+    border-right: #999999 thin solid;
+}
+
+#slider span.scale-marking{
+    border-left: #333333 thin solid;
+    width: 1px;
+    height: 2px;
+    /*margin-right: 48px;*/
+    margin-left: 0px;
+    margin-right: 41px;
+}
+
+
 
 /*#slider .ui-slider-handle{
     background-color: maroon;
@@ -613,7 +670,8 @@ span.marker-label-districts{
     width: 25px;  
     height: 25px;  
     cursor: pointer;  
-    background: url('../img/handle.png') no-repeat 60% 60%;  
+    /*background: url('../img/handle.png') no-repeat 60% 60%;*/  
+    background: transparent;
     font-weight: bold;  
     color: #1C94C4;  
     outline: none; 
@@ -669,9 +727,13 @@ span.marker-label-districts{
     z-index: 100000;
     background: #ffffff;
     height: 20px;
-    width: 60px;
+    width: 20px;
     top: 74px !important;
     left: 4px !important;
+}
+
+.zui-selectbox-holder.ui-filter-search-by-selector .zui-selectbox-toggle{
+    display: none;
 }
 
 .zui-selectbox-holder.ui-filter-search-by-selector .zui-selectbox-selector{
