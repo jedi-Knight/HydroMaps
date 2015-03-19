@@ -196,7 +196,7 @@ $(document).ready(function() {
 
                         currentTab = index;
 
-                        if (index !== "construction-approved") {
+                        if (index !== "operational") {
                             $("#slider").hide();
                             $(".numberCircle").hide();
                         } else {
@@ -443,6 +443,7 @@ $(document).ready(function() {
             };
             return tabDef;
         }),
+        defaultSelection: "0",
                 filterByElements: config["filter-search-by-elements"]
     })).getUI().prependTo("body");
 
