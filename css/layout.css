@@ -492,6 +492,7 @@ div.leaflet-control-layers-separator{
 
 .leaflet-bottom.leaflet-right .leaflet-control-attribution{
     /*margin-right: 222px;*/
+    text-transform: initial;
 }
 
 .leaflet-control-attribution:last-child{
