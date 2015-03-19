@@ -738,9 +738,19 @@ span.marker-label-districts{
 
 .zui-selectbox-holder.ui-filter-search-by-selector .zui-selectbox-selector{
     height:20px !important;
-    width:60px !important;
+    width:20px !important;
     font-size: 12pt;
+	color: transparent;
+	padding: 2px;
 }
+
+.zui-selectbox-holder.ui-filter-search-by-selector .zui-selectbox-selector img{
+width: 16px;
+height: 16px;
+margin: 0px;
+float: left;
+}
+
 .zui-selectbox-holder.ui-filter-search-by-selector .zui-selectbox-options{
     width: 60px;
 }
