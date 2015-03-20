@@ -601,9 +601,11 @@ span.marker-label-districts{
 
 #slider{
     width: 714px;
+    /*width: 816px;*/
     height: 2px;
     border: #cccccc 19px solid;
     border-right: #cccccc 120px solid;
+	border-bottom: #cccccc 24px solid;
     margin-top: 80px;
     /*border-style: solid;*/
     background-color: #666666;
@@ -635,10 +637,12 @@ span.marker-label-districts{
     margin-right: 156px;*/
     float: right;
     margin-right: -48px;
+	margin-right: -32px;
     /*border-right: #999999 thin solid;*/
     padding-left: 4px;
     padding-right: 2px;
     margin-top: 6px;
+	margin-top: 10px;
 }
 #slider span.label:first-child{
     margin-left: initial;
@@ -646,12 +650,35 @@ span.marker-label-districts{
     /*border-left: #999999 thin solid;*/
     border-right: none;
     float: left;
+	margin-left: -17px;
 }
 #slider span.label:last-of-type{
     margin-left: initial;
     margin-right: initial;
     float: right;
     border-right: #999999 thin solid;
+}
+
+#slider span.int-label1{
+    margin-left: 22.5%;
+    position: absolute;
+}
+#slider span.int-label2{
+    margin-left: 51.5%;
+    position: absolute;
+}
+#slider span.int-label3{
+    margin-left: 81%;
+    position: absolute;
+}
+
+#slider span{
+    font-weight: 400;
+    font-size: 10pt;
+}
+
+#slider span.int-label{
+    margin-top: 10px;
 }
 
 #slider span.scale-marking{
@@ -665,12 +692,25 @@ span.marker-label-districts{
     width: 714px;
     height: 16px;
     /*background: -moz-repeating-linear-gradient(left,black, transparent 0.2%, transparent 6.25%);*/
-    background: -moz-repeating-linear-gradient(left,black, transparent 0.1%, transparent 6.25%, black 0.1%);
+    /*background: -moz-repeating-linear-gradient(left,black, transparent 0.1%, transparent 6.25%, black 0.1%);
+    background: -o-repeating-linear-gradient(left,black, transparent 0.1%, transparent 6.25%, black 0.1%);
+    background: -ms-repeating-linear-gradient(left,black, transparent 0.1%, transparent 6.25%, black 0.1%);
+    background: -webkit-repeating-linear-gradient(left,black, transparent 0.1%, transparent 6.25%, black 0.1%);*/
+    
+    background: -moz-repeating-linear-gradient(left,black, transparent 0.1%, transparent 5.9%, black 0.1%);
+    background: -o-repeating-linear-gradient(left,black, transparent 0.1%, transparent 5.9%, black 0.1%);
+    background: -ms-repeating-linear-gradient(left,black, transparent 0.1%, transparent 5.9%, black 0.1%);
+    background: -webkit-repeating-linear-gradient(left,black, transparent 0.1%, transparent 5.9%, black 0.1%);
+	/*background: repeating-linear-gradient(left,black, transparent 0.1%, transparent 5.9%, black 0.1%);*/
+	
+	background: url("../img/slider-markings.png");
+    
     border-left: #999999 thin solid;
     border-right: #999999 thin solid;
+	border-right: #666666 2px solid;
     display: inline-block;
     margin-top: -28px;
-    
+    margin-top: -32px;
 }
 
 
@@ -715,7 +755,8 @@ span.marker-label-districts{
     display: inline-block;
     position: absolute;
     margin-left: 1050px;
-    margin-top: -56px;  
+    margin-top: -56px; 
+	margin-top: -64px;	
 }
 
 /*.ui-slider{
@@ -772,6 +813,8 @@ span.marker-label-districts{
 
 .zui-selectbox-options{
     width: 208px;
+    margin-top: 10px;
+    font-size: 12pt;
 }
 
 .zui-selectbox-holder{
@@ -783,6 +826,7 @@ span.marker-label-districts{
     top: 8px !important;
     left: 4px !important;
 	font-family: 'Raleway', 'Open Sans', sans serif;
+        font-weight: 600;
 }
 
 .zui-selectbox-holder:hover{
@@ -813,9 +857,11 @@ float: left;
 }
 
 .zui-selectbox-holder.ui-filter-search-by-selector .zui-selectbox-options{
-    width: 60px;
+    /*width: 60px;*/
 	left: 22px;
 	width: 178px;
+        margin-top: 0px;
+        font-size: 12px;
 }
 
 .zui-selectbox-selector{
@@ -824,6 +870,7 @@ height: 50px !important;
 overflow: hidden;
 text-indent: initial;
 padding: 6px;
+padding-top: 2px;
 }
 
 
@@ -833,6 +880,14 @@ padding: 6px;
     font-size: 12pt;
 	color: transparent;
 	padding: 2px;
+}
+
+.zui-selectbox-toggle{
+    /*border: #cccccc thin solid;*/
+    /*padding: 4px;*/
+    /*background: url("img/zui-selectbox.png") no-repeat scroll 4px -16px transparent;*/
+    outline: #cccccc thin solid;
+    outline-offset: 4px;
 }
 
 .emphasize{

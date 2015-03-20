@@ -4,11 +4,11 @@ $(document).ready(function() {
     var cartograph = new Map({
         "basemaps": {
             "OpenStreetMap": {
-                "tileLayer": L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {})
+                "tileLayer": L.tileLayer('http://104.131.69.181/osm/{z}/{x}/{y}.png', {})
             }
-            /*,"Satellite Imagery": {
+            ,"Satellite Imagery": {
                 "tileLayer": new L.Google()
-            }*/
+            }
         }
     });
     $("#map").find("a.leaflet-control-zoom-out").text("–");
@@ -181,6 +181,11 @@ $(document).ready(function() {
 
                     return jsonData[key] ? $("<div></div>").html("<div class='row-label'>" + key.replace(/_/g, " ").replace("(", " (") + "  :</div>").append($("<div class='val'></div>").text((jsonData[key] + "").replace(/,/g, ", "))) : $("<div class='row-label'></div>").text(key.replace(/_/g, " ").replace("(", " (") + "  :").append($("<div class='val not-available'></div>").text("Not Available"));
                 });
+                
+                if(key==="Project"){
+                    //tableRow.append("")
+                }
+                
                 invert ? tableRow.prependTo(content).addClass(key) : tableRow.appendTo(content).addClass(key);
             }
         }
@@ -724,7 +729,7 @@ $(document).ready(function() {
     };
 
     $('#slider').slider({
-        min: 2052,
+        min: 2051,
         max: 2068,
         slide: function(event, ui) {
             if ($.inArray(ui.value, arrayYear)) {
