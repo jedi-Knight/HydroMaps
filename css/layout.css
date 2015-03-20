@@ -19,7 +19,14 @@ body{
 }
 
 .leaflet-left.leaflet-top .leaflet-control-zoom{
-    display: none;
+    /*display: none;*/
+    position: absolute;
+    margin-left: 230px;
+    margin-top: -40px;
+}
+
+.leaflet-bottom .leaflet-control-scale{
+    margin-bottom: 15px;
 }
 
 .ui-column-titlebar{
@@ -567,6 +574,10 @@ span.marker-label-districts{
 .hidden
 {
     display: none;
+}
+
+.seethru{
+    opacity: 0;
 }
 
 

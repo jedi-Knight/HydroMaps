@@ -25,10 +25,13 @@ $(document).ready(function() {
 
     map.setMaxBounds(map.getBounds().pad(0.025));
     
-    L.control.zoom({
+    /*L.control.zoom({
+        position: "bottomright"
+    }).addTo(map);*/
+    
+    L.control.scale({
         position: "bottomright"
     }).addTo(map);
-
 
 
     var mapData = new Data();
@@ -512,7 +515,7 @@ $(document).ready(function() {
                     districtLayers.addLayer(function() {
                         return L.marker(layer.getBounds().getCenter(), {
                             icon: L.divIcon({
-                                html: "<span class='marker-label-districts' title='" + feature.properties.getAttributes().Name + "'>" + feature.properties.getAttributes().Name + "</span>"
+                                html: "<span class='marker-label-districts seethru' title='" + feature.properties.getAttributes().Name + "'>" + feature.properties.getAttributes().Name + "</span>"
                             })
                         });
                     }());
@@ -784,6 +787,12 @@ $(document).ready(function() {
                        })
                     });
                 },0);
+            }
+            
+            if(element.getZoom()>7){
+                $(".marker-label-districts").removeClass("seethru");
+            }else{
+                $(".marker-label-districts").addClass("seethru");
             }
 
         }, 0);
