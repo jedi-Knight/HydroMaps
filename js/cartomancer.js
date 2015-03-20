@@ -179,7 +179,7 @@ $(document).ready(function() {
     function TableContent_fix(jsonData, invert) {
         var content = $('<div></div>').addClass('table-content');
         for (var key in jsonData) {
-            if (!(((key.indexOf("NL")+1))||((key.indexOf("SL")+1))||(key.indexOf("field")+1) ||(key.indexOf("atitiude")+1)||(key.indexOf("atitude")+1)||(key.indexOf("ongitude")+1) || key === "sn" || key === "start_lat" || key === "start_lng" || key === "end_lat" || key === "start_lng" || key === "S_No" || key === "_metaX")) {
+            if (!(((key.indexOf("S No")+1))||((key.indexOf("NL")+1))||((key.indexOf("SL")+1))||(key.indexOf("field")+1) ||(key.indexOf("atitiude")+1)||(key.indexOf("atitude")+1)||(key.indexOf("ongitude")+1) || key === "sn" || key === "start_lat" || key === "start_lng" || key === "end_lat" || key === "start_lng" || key === "S_No" || key === "_metaX")) {
                 var tableRow = $('<div></div>').addClass('table-row').append(function() {
 
                     return jsonData[key] ? $("<div></div>").html("<div class='row-label'>" + key.replace(/_/g, " ").replace("(", " (") + "  :</div>").append($("<div class='val'></div>").text((jsonData[key] + "").replace(/,/g, ", "))) : $("<div class='row-label'></div>").text(key.replace(/_/g, " ").replace("(", " (") + "  :").append($("<div class='val not-available'></div>").text("Not Available"));

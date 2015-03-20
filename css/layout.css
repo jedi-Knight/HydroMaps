@@ -585,6 +585,13 @@ span.marker-label-districts{
     opacity: 0;
 }
 
+.panel-disabled{
+    color: #aaaaaa;
+    /*background-color: #666666;*/
+    opacity: 0.3;
+    pointer-events: none;
+}
+
 
 
 
@@ -833,6 +840,12 @@ span.marker-label-districts{
     font-size: 12pt;
 }
 
+.zui-selectbox-options li:hover{
+    background-color: #f6f6f6;
+    font-weight: 700;
+    padding: 0px 4px;
+}
+
 .zui-selectbox-holder{
     background: transparent;
     border: rgba(0,0,0,0) thin solid;
@@ -845,7 +858,7 @@ span.marker-label-districts{
         font-weight: 600;
 }
 
-.zui-selectbox-holder:hover{
+.zui-selectbox-holder:hover, .zui-selectbox-holder[aria-expanded=true]{
     background: #ffffff;
     border: #cccccc thin solid;
 }

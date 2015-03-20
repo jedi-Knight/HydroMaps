@@ -37,7 +37,7 @@ function Map(options) {
         position: "bottomright",
         //prefix: false
     }).addAttribution('Project By <a href="http://www.facebook.com/nitifoundation">Niti Foundation</a>| Map by <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs </a>  |   Data from <a href="http://www.doed.gov.np/issued_licenses.php">Department of Electricity</a>, 16 March 2015').addTo(map);
-    L.control.scale().addTo(map);
+    //L.control.scale().addTo(map);
 
     //map.addLayer(osmTileLayer);
 
@@ -215,17 +215,17 @@ function Cluster(features, options, map) {
              mediaOptions: {}
              }).createSlider()
              };
-
+             
              var headerJson = {
              "Contact Person": pointAttributes.contact_person,
              "Contact Number": pointAttributes.contact_number
              //                ,"city": pointAttributes.city
              };
-
+             
              var tabsJson = {
              triggers: {
              title: function() {
-
+             
              }
              },
              tabs: [
@@ -278,7 +278,7 @@ function Cluster(features, options, map) {
              }
              ]
              };
-
+             
              var documentModel = {
              titleBar: {
              title: "Summary",
@@ -320,10 +320,10 @@ function TableContent(jsonData, invert) {
     //        if (!jsonData.type) {
     for (var row in jsonData) {
         var tableRow = $("<div></div>")
-        .addClass("table-row")
-        .append(function() {
-            return jsonData[row] === "999" || jsonData[row] === "999.0" || !jsonData[row] ? $("<div></div>").text(row).append($("<div></div>").addClass("not-available").text("उपलब्ध छैन")) : $("<div></div>").text(row).append($("<div></div>").text(jsonData[row].replace(/_/g, " ")));
-        });
+                .addClass("table-row")
+                .append(function() {
+                    return jsonData[row] === "999" || jsonData[row] === "999.0" || !jsonData[row] ? $("<div></div>").text(row).append($("<div></div>").addClass("not-available").text("उपलब्ध छैन")) : $("<div></div>").text(row).append($("<div></div>").text(jsonData[row].replace(/_/g, " ")));
+                });
         invert ? tableRow.prependTo(content).addClass(row.toLowerCase().replace(/ /g, "_")) : tableRow.appendTo(content).addClass(row.toLowerCase().replace(/ /g, "_"));
     }
     /*}else if(jsonData.type==="image"){
@@ -342,8 +342,8 @@ function TableContent(jsonData, invert) {
 
 function Table(jsonData) {
     return $("<div></div>")
-        .addClass("table container").addClass(jsonData.type)
-        .append(new TableContent(jsonData.content));
+            .addClass("table container").addClass(jsonData.type)
+            .append(new TableContent(jsonData.content));
 }
 
 function PanelDocument(documentModel) {
@@ -543,7 +543,7 @@ function UI_SlidingTabs(options) {
  var uiElement = $("<div/>");
  options.attributes.class += " ui-sliding-tabs";
  uiElement.attr(options.attributes);
-
+ 
  for (var c in options.tabs) {
  var tab = $("<div/>");
  var content = $("<div class='content'/>");
@@ -556,36 +556,36 @@ function UI_SlidingTabs(options) {
  //if($(this).parent().hasClass("expanded")) return;
  var element = this;
  //setTimeout(function() {
-
+ 
  //$(element).parent().siblings().find("input").prop("checked", false);
  /*$(element).parent().siblings().find(".content").css({
  "height": "0px",
  "min-height": "0px",
  "opacity": 0
  });
-
+ 
  $(element).siblings(".content").css({
  "min-height": "80px",
  "opacity": 1,
  "height": "auto"
  }, function() {
  $(this).css("height", "auto");
-
+ 
  });*\/
-
+ 
  $(element).parent().siblings().find(".content").css({
  "display": "none"
  });
-
+ 
  $(element).siblings(".content").css({
  "display": "inline"
  });
  $(element).closest(".ui-sliding-tabs").find("label").css({
  "display":"block"
  });
-
+ 
  var checkbox = $(this).parent().find("input");
-
+ 
  /*if ($(this).parent().hasClass("expanded"))
  return;*\/
  $(this).parent().siblings().find("input").each(function(){
@@ -594,13 +594,13 @@ function UI_SlidingTabs(options) {
  checkbox.each(function(){
  if(!$(this)[0].checked)$(this).click();
  });
-
+ 
  /*$(this).parent().addClass("expanded");
  $(this).parent().siblings().removeClass("expanded");*\/
-
+ 
  //options["tabs-trigger-eventHandlers"]["click"].call(element, e);
  //}, 0);
-
+ 
  }
  },
  content: "<div>" + options.tabs[c].title + "</div>"
@@ -614,7 +614,7 @@ function UI_SlidingTabs(options) {
  });
  tab.appendTo(uiElement);
  }
-
+ 
  deferred.resolve(uiElement);
  }, 0);
  return deferred;
@@ -691,20 +691,20 @@ function UI_ThumbnailView(srcObject) {
         var thumbnailSlider = $(document.createElement("div")).addClass("ui-thumbnail-slider").css({});
 
         var thumbnailSlide = $("<div/>").addClass("ui-thumbnail-slide")
-        /*.css({
-         display: "inline-block",
-         width: "120px",
-         height: "80px",
-         "margin-left": "20px",
-         "overflow": "hidden"
-         })*/
-        .appendTo(thumbnailSlider);
+                /*.css({
+                 display: "inline-block",
+                 width: "120px",
+                 height: "80px",
+                 "margin-left": "20px",
+                 "overflow": "hidden"
+                 })*/
+                .appendTo(thumbnailSlider);
         var thumnailStrip = $("<div/>").addClass("ui-thumbnail-strip")
-        /*.css({
-         display: "inline-block",
-         "white-space": "nowrap"
-         })*/
-        .appendTo(thumbnailSlide);
+                /*.css({
+                 display: "inline-block",
+                 "white-space": "nowrap"
+                 })*/
+                .appendTo(thumbnailSlide);
         for (var thumbUrl in srcObject.thumbUrls) {
 
             new UI_Thumbnail(srcObject.thumbUrls[thumbUrl], srcObject.mediaOptions({
@@ -987,13 +987,31 @@ function UI_ZinoDropdown(options) {
 
     var selectMenuWidget = selectMenuWidgetSrc.zinoSelectbox({
         change: function(e, ui) {
-            options.eventHandlers.select.call(this, e, ui);
+            try {
+                options.eventHandlers.select.call(this, e, ui);
+            } catch (err) {
+                console.log("Dropdown selection eventhandler not defined..");
+            }
+        },
+        open: function(e, ui) {
+            try {
+                options.eventHandlers.open.call(this, e, ui);
+            } catch (err) {
+                console.log("Dropdown selection eventhandler not defined..");
+            }
+        },
+        close: function(e, ui) {
+            try {
+                options.eventHandlers.close.call(this, e, ui);
+            } catch (err) {
+                console.log("Dropdown selection eventhandler not defined..");
+            }
         }
         /*,
-        enable: function(e, ui) {
-            options.eventHandlers.enable.call(this, e, ui);
-
-        }*/
+         enable: function(e, ui) {
+         options.eventHandlers.enable.call(this, e, ui);
+         
+         }*/
     });
 
     if (options.defaultSelection) {
@@ -1039,7 +1057,7 @@ function UI_JQueryDropdown(options) {
                             style: item.element.attr("data-style"),
                             "class": "ui-icon " + item.element.attr("data-class")
                         })
-                            .appendTo(li);
+                                .appendTo(li);
 
                         return li.appendTo(ul);
                     }
@@ -1365,6 +1383,13 @@ function UI_DropdownMenuColumn(options) {
                         params: obj.params
                     });
                 });
+            },
+            open: function(e, ui){
+                container.addClass("panel-disabled");
+            },
+            close: function(e, ui){
+                container.removeClass("panel-disabled");
+                
             }
         }
     }, options))).appendTo(container);
@@ -1379,19 +1404,19 @@ function UI_DropdownMenuColumn(options) {
      },
      eventHandlers: {
      click: function(e) {
-
+     
      content.children().remove();
      titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
      var uiLoadingAnim = $("<img class='ui-loading-anim' src='img/loading-anim.gif'/>");
      content.append(uiLoadingAnim);
-
+     
      $(this).siblings().removeClass("active");
      $(this).addClass("active");
-
+     
      var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
-
+     
      var context = this;
-
+     
      deferred.done(function(obj) {
      uiLoadingAnim.remove();
      content.append(obj.jqObj.children());
@@ -1399,7 +1424,7 @@ function UI_DropdownMenuColumn(options) {
      data: obj.data,
      params: obj.params
      });
-
+     
      });
      }
      },
