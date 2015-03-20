@@ -116,10 +116,15 @@ body{
 
 .ui-infobox-row:last-child div:first-child{
     font-style: italic;
+    
     /*border-bottom: #999999 thin solid;*/
 }
 
-.ui-infobox-row:last-child div:first-child:after{
+.ui-infobox-row div:first-child{
+    margin-right: 4px;
+}
+
+.ui-infobox-row div:first-child:after{
     content: ":";
 }
 
