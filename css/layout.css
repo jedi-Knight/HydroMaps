@@ -612,6 +612,7 @@ span.marker-label-districts{
      0 1px 0 0px rgba(250, 250, 250, .5);  
     margin-top: -80px;
     margin-left: 260px;
+    //background: -moz-repeating-linear-gradient(left,black, transparent 0.2%, transparent 6.25%);
 }
 
 /*#slider span.label{
@@ -633,14 +634,16 @@ span.marker-label-districts{
 /*    margin-left: 246px;
     margin-right: 156px;*/
     float: right;
-    border-right: #999999 thin solid;
-    padding-left: 2px;
+    margin-right: -48px;
+    /*border-right: #999999 thin solid;*/
+    padding-left: 4px;
     padding-right: 2px;
+    margin-top: 6px;
 }
 #slider span.label:first-child{
     margin-left: initial;
     margin-right: initial;
-    border-left: #999999 thin solid;
+    /*border-left: #999999 thin solid;*/
     border-right: none;
     float: left;
 }
@@ -652,12 +655,22 @@ span.marker-label-districts{
 }
 
 #slider span.scale-marking{
-    border-left: #333333 thin solid;
+/*    border-left: #333333 thin solid;
     width: 1px;
     height: 2px;
-    /*margin-right: 48px;*/
+    margin-right: 48px;
     margin-left: 0px;
-    margin-right: 41px;
+    margin-right: 41px;*/
+    
+    width: 714px;
+    height: 16px;
+    /*background: -moz-repeating-linear-gradient(left,black, transparent 0.2%, transparent 6.25%);*/
+    background: -moz-repeating-linear-gradient(left,black, transparent 0.1%, transparent 6.25%, black 0.1%);
+    border-left: #999999 thin solid;
+    border-right: #999999 thin solid;
+    display: inline-block;
+    margin-top: -28px;
+    
 }
 
 
