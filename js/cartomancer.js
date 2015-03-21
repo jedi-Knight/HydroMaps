@@ -185,8 +185,8 @@ $(document).ready(function() {
                     return jsonData[key] ? $("<div></div>").html("<div class='row-label'>" + key.replace(/_/g, " ").replace("(", " (") + "  :</div>").append($("<div class='val'></div>").text((jsonData[key] + "").replace(/,/g, ", "))) : $("<div class='row-label'></div>").text(key.replace(/_/g, " ").replace("(", " (") + "  :").append($("<div class='val not-available'></div>").text("Not Available"));
                 });
                 
-                if(key==="Project"){
-                    //tableRow.append("")
+                if(key==="Project" && jsonData[key]==="Kali Gandaki A"){
+                    tableRow.append("<a title='Wikipedia' class='wiki' target='_blank' href='http://en.wikipedia.org/wiki/Kaligandaki_A_Hydroelectric_Power_Station'></a>")
                 }
                 
                 invert ? tableRow.prependTo(content).addClass(key) : tableRow.appendTo(content).addClass(key);
