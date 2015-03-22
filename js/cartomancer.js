@@ -49,50 +49,50 @@ $(document).ready(function() {
     var tabs = {
         "survey-approved": {
             "layerGroups": {
-                "small": L.layerGroup(),
-                "medium": L.layerGroup(),
+                "mega": L.layerGroup(),
                 "large": L.layerGroup(),
-                "mega": L.layerGroup()
+                "medium": L.layerGroup(),
+                "small": L.layerGroup()
             }
         },
         "survey-applied": {
             "layerGroups": {
-                "small": L.layerGroup(),
-                "medium": L.layerGroup(),
+                "mega": L.layerGroup(),
                 "large": L.layerGroup(),
-                "mega": L.layerGroup()
+                "medium": L.layerGroup(),
+                "small": L.layerGroup()
             }
         },
         "construction-approved": {
             "layerGroups": {
-                "small": L.layerGroup(),
-                "medium": L.layerGroup(),
+                "mega": L.layerGroup(),
                 "large": L.layerGroup(),
-                "mega": L.layerGroup()
+                "medium": L.layerGroup(),
+                "small": L.layerGroup()
             }
         },
         "construction-applied": {
             "layerGroups": {
-                "small": L.layerGroup(),
-                "medium": L.layerGroup(),
+                "mega": L.layerGroup(),
                 "large": L.layerGroup(),
-                "mega": L.layerGroup()
+                "medium": L.layerGroup(),
+                "small": L.layerGroup()
             }
         },
         "operational": {
             "layerGroups": {
-                "small": L.layerGroup(),
-                "medium": L.layerGroup(),
+                "mega": L.layerGroup(),
                 "large": L.layerGroup(),
-                "mega": L.layerGroup()
+                "medium": L.layerGroup(),
+                "small": L.layerGroup()
             }
         },
         "all-projects": {
             "layerGroups": {
-                "small": L.layerGroup(),
-                "medium": L.layerGroup(),
+                "mega": L.layerGroup(),
                 "large": L.layerGroup(),
-                "mega": L.layerGroup()
+                "medium": L.layerGroup(),
+                "small": L.layerGroup()
             }
         }
     };
@@ -133,7 +133,7 @@ $(document).ready(function() {
     var highlightLayer = L.layerGroup();
     highlightLayer.addTo(map);
 
-    var markerURLs = ["img/marker_small.png", "img/marker_medium.png", "img/marker_large.png", "img/marker_mega.png"]
+    var markerURLs = ["img/marker_mega.png", "img/marker_large.png", "img/marker_medium.png", "img/marker_small.png"]
     //setTimeout(function() {
     $.map(layerControls, function(layerControl, index) {
         $(layerControl._container).find("input").each(function(c) {

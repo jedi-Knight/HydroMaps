@@ -559,16 +559,20 @@ div.leaflet-control-layers-separator{
 }
 
 .leaflet-marker-icon.small{
-    z-index: 111;
+    z-index: 111 !important;
+    -webkit-filter: saturate(0.7);
 }
 .leaflet-marker-icon.medium{
-    z-index: 333;
+    z-index: 333 !important;
+    -webkit-filter: saturate(0.8);
 }
 .leaflet-marker-icon.large{
-    z-index: 666;
+    z-index: 666 !important;
+    -webkit-filter: saturate(0.9);
 }
 .leaflet-marker-icon.mega{
-    z-index: 999;
+    z-index: 999 !important;
+/*    -webkit-filter: saturate(0.7);*/
 }
 
 .leaflet-marker-icon img{
