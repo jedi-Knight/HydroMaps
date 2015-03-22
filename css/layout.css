@@ -541,29 +541,39 @@ div.leaflet-control-layers-separator{
 }
 
 .leaflet-marker-icon.small img{
+    width: 10px;
+    height: 10px;
+}
+.leaflet-marker-icon.medium img{
     width: 20px;
     height: 20px;
 }
-.leaflet-marker-icon.medium img{
-    width: 26px;
-    height: 26px;
-}
 .leaflet-marker-icon.large img{
-    width: 34px;
-    height: 34px;
+    width: 24px;
+    height: 24px;
 }
 .leaflet-marker-icon.mega img{
     width: 48px;
     height: 48px;
-    -webkit-filter: brightness(1.2) hue-rotate(-120deg) saturate(5);
+/*    -webkit-filter: brightness(1.2) hue-rotate(-120deg) saturate(5);*/
 }
-.legend-icon:last-child{
-    -webkit-filter: brightness(1.2) hue-rotate(-120deg) saturate(5);
+
+.leaflet-marker-icon.small{
+    z-index: 111;
+}
+.leaflet-marker-icon.medium{
+    z-index: 333;
+}
+.leaflet-marker-icon.large{
+    z-index: 666;
+}
+.leaflet-marker-icon.mega{
+    z-index: 999;
 }
 
 .leaflet-marker-icon img{
-    margin-top: -100%;
-    margin-left: -100%;
+    margin-top: -50%;
+    margin-left: -50%;
 }
 
 .leaflet-right{

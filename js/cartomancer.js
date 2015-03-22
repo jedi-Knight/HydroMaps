@@ -133,7 +133,7 @@ $(document).ready(function() {
     var highlightLayer = L.layerGroup();
     highlightLayer.addTo(map);
 
-    var markerURLs = ["img/marker_small.png", "img/marker_medium.png", "img/marker_large.png", "img/marker_large.png"]
+    var markerURLs = ["img/marker_small.png", "img/marker_medium.png", "img/marker_large.png", "img/marker_mega.png"]
     //setTimeout(function() {
     $.map(layerControls, function(layerControl, index) {
         $(layerControl._container).find("input").each(function(c) {
@@ -399,8 +399,7 @@ $(document).ready(function() {
                                     //html: "<img src='" + item["icon-src"] + "'/>"
                                     html: function() {
                                         var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
-                                        if (markerCategory === "mega")
-                                            markerCategory = "large";
+
                                         return "<img src='img/marker_" + markerCategory + ".png'/>";
                                     }()
                                 })
