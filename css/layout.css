@@ -21,7 +21,7 @@ body{
 .leaflet-left.leaflet-top .leaflet-control-zoom{
     /*display: none;*/
     position: absolute;
-    margin-left: 230px;
+    margin-left: 270px;
     margin-top: -40px;
 }
 
@@ -869,13 +869,19 @@ span.marker-label-districts{
 	font-size: 1.64em;
 }
 
-.zui-selectbox-options{
+.zui-selectbox-options, .ui-switchboard a{
     width: 208px;
     margin-top: 10px;
     font-size: 12pt;
 }
 
-.zui-selectbox-options li:hover{
+.ui-switchboard a span{
+    font-size: 1.2em;
+}
+
+
+
+.zui-selectbox-options li:hover, .ui-switchboard a{
     background-color: #f6f6f6;
     font-weight: 700;
     padding: 0px 4px;
@@ -979,16 +985,27 @@ a.wiki{
 
 
 .ui-switchboard{
+    background-color: rgba(255,255,255,0.8);
     display: inline-block;
     position: absolute;
-    top: 20px;
+    top: 10px;
     left: 6px;
+    width: initial;
+    height: initial;
+    padding: 6px;
 }
 .ui-switchboard .ui-switch{
     display: block;
 }
 
-.ui-switchboard .ui-switch a{
+.ui-switchboard a{
     width: 200px;
     height: 40px;
+    background-color: transparent;
+    margin: 22px 0px;
+    line-height: 2em;
+}
+
+.ui-switchboard a span{
+    font-size: 10pt;
 }

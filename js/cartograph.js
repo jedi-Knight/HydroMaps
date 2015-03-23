@@ -1527,12 +1527,29 @@ function UI_Switchboard(options) {
                     });
                 }
 
-                aSwitch.append(switchIcon);
-                aSwitch.append("<span class='ui-switch-label'/>").text(options.switches[c].label);
+                switchIcon.appendTo(aSwitch);
+                aSwitch.append($("<span class='ui-switch-label'/>").text(options.switches[c].label));
                 $(aSwitch).attr("_id", c);
+
+                aSwitch.on("check", function(e){
+
+                    $(this).find("input").each(function(index){
+                        console.log($(this)[0].checked);
+                        if($(this)[0].checked){
+                            //$(this)[0].checked=false;
+                        }else{
+                            $(this)[0].checked=true;
+                        }
+                    });
+                });
+
+                aSwitch.on("click", function(e){
+                    $(this).trigger("check");
+                })
 
                 try {
                     if (options.switches[c].events) {
+
 
                         aSwitch.on("click", function(e) {
                             $(this).attr("_id");

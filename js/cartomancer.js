@@ -471,6 +471,7 @@ $(document).ready(function() {
                                             _layerGroup.clearLayers();
                                         });
                                         hackObj.switchStates[hackObj.c] = 0;
+                                        $(context).find("input")[0].checked=false;
 
                                     }, 0);
 
