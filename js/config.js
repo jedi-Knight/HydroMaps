@@ -64,7 +64,7 @@ config = {
             opacity: 1,
             color: '#d5aad0',
             dashArray: '4',
-            fillOpacity: 0,
+            fillOpacity: 0.6,
             clickable: false
         },
         "country": {

@@ -5,8 +5,8 @@ $(document).ready(function() {
         "basemaps": {
             "OpenStreetMap": {
                 "tileLayer": L.tileLayer('http://104.131.69.181/osm/{z}/{x}/{y}.png', {})
-            }
-            ,"Satellite Imagery": {
+            },
+            "Satellite Imagery": {
                 "tileLayer": new L.Google()
             }
         }
@@ -24,11 +24,11 @@ $(document).ready(function() {
     };
 
     map.setMaxBounds(map.getBounds().pad(0.025));
-    
+
     /*L.control.zoom({
         position: "bottomright"
     }).addTo(map);*/
-    
+
     L.control.scale({
         position: "bottomright"
     }).addTo(map);
@@ -97,7 +97,7 @@ $(document).ready(function() {
         }
     };
 
-    var layerControls = {
+   /* var layerControls = {
         "survey-approved": L.control.layers({}, tabs["survey-approved"]["layerGroups"], {
             collapsed: false
         }),
@@ -117,33 +117,63 @@ $(document).ready(function() {
             collapsed: false
         })
     };
+    */
+
+    var theLayerGroups = {
+        "mega": L.layerGroup(),
+        "large": L.layerGroup(),
+        "medium": L.layerGroup(),
+        "small": L.layerGroup()
+    };
+
+
+    $.map(tabs, function(_layerGroups, _category){
+       $.map(_layerGroups.layerGroups, function(_layerGroup, _size){
+           console.log(_category+" "+_size);
+           _layerGroup.addTo(theLayerGroups[_size]);
+       });
+    });
+
+
+    var theLayerControl = L.control.layers({}, theLayerGroups, {
+        collapsed: false
+    });
+    theLayerControl.addTo(map);
+
+    $(theLayerControl._container).find("input").click();
+
+
+
 
     var currentTab = "";
 
     var extentMarqueeGroup = L.layerGroup();
     mapGlobals.extentMarqueeGroup = extentMarqueeGroup;
 
+    /*
     layerControls["construction-approved"].addTo(map);
     layerControls["survey-approved"].addTo(map);
     layerControls["operational"].addTo(map);
     layerControls["survey-applied"].addTo(map);
     layerControls["construction-applied"].addTo(map);
     layerControls["all-projects"].addTo(map);
+    */
+
 
     var highlightLayer = L.layerGroup();
     highlightLayer.addTo(map);
 
     var markerURLs = ["img/marker_mega.png", "img/marker_large.png", "img/marker_medium.png", "img/marker_small.png"]
     //setTimeout(function() {
-    $.map(layerControls, function(layerControl, index) {
-        $(layerControl._container).find("input").each(function(c) {
-            $(this).after(function() {
-                return $("<span></span>").addClass("legend-icon").css({
-                    "background-image": "url('" + markerURLs[c] + "')"
-                });
+    //$.map(theLayerControls, function(layerControl, index) {
+    $(theLayerControl._container).find("input").each(function(c) {
+        $(this).after(function() {
+            return $("<span></span>").addClass("legend-icon").css({
+                "background-image": "url('" + markerURLs[c] + "')"
             });
         });
     });
+    //});
     //}, 0);
 
     //console.log(layerControls["construction-approved"]._container);
@@ -179,307 +209,250 @@ $(document).ready(function() {
     function TableContent_fix(jsonData, invert) {
         var content = $('<div></div>').addClass('table-content');
         for (var key in jsonData) {
-            if (!(((key.indexOf("S No")+1))||((key.indexOf("NL")+1))||((key.indexOf("SL")+1))||(key.indexOf("field")+1) ||(key.indexOf("atitiude")+1)||(key.indexOf("atitude")+1)||(key.indexOf("ongitude")+1) || key === "sn" || key === "start_lat" || key === "start_lng" || key === "end_lat" || key === "start_lng" || key === "S_No" || key === "_metaX")) {
+            if (!(((key.indexOf("S No") + 1)) || ((key.indexOf("NL") + 1)) || ((key.indexOf("SL") + 1)) || (key.indexOf("field") + 1) || (key.indexOf("atitiude") + 1) || (key.indexOf("atitude") + 1) || (key.indexOf("ongitude") + 1) || key === "sn" || key === "start_lat" || key === "start_lng" || key === "end_lat" || key === "start_lng" || key === "S_No" || key === "_metaX")) {
                 var tableRow = $('<div></div>').addClass('table-row').append(function() {
 
                     return jsonData[key] ? $("<div></div>").html("<div class='row-label'>" + key.replace(/_/g, " ").replace("(", " (") + "  :</div>").append($("<div class='val'></div>").text((jsonData[key] + "").replace(/,/g, ", "))) : $("<div class='row-label'></div>").text(key.replace(/_/g, " ").replace("(", " (") + "  :").append($("<div class='val not-available'></div>").text("Not Available"));
                 });
-                
-                if(key==="Project" && jsonData[key]==="Kali Gandaki A"){
+
+                if (key === "Project" && jsonData[key] === "Kali Gandaki A") {
                     tableRow.append("<a title='Wikipedia' class='wiki' target='_blank' href='http://en.wikipedia.org/wiki/Kaligandaki_A_Hydroelectric_Power_Station'></a>")
                 }
-                
+
                 invert ? tableRow.prependTo(content).addClass(key) : tableRow.appendTo(content).addClass(key);
             }
         }
         return $(content)[0];
     }
 
-    setTimeout(function(){
+    setTimeout(function() {
 
-    (new UI_DropdownMenuColumn({
-        tabs: $.map(config["map-features"], function(item, index) {
-            var tabDef = {
-                title: item["title"],
-                label: index.replace(/-/g, " "),
+        var asyncListColumn = new UI_SimpleAsyncListColumn({
+            filterByElements: config["filter-search-by-elements"],
+            searchControl: {
                 eventHandlers: {
-                    click: function(e) {
+                    found: function(resultArray) {
+                        //console.log(currentTab);
+                        highlightLayer.clearLayers();
+                        setTimeout(function() {
+                            for (var c in resultArray) {
+                                //L.circle(mapData.getGeometries().points[currentTab].features[resultArray[c]].geometry.coordinates,2000000/(Math.pow(1.9,map.getZoom()/1.05)), config["layer-styles"]["highlight-circle"]).addTo(highlightLayer);
+                                L.circleMarker(mapData.getGeometries().points[currentTab].features[resultArray[c]].geometry.coordinates, config["layer-styles"]["highlight-circle"]).addTo(highlightLayer);
+                            }
+                        }, 0);
+                    },
+                    notFound: function() {
+                        highlightLayer.clearLayers();
+                    }
+                }
+            }
 
-                        currentTab = index;
+        });
+        asyncListColumn.getUI().appendTo("body");
 
-                        if (index !== "operational") {
-                            $("#slider").hide();
-                            $(".numberCircle").hide();
-                        } else {
-                            $("#slider").show();
-                            if ($("#slider").css("display") !== "none")
-                                $(".numberCircle").show();
-                        }
+        (new UI_Switchboard({
+            switches: $.map(config["map-features"], function(item, index) {
+                var tabDef = {
+                    label: item["title"],
+                    events: {
+                        "switch-on": function(e) {
 
-                        var deferred = $.Deferred();
-                        //a=$(layerControls[index]._container).find("input")[0];
+                            currentTab = index;
 
-                        $.map(layerControls, function(layerControl, c) {
-                            $(layerControl._container).hide();
-                            //console.log($(layerControl._container).find("input"));
-                            $(layerControl._container).find("input").each(function() {
-                                if ($(this)[0].checked)
-                                    $(this).click();
-                            });
-                        });
+                            if (index !== "operational") {
+                                $("#slider").hide();
+                                $(".numberCircle").hide();
+                            } else {
+                                $("#slider").show();
+                                if ($("#slider").css("display") !== "none")
+                                    $(".numberCircle").show();
+                            }
+
+                            var deferred = $.Deferred();
+                            //a=$(layerControls[index]._container).find("input")[0];
+
+                            /*$.map(layerControls, function(layerControl, c) {
+                                $(layerControl._container).hide();
+                                //console.log($(layerControl._container).find("input"));
+                                $(layerControl._container).find("input").each(function() {
+                                    if ($(this)[0].checked)
+                                        $(this).click();
+                                });
+                            });*/
 
 
 
-                        $(layerControls[index]._container).show();
-                        $(layerControls[index]._container).find("input").click();
 
-                        var modelQueryPoints;
-                        /*if (index === "all-projects") {
-                         modelQueryPoints = $.Deferred();
-                         var modelQueryQueue = [];
-                         setTimeout(function() {
-                         $.map(config["map-features"], function(fnlocal_item, fnlocal_index) {
-                         if (fnlocal_index === "all-projects")
-                         return;
-                         modelQueryQueue.push(mapData.fetchData({
-                         query: {
-                         geometries: {
-                         type: "points",
-                         group: index
-                         },
-                         url: fnlocal_item["src"]
-                         },
-                         returnDataMeta: {}
-                         }));
-                         });
-                         $.when.apply(null, modelQueryQueue).done(function(dataConstructionApproved, dataSurveyApproved, dataSurveyApplied, dataConstructionApplied, dataOperational) {
-                         
-                         //var allPoints = $.extend(true, {}, mapData.getGeometries()["points"]["construction-applied"]);
-                         //console.log(JSON.stringify(dataOperational));
-                         //console.log(JSON.stringify(dataSurveyApproved));
-                         var allPoints = {
-                         "type": "FeatureCollection",
-                         "crs": {
-                         "type": "name",
-                         "properties": {
-                         "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
-                         }
-                         },
-                         "features": []
-                         };
-                         
-                         //setTimeout(function(){
-                         for(var feature in dataConstructionApproved.features){
-                         allPoints.features.push(dataConstructionApproved.features[feature]);
-                         }
-                         for(var feature in dataSurveyApproved.features){
-                         allPoints.features.push(dataSurveyApproved.features[feature]);
-                         }
-                         for(var feature in dataSurveyApplied.features){
-                         allPoints.features.push(dataSurveyApplied.features[feature]);
-                         }
-                         for(var feature in dataConstructionApplied.features){
-                         allPoints.features.push(dataConstructionApplied.features[feature]);
-                         }
-                         for(var feature in dataOperational.features){
-                         allPoints.features.push(dataOperational.features[feature]);
-                         }
-                         //},0);
-                         
-                         
-                         modelQueryPoints.resolve(allPoints, {
-                         type: "points",
-                         group: index
-                         });
-                         });
-                         }, 0);
-                         } else {*/
+                            var modelQueryPoints;
 
-                        modelQueryPoints = mapData.fetchData({
-                            query: {
-                                geometries: {
-                                    type: "points",
-                                    group: index
+
+                            modelQueryPoints = mapData.fetchData({
+                                query: {
+                                    geometries: {
+                                        type: "points",
+                                        group: index
+                                    },
+                                    url: config["map-features"][index]["src"]
                                 },
-                                url: config["map-features"][index]["src"]
-                            },
-                            returnDataMeta: {}
-                        });
+                                returnDataMeta: {}
+                            });
 
-                        //}
+                            //}
 
-                        modelQueryPoints.done(function(data, params) {
+                            modelQueryPoints.done(function(data, params) {
 
-                            /*mapData.generateExtentRectangleFromData({
+                                asyncListColumn.updateContent({
+                                    contentGen: function() {
+
+                                        /*mapData.generateExtentRectangleFromData({
                                "src-geometry-type": "points",
                                 "src-feature-group": index,
                                 "tgt-feature-group": index
-                            });*///todo: not used here..a rectangle overlay is used here instead (see code somewhere below)..explore use of such function in other cases..
+                            });*/ //todo: not used here..a rectangle overlay is used here instead (see code somewhere below)..explore use of such function in other cases..
 
-                            var pointAttributeList = mapData.getAttributes({
-                                "order-by": "Project",
-                                "geometry-type": "points",
-                                "feature-group": index
-                            });
-                            //console.log(pointAttributeList);
-                            var overviewCollection = $("<div></div>");
-                            var featuresOverview = $.map(pointAttributeList, function(l1_item, l1_index) {
-                                var overviewBox = new UI_FeatureInfoOverview({
-                                    "title": l1_index+1 + ". " + l1_item.Project + ", " + l1_item["Capacity (MW)"] + "MW",
-                                    "infoKeys": ["River", "Promoter"],
-                                    "attributes": {
-                                        "_id":l1_item._cartomancer_id
-                                    },
-                                    "data": l1_item,
-                                    "index": l1_index
-                                });
+                                        var pointAttributeList = mapData.getAttributes({
+                                            "order-by": "Project",
+                                            "geometry-type": "points",
+                                            "feature-group": index
+                                        });
+                                        //console.log(pointAttributeList);
+                                        var overviewCollection = $("<div></div>");
+                                        var featuresOverview = $.map(pointAttributeList, function(l1_item, l1_index) {
+                                            var overviewBox = new UI_FeatureInfoOverview({
+                                                "title": l1_index + 1 + ". " + l1_item.Project + ", " + l1_item["Capacity (MW)"] + "MW",
+                                                "infoKeys": ["River", "Promoter"],
+                                                "attributes": {
+                                                    "_id": l1_item._cartomancer_id
+                                                },
+                                                "data": l1_item,
+                                                "index": l1_index
+                                            });
 
-                                overviewBox.click(function(e) {
-                                    //var pointOfAttributes = mapData.getGeometries()["points"][index]["features"][$(this).attr("_id")];
-                                    var pointOfAttributes = mapData.getGeometries()["points"][index]["features"][l1_item["_cartomancer_id"]];
-                                    var popup = L.popup({});
-                                    map.closePopup();
-                                    //popup.setLatLng(e.latlng);
-                                    popup.setContent(new TableContent_fix(pointOfAttributes.properties.getAttributes()));
-                                    //popup.openOn(map);
-                                    //console.log(pointOfAttributes);
-                                    var latlng = L.latLng(Number(pointOfAttributes.geometry.coordinates[0]) + 0.03, Number(pointOfAttributes.geometry.coordinates[1]));
-
-
-                                    setTimeout(function(){
-
-                                    map.setView(latlng, 12, {
-                                        animate: false
-                                    });
+                                            overviewBox.click(function(e) {
+                                                //var pointOfAttributes = mapData.getGeometries()["points"][index]["features"][$(this).attr("_id")];
+                                                var pointOfAttributes = mapData.getGeometries()["points"][index]["features"][l1_item["_cartomancer_id"]];
+                                                var popup = L.popup({});
+                                                map.closePopup();
+                                                //popup.setLatLng(e.latlng);
+                                                popup.setContent(new TableContent_fix(pointOfAttributes.properties.getAttributes()));
+                                                //popup.openOn(map);
+                                                //console.log(pointOfAttributes);
+                                                var latlng = L.latLng(Number(pointOfAttributes.geometry.coordinates[0]) + 0.03, Number(pointOfAttributes.geometry.coordinates[1]));
 
 
-                                    latlng = L.latLng(pointOfAttributes.geometry.coordinates[0], pointOfAttributes.geometry.coordinates[1]);
-                                    popup.setLatLng(latlng);
+                                                setTimeout(function() {
 
-                                    //map.once("zoomend", function() {
-                                    setTimeout(function() {
-                                        popup.openOn(map);
-
-                                        popup.update();
-                                    }, 500);
-                                    //});
-                                },100);
-                                });
-
-                                overviewBox.appendTo(overviewCollection);
-                            });
+                                                    map.setView(latlng, 12, {
+                                                        animate: false
+                                                    });
 
 
+                                                    latlng = L.latLng(pointOfAttributes.geometry.coordinates[0], pointOfAttributes.geometry.coordinates[1]);
+                                                    popup.setLatLng(latlng);
 
-                            deferred.resolve({
-                                data: data,
-                                params: params,
-                                jqObj: overviewCollection
-                            });
-                        });
+                                                    //map.once("zoomend", function() {
+                                                    setTimeout(function() {
+                                                        popup.openOn(map);
 
-                        return deferred.promise();
+                                                        popup.update();
+                                                    }, 500);
+                                                    //});
+                                                }, 100);
+                                            });
 
-                    }
-                },
-                eventCallbacks: {
-                    click: function(e, callbackOptions) {
-                        var data = callbackOptions.data;
-                        var params = callbackOptions.params;
-
-                        var _marqueeStyle = $.extend(true, {}, config["layer-styles"]["extent-marquee"]);
-                            _marqueeStyle.opacity=0;
-                            _marqueeStyle.fillOpacity=0;
-
-
-                        for (var feature in data.features) {
-                            var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
-                                icon: L.divIcon({
-                                    className: data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase(),
-                                    //html: "<img src='" + item["icon-src"] + "'/>"
-                                    html: function() {
-                                        var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
-
-                                        return "<img src='img/marker_" + markerCategory + ".png'/>";
-                                    }()
-                                })
-                            });
-
-                            var popupContent = new TableContent_fix(data.features[feature].properties.getAttributes());
-
-                            marker.bindPopup(popupContent);
+                                            overviewBox.appendTo(overviewCollection);
+                                        });
 
 
 
-                            var marquee = L.rectangle(L.latLngBounds(data.features[feature].properties.getAttributes().NE.split(",").reverse(), data.features[feature].properties.getAttributes().SW.split(",").reverse()),
-                                            _marqueeStyle
-                            );
-                            marquee.bindPopup(popupContent);
+                                        deferred.resolve({
+                                            data: data,
+                                            params: params,
+                                            jqObj: overviewCollection
+                                        });
 
-                            /*var popup = L.popup({});
+                                        deferred.done(function(callbackOptions) {
+
+                                            var data = callbackOptions.data;
+                                            var params = callbackOptions.params;
+
+                                            var _marqueeStyle = $.extend(true, {}, config["layer-styles"]["extent-marquee"]);
+                                            _marqueeStyle.opacity = 0;
+                                            _marqueeStyle.fillOpacity = 0;
+
+
+                                            for (var feature in data.features) {
+                                                var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
+                                                    icon: L.divIcon({
+                                                        className: data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase(),
+                                                        //html: "<img src='" + item["icon-src"] + "'/>"
+                                                        html: function() {
+                                                            var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
+
+                                                            return "<img src='img/marker_" + markerCategory + ".png'/>";
+                                                        }()
+                                                    })
+                                                });
+
+                                                var popupContent = new TableContent_fix(data.features[feature].properties.getAttributes());
+
+                                                marker.bindPopup(popupContent);
+
+
+
+                                                var marquee = L.rectangle(L.latLngBounds(data.features[feature].properties.getAttributes().NE.split(",").reverse(), data.features[feature].properties.getAttributes().SW.split(",").reverse()),
+                                                    _marqueeStyle
+                                                );
+                                                marquee.bindPopup(popupContent);
+
+                                                /*var popup = L.popup({});
                              marker.on('click', function(e) {
                              console.log(marker);
                              popup.setLatLng(e.latlng);
                              popup.setContent(new TableContent_fix(data.features[feature].properties.getAttributes()));
                              popup.openOn(map);
                              });*/
-                            try {
-                                marker.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
-                                marquee.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
-                                marquee.addTo(extentMarqueeGroup);
-                                //console.log(marquee.toGeoJSON());
-                            } catch (e) {
-                                console.log(e);
-                            }
-//marker.addTo(tabs["operational"]["layerGroups"][data.features[feature].properties.getAttributes()["Project_Si"].split("(")[0].trim().toLowerCase()]);
-                            //marker.addTo(map);
-                        }
+                                                try {
+                                                    marker.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
+                                                    marquee.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
+                                                    marquee.addTo(extentMarqueeGroup);
+                                                    //console.log(marquee.toGeoJSON());
+                                                } catch (e) {
+                                                    console.log(e);
+                                                }
+                                                //marker.addTo(tabs["operational"]["layerGroups"][data.features[feature].properties.getAttributes()["Project_Si"].split("(")[0].trim().toLowerCase()]);
+                                                //marker.addTo(map);
+                                            }
+                                        });
 
-                        /*L.geoJson(data, {
-                         pointToLayer: function(feature, latlng) {
-                         //console.log(feature);
-                         return L.marker(latlng, {
-                         icon: L.divIcon({
-                         className: feature.properties.getAttributes().capacity,
-                         html: "<img src='" + item["icon-src"] + "'/>"
-                         })
-                         });
-                         },
-                         onEachFeature: function(feature, layer) {
-                         console.log(feature);
-                         tabs["construction-approved"]["layerGroups"]["small"].addLayer(layer);
-                         }
-                         });*/
+
+
+
+                                        return deferred.promise();
+                                    }
+                                });
+
+                            });
+
+                        },
+                        "switch-off": function(e) {
+                            $.map(tabs[index].layerGroups, function(_layerGroup, _size){
+                               _layerGroup.clearLayers();
+                            });
+                        }
                     }
-                },
-                layerControl: layerControls[index]
-            };
-            return tabDef;
-        }),
-        defaultSelection: "0",
-                filterByElements: config["filter-search-by-elements"],
-        searchControl:{
-            eventHandlers:{
-                found: function(resultArray){
-                    //console.log(currentTab);
-                    highlightLayer.clearLayers();
-                    setTimeout(function(){
-                        for(var c in resultArray){
-                           //L.circle(mapData.getGeometries().points[currentTab].features[resultArray[c]].geometry.coordinates,2000000/(Math.pow(1.9,map.getZoom()/1.05)), config["layer-styles"]["highlight-circle"]).addTo(highlightLayer);
-                            L.circleMarker(mapData.getGeometries().points[currentTab].features[resultArray[c]].geometry.coordinates, config["layer-styles"]["highlight-circle"]).addTo(highlightLayer);
-                        }
-                    },0);
-                },
-                notFound: function(){
-                    highlightLayer.clearLayers();
                 }
-            }
-        }
-    })).getUI().prependTo("body");
+                return tabDef;
+            }),
+            checkbox: true
+        })).done(function(context){
+            var ui = context.getUI().appendTo("body");
+            $(ui.find("a")[2]).click();
+        });
 
-    $($(".ui-tab-trigger")[2]).click();
 
-    },0);
+
+    }, 0);
 
 
     var boundaryLayersControl = L.control.layers({}, {}, {
@@ -498,49 +471,48 @@ $(document).ready(function() {
             },
             url: "districts.geojson"
         },
-        returnDataMeta: {
-        }
+        returnDataMeta: {}
     });
 
     modelQueryDistrict.done(function(data, params) {
-        setTimeout(function(){
+        setTimeout(function() {
 
-        districtLayers.addLayer(L.geoJson(data, {
-            style: config["layer-styles"]["districts"],
-            onEachFeature: function(feature, layer) {
-                setTimeout(function() {
-                    //districtLabelsOverlay.addLayer(new L.LabelOverlays(L.latLng(getPolygonCentroid(feature.geometry)), "123"));
-                    //districtLabelsOverlay.addLayer(new L.LabelOverlays(layer.getBounds().getCenter(), feature.properties.Name));
-                    districtLayers.addLayer(function() {
-                        return L.marker(layer.getBounds().getCenter(), {
-                            icon: L.divIcon({
-                                html: "<span class='marker-label-districts seethru' title='" + feature.properties.getAttributes().Name + "'>" + feature.properties.getAttributes().Name + "</span>"
-                            })
-                        });
-                    }());
-                }, 0);
-            }
-        }));
+            districtLayers.addLayer(L.geoJson(data, {
+                style: config["layer-styles"]["districts"],
+                onEachFeature: function(feature, layer) {
+                    setTimeout(function() {
+                        //districtLabelsOverlay.addLayer(new L.LabelOverlays(L.latLng(getPolygonCentroid(feature.geometry)), "123"));
+                        //districtLabelsOverlay.addLayer(new L.LabelOverlays(layer.getBounds().getCenter(), feature.properties.Name));
+                        districtLayers.addLayer(function() {
+                            return L.marker(layer.getBounds().getCenter(), {
+                                icon: L.divIcon({
+                                    html: "<span class='marker-label-districts seethru' title='" + feature.properties.getAttributes().Name + "'>" + feature.properties.getAttributes().Name + "</span>"
+                                })
+                            });
+                        }());
+                    }, 0);
+                }
+            }));
 
-        boundaryLayersControl.addOverlay(districtLayers, "District");
-        districtLayers.addTo(map);
-        boundaryLayersControl.addTo(map);
-        $($(boundaryLayersControl._container).find("input")[1]).after(function() {
-            return $("<span></span>").addClass("legend-icon").css({
-                "background-image": "url('img/district.png')"
+            boundaryLayersControl.addOverlay(districtLayers, "District");
+            districtLayers.addTo(map);
+            boundaryLayersControl.addTo(map);
+            $($(boundaryLayersControl._container).find("input")[1]).after(function() {
+                return $("<span></span>").addClass("legend-icon").css({
+                    "background-image": "url('img/district.png')"
+                });
             });
-        });
-        $($(boundaryLayersControl._container).find("input")[0]).after(function() {
-            return $("<span></span>").addClass("legend-icon").css({
-                "background-image": "url('img/country.png')"
+            $($(boundaryLayersControl._container).find("input")[0]).after(function() {
+                return $("<span></span>").addClass("legend-icon").css({
+                    "background-image": "url('img/country.png')"
+                });
             });
-        });
 
-        $($(boundaryLayersControl._container).find("input")[0]).css({
-            opacity: 0,
-            "pointer-events": "none"
-        });
-        },0);
+            $($(boundaryLayersControl._container).find("input")[0]).css({
+                opacity: 0,
+                "pointer-events": "none"
+            });
+        }, 0);
 
     });
 
@@ -553,90 +525,89 @@ $(document).ready(function() {
             },
             url: "vdc.geojson"
         },
-        returnDataMeta: {
-        }
+        returnDataMeta: {}
     });
 
     modelQueryVDC.done(function(data, params) {
 
-        setTimeout(function(){
+        setTimeout(function() {
 
-        vdcLayer.addLayer(L.geoJson(data, {
-            style: config["layer-styles"]["vdc"],
-            onEachFeature: function(feature, layer) {
-                setTimeout(function() {
-                    //districtLabelsOverlay.addLayer(new L.LabelOverlays(L.latLng(getPolygonCentroid(feature.geometry)), "123"));
-                    //districtLabelsOverlay.addLayer(new L.LabelOverlays(layer.getBounds().getCenter(), feature.properties.Name));
-                    vdcLayer.addLayer(function() {
-                        return L.marker(layer.getBounds().getCenter(), {
-                            icon: L.divIcon({
-                                html: "<span class='marker-label-districts' title='" + feature.properties.getAttributes().name + "'>" + feature.properties.getAttributes().name + "</span>"
-                            })
-                        });
-                    }());
-                }, 0);
-            }
-        }));
-
-        //boundaryLayersControl.addTo(map);
-
-        map.on("zoomend", function(e) {
-
-            if (this.getZoom() > 12) {
-
-
-                //districtLayers.addTo(map);
-
-                boundaryLayersControl.addOverlay(vdcLayer, "VDC");
-
-                $($(boundaryLayersControl._container).find("input")[2]).after(function() {
-                    return $("<span></span>").addClass("legend-icon").css({
-                        "background-image": "url('img/district.png')"
-                    });
-                });
-
-                $($(boundaryLayersControl._container).find("input")[1]).after(function() {
-                    return $("<span></span>").addClass("legend-icon").css({
-                        "background-image": "url('img/district.png')"
-                    });
-                });
-                $($(boundaryLayersControl._container).find("input")[0]).after(function() {
-                    return $("<span></span>").addClass("legend-icon").css({
-                        "background-image": "url('img/country.png')"
-                    });
-                });
-
-                $($(boundaryLayersControl._container).find("input")[0]).css({
-                    opacity: 0,
-                    "pointer-events": "none"
-                });
-            } else {
-                
-                if($(boundaryLayersControl._container).find("input")[2] && $(boundaryLayersControl._container).find("input")[2].checked){
-                    $($(boundaryLayersControl._container).find("input")[2]).click();
+            vdcLayer.addLayer(L.geoJson(data, {
+                style: config["layer-styles"]["vdc"],
+                onEachFeature: function(feature, layer) {
+                    setTimeout(function() {
+                        //districtLabelsOverlay.addLayer(new L.LabelOverlays(L.latLng(getPolygonCentroid(feature.geometry)), "123"));
+                        //districtLabelsOverlay.addLayer(new L.LabelOverlays(layer.getBounds().getCenter(), feature.properties.Name));
+                        vdcLayer.addLayer(function() {
+                            return L.marker(layer.getBounds().getCenter(), {
+                                icon: L.divIcon({
+                                    html: "<span class='marker-label-districts' title='" + feature.properties.getAttributes().name + "'>" + feature.properties.getAttributes().name + "</span>"
+                                })
+                            });
+                        }());
+                    }, 0);
                 }
-                
-                boundaryLayersControl.removeLayer(vdcLayer);
+            }));
 
-                $($(boundaryLayersControl._container).find("input")[1]).after(function() {
-                    return $("<span></span>").addClass("legend-icon").css({
-                        "background-image": "url('img/district.png')"
+            //boundaryLayersControl.addTo(map);
+
+            map.on("zoomend", function(e) {
+
+                if (this.getZoom() > 12) {
+
+
+                    //districtLayers.addTo(map);
+
+                    boundaryLayersControl.addOverlay(vdcLayer, "VDC");
+
+                    $($(boundaryLayersControl._container).find("input")[2]).after(function() {
+                        return $("<span></span>").addClass("legend-icon").css({
+                            "background-image": "url('img/district.png')"
+                        });
                     });
-                });
-                $($(boundaryLayersControl._container).find("input")[0]).after(function() {
-                    return $("<span></span>").addClass("legend-icon").css({
-                        "background-image": "url('img/country.png')"
+
+                    $($(boundaryLayersControl._container).find("input")[1]).after(function() {
+                        return $("<span></span>").addClass("legend-icon").css({
+                            "background-image": "url('img/district.png')"
+                        });
                     });
-                });
+                    $($(boundaryLayersControl._container).find("input")[0]).after(function() {
+                        return $("<span></span>").addClass("legend-icon").css({
+                            "background-image": "url('img/country.png')"
+                        });
+                    });
 
-                $($(boundaryLayersControl._container).find("input")[0]).css({
-                    opacity: 0,
-                    "pointer-events": "none"
-                });
-            }
-        });
+                    $($(boundaryLayersControl._container).find("input")[0]).css({
+                        opacity: 0,
+                        "pointer-events": "none"
+                    });
+                } else {
 
-        },0);
+                    if ($(boundaryLayersControl._container).find("input")[2] && $(boundaryLayersControl._container).find("input")[2].checked) {
+                        $($(boundaryLayersControl._container).find("input")[2]).click();
+                    }
+
+                    boundaryLayersControl.removeLayer(vdcLayer);
+
+                    $($(boundaryLayersControl._container).find("input")[1]).after(function() {
+                        return $("<span></span>").addClass("legend-icon").css({
+                            "background-image": "url('img/district.png')"
+                        });
+                    });
+                    $($(boundaryLayersControl._container).find("input")[0]).after(function() {
+                        return $("<span></span>").addClass("legend-icon").css({
+                            "background-image": "url('img/country.png')"
+                        });
+                    });
+
+                    $($(boundaryLayersControl._container).find("input")[0]).css({
+                        opacity: 0,
+                        "pointer-events": "none"
+                    });
+                }
+            });
+
+        }, 0);
 
         $($(boundaryLayersControl._container).find("input")[1]).after(function() {
             return $("<span></span>").addClass("legend-icon").css({
@@ -664,17 +635,16 @@ $(document).ready(function() {
             },
             url: "nepal.geojson"
         },
-        returnDataMeta: {
-        }
+        returnDataMeta: {}
     });
 
     modelQueryCountry.done(function(data, params) {
 
-        setTimeout(function(){
+        setTimeout(function() {
 
-        var countryBoundary = L.geoJson(data, {
-            style: config["layer-styles"]["country"],
-            /*onEachFeature: function(feature, layer) {
+            var countryBoundary = L.geoJson(data, {
+                style: config["layer-styles"]["country"],
+                /*onEachFeature: function(feature, layer) {
                 setTimeout(function() {
                     //districtLabelsOverlay.addLayer(new L.LabelOverlays(L.latLng(getPolygonCentroid(feature.geometry)), "123"));
                     //districtLabelsOverlay.addLayer(new L.LabelOverlays(layer.getBounds().getCenter(), feature.properties.Name));
@@ -687,11 +657,11 @@ $(document).ready(function() {
                     }());
                 }, 0);
             }*/
-        });
+            });
 
-        boundaryLayersControl.addOverlay(countryBoundary, "Nepal");
-        countryBoundary.addTo(map);
-        },0);
+            boundaryLayersControl.addOverlay(countryBoundary, "Nepal");
+            countryBoundary.addTo(map);
+        }, 0);
 
         //boundaryLayersControl.addTo(map);
     });
@@ -745,8 +715,8 @@ $(document).ready(function() {
     }).find(".ui-slider-handle").append(tooltip).hover(function() {
         tooltip.show();
     });
-    
-    $('#slider').slider("value",2068);
+
+    $('#slider').slider("value", 2068);
 
     $(".ui-slider-handle").append(function() {
         return "<img src='img/sliderknob.png'/>";
@@ -767,30 +737,30 @@ $(document).ready(function() {
 
 
 
-            if(element.getZoom()>11){
-                setTimeout(function(){
-                    $.map(extentMarqueeGroup._layers, function(layer, leafletID){
-                       layer.setStyle({
-                           opacity: config["layer-styles"]["extent-marquee"]["opacity"],
-                           fillOpacity: config["layer-styles"]["extent-marquee"]["fillOpacity"]
-                       })
+            if (element.getZoom() > 11) {
+                setTimeout(function() {
+                    $.map(extentMarqueeGroup._layers, function(layer, leafletID) {
+                        layer.setStyle({
+                            opacity: config["layer-styles"]["extent-marquee"]["opacity"],
+                            fillOpacity: config["layer-styles"]["extent-marquee"]["fillOpacity"]
+                        })
                     });
-                },0);
+                }, 0);
 
-            }else{
-                setTimeout(function(){
-                    $.map(extentMarqueeGroup._layers, function(layer, leafletID){
-                       layer.setStyle({
-                           opacity: 0,
-                           fillOpacity: 0
-                       })
+            } else {
+                setTimeout(function() {
+                    $.map(extentMarqueeGroup._layers, function(layer, leafletID) {
+                        layer.setStyle({
+                            opacity: 0,
+                            fillOpacity: 0
+                        })
                     });
-                },0);
+                }, 0);
             }
-            
-            if(element.getZoom()>7){
+
+            if (element.getZoom() > 7) {
                 $(".marker-label-districts").removeClass("seethru");
-            }else{
+            } else {
                 $(".marker-label-districts").addClass("seethru");
             }
 

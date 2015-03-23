@@ -320,10 +320,10 @@ function TableContent(jsonData, invert) {
     //        if (!jsonData.type) {
     for (var row in jsonData) {
         var tableRow = $("<div></div>")
-                .addClass("table-row")
-                .append(function() {
-                    return jsonData[row] === "999" || jsonData[row] === "999.0" || !jsonData[row] ? $("<div></div>").text(row).append($("<div></div>").addClass("not-available").text("उपलब्ध छैन")) : $("<div></div>").text(row).append($("<div></div>").text(jsonData[row].replace(/_/g, " ")));
-                });
+            .addClass("table-row")
+            .append(function() {
+                return jsonData[row] === "999" || jsonData[row] === "999.0" || !jsonData[row] ? $("<div></div>").text(row).append($("<div></div>").addClass("not-available").text("उपलब्ध छैन")) : $("<div></div>").text(row).append($("<div></div>").text(jsonData[row].replace(/_/g, " ")));
+            });
         invert ? tableRow.prependTo(content).addClass(row.toLowerCase().replace(/ /g, "_")) : tableRow.appendTo(content).addClass(row.toLowerCase().replace(/ /g, "_"));
     }
     /*}else if(jsonData.type==="image"){
@@ -342,8 +342,8 @@ function TableContent(jsonData, invert) {
 
 function Table(jsonData) {
     return $("<div></div>")
-            .addClass("table container").addClass(jsonData.type)
-            .append(new TableContent(jsonData.content));
+        .addClass("table container").addClass(jsonData.type)
+        .append(new TableContent(jsonData.content));
 }
 
 function PanelDocument(documentModel) {
@@ -691,20 +691,20 @@ function UI_ThumbnailView(srcObject) {
         var thumbnailSlider = $(document.createElement("div")).addClass("ui-thumbnail-slider").css({});
 
         var thumbnailSlide = $("<div/>").addClass("ui-thumbnail-slide")
-                /*.css({
+        /*.css({
                  display: "inline-block",
                  width: "120px",
                  height: "80px",
                  "margin-left": "20px",
                  "overflow": "hidden"
                  })*/
-                .appendTo(thumbnailSlider);
+        .appendTo(thumbnailSlider);
         var thumnailStrip = $("<div/>").addClass("ui-thumbnail-strip")
-                /*.css({
+        /*.css({
                  display: "inline-block",
                  "white-space": "nowrap"
                  })*/
-                .appendTo(thumbnailSlide);
+        .appendTo(thumbnailSlide);
         for (var thumbUrl in srcObject.thumbUrls) {
 
             new UI_Thumbnail(srcObject.thumbUrls[thumbUrl], srcObject.mediaOptions({
@@ -1057,7 +1057,7 @@ function UI_JQueryDropdown(options) {
                             style: item.element.attr("data-style"),
                             "class": "ui-icon " + item.element.attr("data-class")
                         })
-                                .appendTo(li);
+                            .appendTo(li);
 
                         return li.appendTo(ul);
                     }
@@ -1384,12 +1384,12 @@ function UI_DropdownMenuColumn(options) {
                     });
                 });
             },
-            open: function(e, ui){
+            open: function(e, ui) {
                 container.addClass("panel-disabled");
             },
-            close: function(e, ui){
+            close: function(e, ui) {
                 container.removeClass("panel-disabled");
-                
+
             }
         }
     }, options))).appendTo(container);
@@ -1441,4 +1441,130 @@ function UI_DropdownMenuColumn(options) {
     this.getUI = function(options) {
         return _getUI();
     };
+}
+
+function UI_SimpleAsyncListColumn(options){
+    var container = $("<div class='ui-tabbed-column'/>");
+    var content = $("<div class='ui-column-content'/>");
+    var searchBar = new UI_Control_Filter({
+        "ui-control-id": "filter-search",
+        "target-container": content,
+        //"target-items-selector": ".body-row>div:first-child"
+        "target-items-selector": ".searchable",
+        filterByElements: options.filterByElements,
+        eventHandlers: options.searchControl.eventHandlers
+    }).getUI().appendTo(container);
+    content.appendTo(container);
+
+    function _updateContent(options){
+        content.children().remove();
+                //titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
+                var uiLoadingAnim = $("<img class='ui-loading-anim' src='img/loading-anim.gif'/>");
+                content.append(uiLoadingAnim);
+                //$(this).siblings().removeClass("active");
+                //$(this).addClass("active");
+
+                //var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
+                var deferred = options.contentGen();
+                var context = this;
+                deferred.done(function(obj) {
+                    uiLoadingAnim.remove();
+                    content.append(obj.jqObj.children());
+                   /* options.tabs[context.value]["eventCallbacks"]["click"](e, {
+                        data: obj.data,
+                        params: obj.params
+                    });*/
+                });
+    }
+
+    this.updateContent = function(options){
+        return _updateContent(options);
+    }
+
+    function _getUI(options) {
+        return container;
+    }
+
+    this.getUI = function(options) {
+        return _getUI();
+    };
+}
+
+function UI_Switchboard(options) {
+    var deferred = $.Deferred();
+    var context = this;
+    var container = $("<div class='ui-switchboard'/>").addClass(options["css-class"]);
+    var switchStateNames = ["switch-off", "switch-on"];
+    var switchStates = [];
+    //var currentState = (options.defaultState && (Number(options.defaultState) || $.inArray(options.defaultState, switchStates)+1))? 1 : 0;
+
+
+    setTimeout(function() {
+        for (var c in options.switches) {
+
+            switchStates.push(function() {
+                if (options.switches[c].defaultState) {
+                    return (Number(options.switches[c].defaultState) || $.inArray(options.switches[c].defaultState, switchStates) + 1) ? 1 : 0;
+                } else if (options.defaultState) {
+                    return (Number(options.defaultState) || $.inArray(options.defaultState, switchStates) + 1) ? 1 : 0;
+                } else {
+                    return 0;
+                }
+            }());
+
+            $("<div class='ui-switch'/>").append(function() {
+                var aSwitch = $("<a/>");
+                var switchIcon = $("<span class='ui-switch-icon'/>");
+
+                if (options.checkbox) {
+                    var checkbox = $("<input type='checkbox'/>").attr("checked", Boolean(switchStates[c]));
+                    checkbox.appendTo(aSwitch);
+                }
+
+                if (options.switches[c]["icon-url"]) {
+                    switchIcon.css({
+                        "background-image": options.switches[c]["icon-url"]
+                    });
+                }
+
+                aSwitch.append(switchIcon);
+                aSwitch.append("<span class='ui-switch-label'/>").text(options.switches[c].label);
+
+                try {
+                    if (options.switches[c].events) {
+
+                        aSwitch.on("click", function(e) {
+                            //check where 'this' points to, point to the switch object if this points to window by default..
+                            switchStates[c] += 1;
+                            switchStates[c] %= 2;
+                            options.switches[c].events[switchStateNames[switchStates[c]]].call(this, e);
+                        });
+
+                    } else {
+                        aSwitch.on("click", function(e) {
+                            //check where 'this' points to, point to the switch object if this points to window by default..
+                            switchStates[c] += 1;
+                            switchStates[c] %= 2;
+                            options.events[switchStateNames[switchStates[c]]].call(this, e);
+                        });
+                    }
+                } catch (e) {
+                    console.log("Switchboard switches eventHandlers not defined or error in eventhandler definition..");
+                }
+
+                return aSwitch;
+            }).addClass(options.switches[c]["css-class"]).appendTo(container);
+        };
+        deferred.resolve(context);
+    }, 0);
+
+    function _getUI(options) {
+        return container;
+    }
+
+    this.getUI = function(options) {
+        return _getUI(options);
+    }
+
+    return $.extend(this,deferred.promise());
 }

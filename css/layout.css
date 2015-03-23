@@ -975,3 +975,20 @@ a.wiki{
 .WLD, .WLM, .WLS, .ELD, .ELM, .ELS, .NE, .SW{
     display: none;
 }
+
+
+
+.ui-switchboard{
+    display: inline-block;
+    position: absolute;
+    top: 20px;
+    left: 6px;
+}
+.ui-switchboard .ui-switch{
+    display: block;
+}
+
+.ui-switchboard .ui-switch a{
+    width: 200px;
+    height: 40px;
+}
