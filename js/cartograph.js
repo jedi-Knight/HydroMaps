@@ -1529,23 +1529,25 @@ function UI_Switchboard(options) {
 
                 aSwitch.append(switchIcon);
                 aSwitch.append("<span class='ui-switch-label'/>").text(options.switches[c].label);
+                $(aSwitch).attr("_id", c);
 
                 try {
                     if (options.switches[c].events) {
 
                         aSwitch.on("click", function(e) {
+                            $(this).attr("_id");
                             //check where 'this' points to, point to the switch object if this points to window by default..
-                            switchStates[c] += 1;
-                            switchStates[c] %= 2;
-                            options.switches[c].events[switchStateNames[switchStates[c]]].call(this, e);
+                            switchStates[$(this).attr("_id")] += 1;
+                            switchStates[$(this).attr("_id")] %= 2;
+                            options.switches[$(this).attr("_id")].events[switchStateNames[switchStates[$(this).attr("_id")]]].call(this, e);
                         });
 
                     } else {
                         aSwitch.on("click", function(e) {
                             //check where 'this' points to, point to the switch object if this points to window by default..
-                            switchStates[c] += 1;
-                            switchStates[c] %= 2;
-                            options.events[switchStateNames[switchStates[c]]].call(this, e);
+                            switchStates[this._c] += 1;
+                            switchStates[this._c] %= 2;
+                            options.events[switchStateNames[switchStates[this._c]]].call(this, e);
                         });
                     }
                 } catch (e) {

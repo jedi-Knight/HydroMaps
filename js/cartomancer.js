@@ -252,6 +252,7 @@ $(document).ready(function() {
 
         (new UI_Switchboard({
             switches: $.map(config["map-features"], function(item, index) {
+                console.log(index);
                 var tabDef = {
                     label: item["title"],
                     events: {
