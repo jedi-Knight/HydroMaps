@@ -1537,17 +1537,25 @@ function UI_Switchboard(options) {
                         aSwitch.on("click", function(e) {
                             $(this).attr("_id");
                             //check where 'this' points to, point to the switch object if this points to window by default..
-                            switchStates[$(this).attr("_id")] += 1;
-                            switchStates[$(this).attr("_id")] %= 2;
-                            options.switches[$(this).attr("_id")].events[switchStateNames[switchStates[$(this).attr("_id")]]].call(this, e);
+                            //switchStates[$(this).attr("_id")] += 1;
+                            //switchStates[$(this).attr("_id")] %= 2;
+
+                            switchStates[$(this).attr("_id")] = switchStates[$(this).attr("_id")]?0:1;
+
+                            console.log(switchStates[$(this).attr("_id")]);
+
+                            options.switches[$(this).attr("_id")].events[switchStateNames[switchStates[$(this).attr("_id")]]].call(aSwitch, e, {
+                                switchStates:switchStates,
+                                c: $(this).attr("_id")
+                            });
                         });
 
                     } else {
                         aSwitch.on("click", function(e) {
                             //check where 'this' points to, point to the switch object if this points to window by default..
-                            switchStates[this._c] += 1;
-                            switchStates[this._c] %= 2;
-                            options.events[switchStateNames[switchStates[this._c]]].call(this, e);
+                            switchStates[$(this).attr("_id")] += 1;
+                            switchStates[$(this).attr("_id")] %= 2;
+                            options.events[switchStateNames[switchStates[$(this).attr("_id")]]].call(aSwitch, e);
                         });
                     }
                 } catch (e) {

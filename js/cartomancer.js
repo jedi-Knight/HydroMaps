@@ -97,7 +97,7 @@ $(document).ready(function() {
         }
     };
 
-   /* var layerControls = {
+    /* var layerControls = {
         "survey-approved": L.control.layers({}, tabs["survey-approved"]["layerGroups"], {
             collapsed: false
         }),
@@ -127,11 +127,10 @@ $(document).ready(function() {
     };
 
 
-    $.map(tabs, function(_layerGroups, _category){
-       $.map(_layerGroups.layerGroups, function(_layerGroup, _size){
-           console.log(_category+" "+_size);
-           _layerGroup.addTo(theLayerGroups[_size]);
-       });
+    $.map(tabs, function(_layerGroups, _category) {
+        $.map(_layerGroups.layerGroups, function(_layerGroup, _size) {
+            _layerGroup.addTo(theLayerGroups[_size]);
+        });
     });
 
 
@@ -302,6 +301,9 @@ $(document).ready(function() {
 
                             modelQueryPoints.done(function(data, params) {
 
+
+
+
                                 asyncListColumn.updateContent({
                                     contentGen: function() {
 
@@ -381,49 +383,62 @@ $(document).ready(function() {
                                             _marqueeStyle.opacity = 0;
                                             _marqueeStyle.fillOpacity = 0;
 
-
-                                            for (var feature in data.features) {
-                                                var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
-                                                    icon: L.divIcon({
-                                                        className: data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase(),
-                                                        //html: "<img src='" + item["icon-src"] + "'/>"
-                                                        html: function() {
-                                                            var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
-
-                                                            return "<img src='img/marker_" + markerCategory + ".png'/>";
-                                                        }()
-                                                    })
-                                                });
-
-                                                var popupContent = new TableContent_fix(data.features[feature].properties.getAttributes());
-
-                                                marker.bindPopup(popupContent);
+                                            setTimeout(function() {
 
 
+                                                for (var feature in data.features) {
+                                                    //console.log(data.features[feature]["geometry"]["coordinates"]);
+                                                    var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
+                                                        icon: L.divIcon({
+                                                            className: data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase(),
+                                                            //html: "<img src='" + item["icon-src"] + "'/>"
+                                                            html: function() {
+                                                                var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
 
-                                                var marquee = L.rectangle(L.latLngBounds(data.features[feature].properties.getAttributes().NE.split(",").reverse(), data.features[feature].properties.getAttributes().SW.split(",").reverse()),
-                                                    _marqueeStyle
-                                                );
-                                                marquee.bindPopup(popupContent);
+                                                                return "<img src='img/marker_" + markerCategory + ".png'/>";
+                                                            }()
+                                                        })
+                                                    });
 
-                                                /*var popup = L.popup({});
+                                                    var popupContent = new TableContent_fix(data.features[feature].properties.getAttributes());
+
+                                                    marker.bindPopup(popupContent);
+
+
+
+
+                                                    var marquee = L.rectangle(L.latLngBounds(data.features[feature].properties.getAttributes().NE.split(",").reverse(), data.features[feature].properties.getAttributes().SW.split(",").reverse()),
+                                                        _marqueeStyle
+                                                    );
+                                                    marquee.bindPopup(popupContent);
+
+                                                    /*var popup = L.popup({});
                              marker.on('click', function(e) {
                              console.log(marker);
                              popup.setLatLng(e.latlng);
                              popup.setContent(new TableContent_fix(data.features[feature].properties.getAttributes()));
                              popup.openOn(map);
                              });*/
-                                                try {
-                                                    marker.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
-                                                    marquee.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
-                                                    marquee.addTo(extentMarqueeGroup);
-                                                    //console.log(marquee.toGeoJSON());
-                                                } catch (e) {
-                                                    console.log(e);
+                                                    try {
+
+                                                        marker.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
+                                                        marquee.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
+                                                        marquee.addTo(extentMarqueeGroup);
+                                                        //console.log(marquee.toGeoJSON());
+                                                    } catch (e) {
+                                                        console.log(e);
+                                                    }
+                                                    //marker.addTo(tabs["operational"]["layerGroups"][data.features[feature].properties.getAttributes()["Project_Si"].split("(")[0].trim().toLowerCase()]);
+                                                    //marker.addTo(map);
                                                 }
-                                                //marker.addTo(tabs["operational"]["layerGroups"][data.features[feature].properties.getAttributes()["Project_Si"].split("(")[0].trim().toLowerCase()]);
-                                                //marker.addTo(map);
-                                            }
+
+                                                //$(theLayerControl._container).find("input").click();
+
+                                                //setTimeout(function(){
+                                                // $(theLayerControl._container).find("input").click();
+                                                //},0);
+
+                                            }, 0);
                                         });
 
 
@@ -436,17 +451,39 @@ $(document).ready(function() {
                             });
 
                         },
-                        "switch-off": function(e) {
-                            $.map(tabs[index].layerGroups, function(_layerGroup, _size){
-                               _layerGroup.clearLayers();
-                            });
+                        "switch-off": function(e, hackObj) {
+                            var context = this;
+                            setTimeout(function() {
+
+                                console.log(context);
+
+                                $.map(tabs[index].layerGroups, function(_layerGroup, _size) {
+                                    _layerGroup.clearLayers();
+                                });
+                                setTimeout(function() {
+                                    $(context).click();
+
+
+
+                                    setTimeout(function() {
+                                        $.map(tabs[index].layerGroups, function(_layerGroup, _size) {
+                                            //L.circleMarker([0,0]).addTo(_layerGroup);
+                                            _layerGroup.clearLayers();
+                                        });
+                                        hackObj.switchStates[hackObj.c] = 0;
+
+                                    }, 0);
+
+                                }, 0);
+
+                            }, 0);
                         }
                     }
                 }
                 return tabDef;
             }),
             checkbox: true
-        })).done(function(context){
+        })).done(function(context) {
             var ui = context.getUI().appendTo("body");
             $(ui.find("a")[2]).click();
         });
