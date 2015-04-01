@@ -1,7 +1,7 @@
 function Map(options) {
 
     var mapOptions = {
-        center: [28.478348, 83.342285],
+        center: [28.478348, 84.439285],
         zoom: config["map-options"]["init-zoom"],
         minZoom: config["map-options"]["min-zoom"],
         /*maxBounds: L.latLngBounds(
@@ -55,6 +55,8 @@ function Map(options) {
             position: "topright",
             collapsed: false
         }).addTo(map);
+
+        $("<div class='controls-title controls-seperator'><h5>Basemaps</h5></div>").prependTo(layersControl._container);
 
         for (var baseMap in options.basemaps) {
             layersControl.addBaseLayer(options.basemaps[baseMap]["tileLayer"], baseMap);
@@ -1092,6 +1094,9 @@ function UI_JQueryDropdown(options) {
 function UI_Control_Filter(options) {
     var context = this;
 
+    var container = $(options["target-container"]);
+    container.hide();
+
     var uiElement = $("<input/>").attr({
         "type": "text",
         "id": options["ui-control-id"],
@@ -1153,7 +1158,7 @@ function UI_Control_Filter(options) {
     $(uiElement).on("keydown", function() {
         setTimeout(function() {
             //a=uiElement;
-            var container = $(options["target-container"]);
+
             var selection = container.find(options["target-items-selector"]);
             selection.filter(function() {
                 if (filterMode) {
@@ -1214,9 +1219,17 @@ function UI_Control_Filter(options) {
     });
     $(uiElement).focus(function(e) {
         $(uiElement).parent().addClass("active");
+        container.show({
+            duration: 400
+        });
     });
     $(uiElement).blur(function(e) {
         $(uiElement).parent().removeClass("active");
+        if($(document.activeElement).is($("#map")) && !uiElement.value){
+            container.hide({
+                duration: 400
+            });
+        }
     });
 
     function _getUI() {

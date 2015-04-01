@@ -12,12 +12,14 @@ body{
 
 .ui-tabbed-column{
     position: absolute;
-    top: 220px;
+/*    top: 220px;*/
+    top: 120px;
     left: 6px;
     /*height: 650px;*/
 /*    height: 100%;*/
-    height: 326px;
-    width: 236px;
+/*    height: 326px;*/
+/*    width: 236px;*/
+    max-width: 236px;
     z-index: 10000;
 }
 
@@ -25,7 +27,7 @@ body{
     /*display: none;*/
     position: absolute;
 /*    margin-left: 270px;*/
-    margin-top: -40px;
+/*    margin-top: -40px;*/
 }
 
 .leaflet-bottom .leaflet-control-scale{
@@ -121,8 +123,10 @@ div::-webkit-scrollbar-thumb{
     /*background-color: #e7dfd6;*/
     background-color: rgba(255,255,255,0.8);
     padding: 0px 12px 0px 6px;
-    border-right: #333333 thin solid;
-    box-shadow: 4px 2px 4px rgba(0,0,0,0.4);
+/*    border-right: #333333 thin solid;*/
+/*    box-shadow: 4px 2px 4px rgba(0,0,0,0.4);*/
+    border: #999999 thin solid;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.4);
     text-transform: uppercase;
 }
 
@@ -195,7 +199,8 @@ div::-webkit-scrollbar-thumb{
     /*width: 200px;*/
     width: 180px;
     margin-left: 21px;
-	margin-top: -6px;
+/*	margin-top: -6px;*/
+    margin-top: 4px;
 	margin-bottom: 4px;
 	line-height: 20px;
 }
@@ -233,7 +238,7 @@ div.title{
 }
 
 .leaflet-control-container .leaflet-top{
-    top: 36pt;
+    top: 6pt;
 }
 
 #map{
@@ -245,7 +250,7 @@ div.title{
 }
 
 .leaflet-left .leaflet-control-scale {
-    margin-left: 85px;
+/*    margin-left: 85px;*/
 }
 
 .leaflet-control-layers-toggle {
@@ -261,6 +266,34 @@ div.title{
     width: 100%;
     border-radius: 0px;
     box-shadow: none;
+    border-top: #999999 thin solid;
+}
+
+.leaflet-control-layers label{
+    font-size: 8pt;
+}
+.legend-icon{
+    margin: 0px 4px 0px 4px;
+}
+
+.controls-title.controls-seperator{
+    margin-top: -18px;
+    font-size: 16px;
+    text-transform: uppercase;
+/*    color: #aaaaaa;*/
+    color: #000000;
+/*    font-weight: 600;*/
+}
+
+.ui-switch-label{
+    color: #000000;
+}
+
+.controls-title.controls-seperator h5{
+    font-size: 0.8em;
+    line-height: 0.8em;
+    font-weight: 600;
+    margin-bottom: 16px;
 }
 
 /**zoom controls**/
@@ -557,16 +590,16 @@ div.leaflet-control-layers-separator{
     height: 10px;
 }
 .leaflet-marker-icon.medium img{
+    width: 18px;
+    height: 18px;
+}
+.leaflet-marker-icon.large img{
     width: 20px;
     height: 20px;
 }
-.leaflet-marker-icon.large img{
-    width: 24px;
-    height: 24px;
-}
 .leaflet-marker-icon.mega img{
-    width: 36px;
-    height: 36px;
+    width: 26px;
+    height: 26px;
 /*    -webkit-filter: brightness(1.2) hue-rotate(-120deg) saturate(5);*/
 }
 
@@ -893,11 +926,59 @@ span.marker-label-districts{
     font-size: 1.2em;
 }
 
+.leaflet-top.leaflet-right{
+    text-transform: uppercase;
+}
 
+.sidebar-close-button, .sidebar-restore-button{
+/*
+    width: 20px;
+    height: 20px;
+*/
+    outline: #999999 thin solid;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    text-align: center;
+/*    padding: 4px;*/
+    font-size: 12px;
+    background-color: rgba(255,255,255,0.8);
+    cursor: pointer;
+}
+
+.sidebar-close-button{
+    width: 20px;
+    height: 20px;
+}
+
+.sidebar-restore-button{
+    top: 10px;
+    right: 10px;
+}
+
+.sidebar-restore-button{
+    width: 36px;
+    height: 36px;
+    background: url("img/layers.png");
+    background-color: rgba(255,255,255,0.8);
+    background-position: 4px 4px;
+    background-repeat: no-repeat;
+}
+
+.sidebar-close-button span, .sidebar-restore-button span{
+    font-size: 12px;
+    color: #000000;
+}
+
+/*
+i.fa.fa-bars::after{
+    content: '\f0c9';
+}
+*/
 
 .zui-selectbox-options li:hover, .ui-switchboard a{
     background-color: #f6f6f6;
-    font-weight: 700;
+/*    font-weight: 700;*/
     padding: 0px 4px;
 }
 
@@ -925,7 +1006,8 @@ span.marker-label-districts{
     width: 20px;
 /*    top: 74px !important;
     left: 4px !important;*/
-    top: 216px !important;
+/*    top: 216px !important;*/
+    top: 126px !important;
     left: 10px !important;
 
 }
@@ -1013,6 +1095,7 @@ a.wiki{
     height: initial;
     padding: 6px;
     margin-left: -16px;
+    cursor: default;
 }
 .ui-switchboard .ui-switch{
     display: block;
@@ -1027,7 +1110,7 @@ a.wiki{
 }
 
 .ui-switchboard a span{
-    font-size: 10pt;
+    font-size: 8pt;
 }
 
 .project-extent-rectangle-close-button a{
@@ -1038,6 +1121,10 @@ a.wiki{
 
 .frozen{
     pointer-events: none;
+}
+
+.leaflet-top, .leaflet-bottom{
+    pointer-events: all;
 }
 
 .hidden:{

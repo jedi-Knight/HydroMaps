@@ -172,6 +172,8 @@ $(document).ready(function() {
             });
         });
     });
+
+    $("<div class='controls-title controls-seperator'><h5>Project Size</h5></div>").prependTo(theLayerControl._container);
     //});
     //}, 0);
 
@@ -499,6 +501,39 @@ $(document).ready(function() {
         })).done(function(context) {
 
             var ui = context.getUI().prependTo(".leaflet-top.leaflet-right");
+
+            $("<div class='controls-title controls-seperator'><h5>Project Status</h5></div>").prependTo($(".leaflet-top.leaflet-right").find(".ui-switchboard"));
+
+            (new UI_Button({
+                attributes:{
+                    class:"sidebar-close-button"
+                },
+                eventHandlers:{
+                    click: function(e){
+                        $(this).parent().hide({
+                            duration: 400
+                        });
+                        var context = this;
+
+                        (new UI_Button({
+                            attributes: {
+                                class: "sidebar-restore-button"
+                            },
+                            eventHandlers: {
+                                click: function(e){
+                                    $(this).remove();
+                                    $(context).parent().show({
+                                        duration: 400
+                                    });
+                                }
+                            },
+                            content: "<span></span>"
+                        })).appendTo("body");
+                    }
+                },
+                content: "<span>&times;</span>"
+            })).prependTo(".leaflet-top.leaflet-right");
+
             $(ui.find("a")[2]).click();
         });
 
@@ -552,6 +587,8 @@ $(document).ready(function() {
             boundaryLayersControl.addOverlay(districtLayers, "District");
             districtLayers.addTo(map);
             boundaryLayersControl.addTo(map);
+
+            $("<div class='controls-title controls-seperator'><h5>Administrative Boundaries</h5></div>").prependTo(boundaryLayersControl._container);
 
             cartograph.initializeBasemaps();
 

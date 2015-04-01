@@ -1,10 +1,10 @@
 config = {
     "map-of": "Hydropower Projects in Nepal",
     "map-options": {
-        "init-center": [28.478348, 83.342285],
+        "init-center": [28.478348, 86.542285],
         "map-bounds": {
-            "northeast": [30.688485, 88.847341],
-            "southwest": [26.487043, 79.739439],
+            "northeast": [30.688485, 89.847341],
+            "southwest": [26.487043, 78.739439],
         },
         "init-zoom": 7,
         "min-zoom": 7
