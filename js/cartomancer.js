@@ -520,6 +520,9 @@ $(document).ready(function() {
                 style: config["layer-styles"]["districts"],
                 onEachFeature: function(feature, layer) {
                     setTimeout(function() {
+                        layer.setStyle({
+                            fillColor: randomColor()
+                        });
                         //districtLabelsOverlay.addLayer(new L.LabelOverlays(L.latLng(getPolygonCentroid(feature.geometry)), "123"));
                         //districtLabelsOverlay.addLayer(new L.LabelOverlays(layer.getBounds().getCenter(), feature.properties.Name));
                         districtLayers.addLayer(function() {

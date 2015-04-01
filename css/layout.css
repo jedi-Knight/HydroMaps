@@ -12,9 +12,11 @@ body{
 
 .ui-tabbed-column{
     position: absolute;
+    top: 220px;
+    left: 6px;
     /*height: 650px;*/
     height: 100%;
-    width: 200px;
+    width: 236px;
     z-index: 10000;
 }
 
@@ -119,6 +121,7 @@ div::-webkit-scrollbar-thumb{
     padding: 0px 12px 0px 6px;
     border-right: #333333 thin solid;
     box-shadow: 4px 2px 4px rgba(0,0,0,0.4);
+    text-transform: uppercase;
 }
 
 
@@ -867,6 +870,7 @@ span.marker-label-districts{
     width: 240px !important;
     /*font-size: 1.7em;*/
 	font-size: 1.64em;
+    text-transform: uppercase;
 }
 
 .zui-selectbox-options, .ui-switchboard a{
@@ -909,8 +913,11 @@ span.marker-label-districts{
     /*background: #ffffff;*/
     height: 20px;
     width: 20px;
-    top: 74px !important;
-    left: 4px !important;
+/*    top: 74px !important;
+    left: 4px !important;*/
+    top: 216px !important;
+    left: 10px !important;
+
 }
 
 .zui-selectbox-holder.ui-filter-search-by-selector .zui-selectbox-toggle{

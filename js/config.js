@@ -62,9 +62,10 @@ config = {
             fillColor: '#ffffff',
             weight: 1.4,
             opacity: 1,
-            color: '#d5aad0',
-            dashArray: '4',
-            fillOpacity: 0.6,
+            //color: '#d5aad0',30
+            color: '#000000',
+            dashArray: '2 4',
+            fillOpacity: 0.2,
             clickable: false
         },
         "country": {
