@@ -15,7 +15,8 @@ body{
     top: 220px;
     left: 6px;
     /*height: 650px;*/
-    height: 100%;
+/*    height: 100%;*/
+    height: 326px;
     width: 236px;
     z-index: 10000;
 }
@@ -23,7 +24,7 @@ body{
 .leaflet-left.leaflet-top .leaflet-control-zoom{
     /*display: none;*/
     position: absolute;
-    margin-left: 270px;
+/*    margin-left: 270px;*/
     margin-top: -40px;
 }
 
@@ -68,7 +69,8 @@ body{
 
 .ui-column-content{
     /*height: inherit;*/
-    height: 556px;
+/*    height: 556px;*/
+    height: 284px;
     /*margin-bottom: 16px;*/
     overflow-y: scroll;
 /*    direction:rtl;*/
@@ -255,8 +257,10 @@ div.title{
 
 .leaflet-right.leaflet-right .leaflet-control-layers{
     margin-top: 0px;
-    width: 160px;
+/*    width: 160px;*/
+    width: 100%;
     border-radius: 0px;
+    box-shadow: none;
 }
 
 /**zoom controls**/
@@ -446,6 +450,11 @@ div.leaflet-control-search{
 
 .leaflet-control-container .leaflet-top{
     border: #aaaaaa thin solid;
+    padding-left: 16px;
+}
+
+.leaflet-control-container .leaflet-top.leaflet-left{
+    border: none;
 }
 
 .msg
@@ -556,8 +565,8 @@ div.leaflet-control-layers-separator{
     height: 24px;
 }
 .leaflet-marker-icon.mega img{
-    width: 48px;
-    height: 48px;
+    width: 36px;
+    height: 36px;
 /*    -webkit-filter: brightness(1.2) hue-rotate(-120deg) saturate(5);*/
 }
 
@@ -596,7 +605,8 @@ border: #aaaaaa thin solid;
 
 
 span.marker-label-districts{
-    color: #d5aad0;
+/*    color: #d5aad0;*/
+    color: #000000;
     /*background-color: #cccccc;*/
     /*text-shadow: 0px 0px 4px #ffffff, 0px 0px 2px #ffffff;*/
 }
@@ -993,13 +1003,16 @@ a.wiki{
 
 .ui-switchboard{
     background-color: rgba(255,255,255,0.8);
+/*
     display: inline-block;
     position: absolute;
     top: 10px;
     left: 6px;
+*/
     width: initial;
     height: initial;
     padding: 6px;
+    margin-left: -16px;
 }
 .ui-switchboard .ui-switch{
     display: block;
@@ -1015,4 +1028,18 @@ a.wiki{
 
 .ui-switchboard a span{
     font-size: 10pt;
+}
+
+.project-extent-rectangle-close-button a{
+    font-size: 28px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.frozen{
+    pointer-events: none;
+}
+
+.hidden:{
+    display: none;
 }

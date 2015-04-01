@@ -30,7 +30,7 @@ $(document).ready(function() {
     }).addTo(map);*/
 
     L.control.scale({
-        position: "bottomright"
+        position: "bottomleft"
     }).addTo(map);
 
 
@@ -412,6 +412,18 @@ $(document).ready(function() {
                                                     );
                                                     marquee.bindPopup(popupContent);
 
+                                                    var marqueeCloseButton = L.marker(marquee._latlngs[2],{
+                                                        icon: L.divIcon({
+                                                            iconSize: [10,10],
+                                                            className: "project-extent-rectangle-close-button frozen hidden",
+                                                            html: "<a>&times;</a>"
+                                                        })
+                                                    });
+
+                                                    var marqueeObj = L.featureGroup();
+                                                    marqueeObj.addLayer(marquee);
+                                                    marqueeObj.addLayer(marqueeCloseButton);
+
                                                     /*var popup = L.popup({});
                              marker.on('click', function(e) {
                              console.log(marker);
@@ -422,8 +434,8 @@ $(document).ready(function() {
                                                     try {
 
                                                         marker.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
-                                                        marquee.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
-                                                        marquee.addTo(extentMarqueeGroup);
+                                                        marqueeObj.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
+                                                        marqueeObj.addTo(extentMarqueeGroup);
                                                         //console.log(marquee.toGeoJSON());
                                                     } catch (e) {
                                                         console.log(e);
@@ -485,7 +497,8 @@ $(document).ready(function() {
             }),
             checkbox: true
         })).done(function(context) {
-            var ui = context.getUI().appendTo("body");
+
+            var ui = context.getUI().prependTo(".leaflet-top.leaflet-right");
             $(ui.find("a")[2]).click();
         });
 
@@ -539,6 +552,9 @@ $(document).ready(function() {
             boundaryLayersControl.addOverlay(districtLayers, "District");
             districtLayers.addTo(map);
             boundaryLayersControl.addTo(map);
+
+            cartograph.initializeBasemaps();
+
             $($(boundaryLayersControl._container).find("input")[1]).after(function() {
                 return $("<span></span>").addClass("legend-icon").css({
                     "background-image": "url('img/district.png')"
@@ -787,6 +803,7 @@ $(document).ready(function() {
                             fillOpacity: config["layer-styles"]["extent-marquee"]["fillOpacity"]
                         })
                     });
+                    $("#map").find(".project-extent-rectangle-close-button").removeClass("frozen hidden");
                 }, 0);
 
             } else {
@@ -797,6 +814,7 @@ $(document).ready(function() {
                             fillOpacity: 0
                         })
                     });
+                    $("map").find(".project-extent-rectangle-close-button").addClass("frozen hidden");
                 }, 0);
             }
 

@@ -44,7 +44,7 @@ function Map(options) {
     var osmTileLayerClone = new osmTiles();
     //map.addLayer(kilnClusters);
 
-
+    function _initializeBasemaps(){
 
     if (options.basemaps) {
         options.basemaps.OpenStreetMap.tileLayer.addTo(map);
@@ -60,6 +60,11 @@ function Map(options) {
             layersControl.addBaseLayer(options.basemaps[baseMap]["tileLayer"], baseMap);
         }
         //layersControl._layers.dummylayer1.layer;
+    }
+    }
+
+    this.initializeBasemaps = function(){
+        return _initializeBasemaps();
     }
 
     this.getMap = function() {

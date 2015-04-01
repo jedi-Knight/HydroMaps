@@ -60,11 +60,11 @@ config = {
         },
         "districts": {
             fillColor: '#ffffff',
-            weight: 1.4,
+            weight: 1.6,
             opacity: 1,
             //color: '#d5aad0',30
             color: '#000000',
-            dashArray: '2 4',
+            dashArray: '1 4',
             fillOpacity: 0.2,
             clickable: false
         },
