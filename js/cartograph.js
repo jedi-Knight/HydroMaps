@@ -1225,7 +1225,7 @@ function UI_Control_Filter(options) {
     });
     $(uiElement).blur(function(e) {
         $(uiElement).parent().removeClass("active");
-        if($(document.activeElement).is($("#map")) && !uiElement.value){
+        if(!uiElement.value){
             container.hide({
                 duration: 400
             });

@@ -213,7 +213,8 @@ body,html
 }
 
 .leaflet-container{
-    font: 12px/1.5 'Raleway', 'Open Sans',sans-serif;
+/*    font: 12px/1.5 'Raleway', 'Open Sans',sans-serif;*/
+    font-family: 'Raleway', 'Open Sans',sans-serif;
 	font-weight: 600;
 	text-transform: capitalize;
 }
@@ -267,6 +268,7 @@ div.title{
     border-radius: 0px;
     box-shadow: none;
     border-top: #999999 thin solid;
+    background-color: rgba(255,255,255,0.9);
 }
 
 .leaflet-control-layers label{
@@ -1084,7 +1086,7 @@ a.wiki{
 
 
 .ui-switchboard{
-    background-color: rgba(255,255,255,0.8);
+    background-color: rgba(255,255,255,0.9);
 /*
     display: inline-block;
     position: absolute;
@@ -1111,6 +1113,8 @@ a.wiki{
 
 .ui-switchboard a span{
     font-size: 8pt;
+    font-family: 'Raleway', 'Open Sans',sans-serif;
+    font-weight: 600;
 }
 
 .project-extent-rectangle-close-button a{
