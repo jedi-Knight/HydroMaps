@@ -53,7 +53,7 @@ config = {
             fillColor: '#ffffff',
             weight: 1,
             opacity: 0.8,
-            color: '#d5aad0',
+            color: '#333333',
             dashArray: '2 6',
             fillOpacity: 0,
             clickable: false
@@ -63,7 +63,7 @@ config = {
             weight: 1.6,
             opacity: 0.8,
             //color: '#d5aad0',30
-            color: '#000000',
+            color: '#333333',
             dashArray: '1 4',
             fillOpacity: 0.2,
             clickable: false
@@ -261,7 +261,13 @@ config = {
 					radius: 20
 				}
 			}
-		}
+		},
+        "marker-shapes":{
+            "small": "TriangleMarker",
+            "medium": "CircleMarker",
+            "large": "SquareMarker",
+            "mega": "HexagonMarker"
+        }
     },
     "filter-search-by-elements":[
         {
@@ -275,6 +281,9 @@ config = {
             className: "ui-filter-search-by-icon"
         }
     ],
+
+
+
 colorList:["#66c2a5","#fc8d62","#8da0cb", "#e78ac3", "#a6d854"],
 opacity: 0.8
 };

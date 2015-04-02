@@ -14,9 +14,7 @@ $(document).ready(function() {
     $("#map").find("a.leaflet-control-zoom-out").text("–");
     var map = cartograph.getMap();
 
-    map.on("baselayerchange", function(layer) {
-        //$(map.getPanes().tilePane).toggleClass("grayscale", layer.name === "OpenStreetMap Grayscale");
-    });
+
 
     var popup = new Popup();
     mapGlobals = {
@@ -404,18 +402,23 @@ $(document).ready(function() {
                                                     //});*/
 
 //													var marker = L.circleMarker(data.features[feature]["geometry"]["coordinates"].reverse(), $.extend(config["layer-styles"]["markers"][index][markerCategory],setRandomStyle(config.colorList,config.opacity)));
-													var marker = L.circleMarker(data.features[feature]["geometry"]["coordinates"].reverse(), config["layer-styles"]["markers"][index][markerCategory]);
+													//var marker = L.circleMarker(data.features[feature]["geometry"]["coordinates"].reverse(), config["layer-styles"]["markers"][index][markerCategory]);
 
-                                                    //var centerLatLng = data.features[feature]["geometry"]["coordinates"].reverse();
-                                                    /*var marker = L.polygon(function(){
-                                                        return [
-                                                            L.latLng([centerLatLng[0]+0.3, centerLatLng[1]+0.3]),
-                                                            L.latLng([centerLatLng[0]+0.15, centerLatLng[1]+0.15]),
-                                                            L.latLng([centerLatLng[0]-0.15, centerLatLng[1]-0.15]),
-                                                            L.latLng([centerLatLng[0]-0.3, centerLatLng[1]-0.3]),
-                                                            L.latLng([centerLatLng[0]+0.3, centerLatLng[1]+0.3])
-                                                        ];
-                                                    }(), config["layer-styles"]["markers"][index][markerCategory]);*/
+                                                    var centerLatLng = data.features[feature]["geometry"]["coordinates"].reverse();
+//                                                    marker = L.polygon(function(){
+//                                                        return [
+//                                                            L.latLng([centerLatLng[0], centerLatLng[1]+0.3]),
+//                                                            L.latLng([centerLatLng[0]+0.15, centerLatLng[1]+0.15]),
+//                                                            L.latLng([centerLatLng[0]+0.15, centerLatLng[1]-0.15]),
+//                                                            L.latLng([centerLatLng[0], centerLatLng[1]-0.3]),
+//                                                            L.latLng([centerLatLng[0], centerLatLng[1]+0.3])
+//                                                        ];
+//                                                    }(), config["layer-styles"]["markers"][index][markerCategory]);
+
+                                                    var marker;
+
+                                                    marker = new window[config["layer-styles"]["marker-shapes"][markerCategory]](centerLatLng, config["layer-styles"]["markers"][index][markerCategory]);
+                                                    //marker.addTo(map);
 
                                                     //console.log(index);
 
@@ -879,6 +882,24 @@ $(document).ready(function() {
             }
 
         }, 0);
+    });
+
+
+    map.on("baselayerchange", function(layer) {
+        if(layer.name==="Satellite Imagery"){
+            districtLayers.setStyle({
+                color: "#ffffff",
+                fillOpacity: 0
+            });
+            $(".marker-label-districts").addClass("dark-background");
+        }else{
+            districtLayers.setStyle({
+                color: "#333333",
+                fillOpacity: 0.2
+            });
+            $(".marker-label-districts").removeClass("dark-background");
+        }
+        //$(map.getPanes().tilePane).toggleClass("grayscale", layer.name === "OpenStreetMap Grayscale");
     });
 
 

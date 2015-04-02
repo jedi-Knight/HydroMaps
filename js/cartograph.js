@@ -44,28 +44,28 @@ function Map(options) {
     var osmTileLayerClone = new osmTiles();
     //map.addLayer(kilnClusters);
 
-    function _initializeBasemaps(){
+    function _initializeBasemaps() {
 
-    if (options.basemaps) {
-        options.basemaps.OpenStreetMap.tileLayer.addTo(map);
+        if (options.basemaps) {
+            options.basemaps.OpenStreetMap.tileLayer.addTo(map);
 
-        var overlayMaps = {};
+            var overlayMaps = {};
 
-        var layersControl = L.control.layers({}, {}, {
-            position: "topright",
-            collapsed: false
-        }).addTo(map);
+            var layersControl = L.control.layers({}, {}, {
+                position: "topright",
+                collapsed: false
+            }).addTo(map);
 
-        $("<div class='controls-title controls-seperator'><h5>Basemaps</h5></div>").prependTo(layersControl._container);
+            $("<div class='controls-title controls-seperator'><h5>Basemaps</h5></div>").prependTo(layersControl._container);
 
-        for (var baseMap in options.basemaps) {
-            layersControl.addBaseLayer(options.basemaps[baseMap]["tileLayer"], baseMap);
+            for (var baseMap in options.basemaps) {
+                layersControl.addBaseLayer(options.basemaps[baseMap]["tileLayer"], baseMap);
+            }
+            //layersControl._layers.dummylayer1.layer;
         }
-        //layersControl._layers.dummylayer1.layer;
-    }
     }
 
-    this.initializeBasemaps = function(){
+    this.initializeBasemaps = function() {
         return _initializeBasemaps();
     }
 
@@ -1225,7 +1225,7 @@ function UI_Control_Filter(options) {
     });
     $(uiElement).blur(function(e) {
         $(uiElement).parent().removeClass("active");
-        if(!uiElement.value){
+        if (!uiElement.value) {
             container.hide({
                 duration: 400
             });
@@ -1461,7 +1461,7 @@ function UI_DropdownMenuColumn(options) {
     };
 }
 
-function UI_SimpleAsyncListColumn(options){
+function UI_SimpleAsyncListColumn(options) {
     var container = $("<div class='ui-tabbed-column'/>");
     var content = $("<div class='ui-column-content'/>");
     var searchBar = new UI_Control_Filter({
@@ -1474,28 +1474,28 @@ function UI_SimpleAsyncListColumn(options){
     }).getUI().appendTo(container);
     content.appendTo(container);
 
-    function _updateContent(options){
+    function _updateContent(options) {
         content.children().remove();
-                //titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
-                var uiLoadingAnim = $("<img class='ui-loading-anim' src='img/loading-anim.gif'/>");
-                content.append(uiLoadingAnim);
-                //$(this).siblings().removeClass("active");
-                //$(this).addClass("active");
+        //titleBar.find("h3").text(options.tabs[$(this).attr("_id")]["title"]);
+        var uiLoadingAnim = $("<img class='ui-loading-anim' src='img/loading-anim.gif'/>");
+        content.append(uiLoadingAnim);
+        //$(this).siblings().removeClass("active");
+        //$(this).addClass("active");
 
-                //var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
-                var deferred = options.contentGen();
-                var context = this;
-                deferred.done(function(obj) {
-                    uiLoadingAnim.remove();
-                    content.append(obj.jqObj.children());
-                   /* options.tabs[context.value]["eventCallbacks"]["click"](e, {
+        //var deferred = options.tabs[$(this).attr("_id")]["eventHandlers"]["click"](e);
+        var deferred = options.contentGen();
+        var context = this;
+        deferred.done(function(obj) {
+            uiLoadingAnim.remove();
+            content.append(obj.jqObj.children());
+            /* options.tabs[context.value]["eventCallbacks"]["click"](e, {
                         data: obj.data,
                         params: obj.params
                     });*/
-                });
+        });
     }
 
-    this.updateContent = function(options){
+    this.updateContent = function(options) {
         return _updateContent(options);
     }
 
@@ -1549,19 +1549,19 @@ function UI_Switchboard(options) {
                 aSwitch.append($("<span class='ui-switch-label'/>").text(options.switches[c].label));
                 $(aSwitch).attr("_id", c);
 
-                aSwitch.on("check", function(e){
+                aSwitch.on("check", function(e) {
 
-                    $(this).find("input").each(function(index){
+                    $(this).find("input").each(function(index) {
                         console.log($(this)[0].checked);
-                        if($(this)[0].checked){
+                        if ($(this)[0].checked) {
                             //$(this)[0].checked=false;
-                        }else{
-                            $(this)[0].checked=true;
+                        } else {
+                            $(this)[0].checked = true;
                         }
                     });
                 });
 
-                aSwitch.on("click", function(e){
+                aSwitch.on("click", function(e) {
                     $(this).trigger("check");
                 })
 
@@ -1575,12 +1575,12 @@ function UI_Switchboard(options) {
                             //switchStates[$(this).attr("_id")] += 1;
                             //switchStates[$(this).attr("_id")] %= 2;
 
-                            switchStates[$(this).attr("_id")] = switchStates[$(this).attr("_id")]?0:1;
+                            switchStates[$(this).attr("_id")] = switchStates[$(this).attr("_id")] ? 0 : 1;
 
                             console.log(switchStates[$(this).attr("_id")]);
 
                             options.switches[$(this).attr("_id")].events[switchStateNames[switchStates[$(this).attr("_id")]]].call(aSwitch, e, {
-                                switchStates:switchStates,
+                                switchStates: switchStates,
                                 c: $(this).attr("_id")
                             });
                         });
@@ -1611,5 +1611,121 @@ function UI_Switchboard(options) {
         return _getUI(options);
     }
 
-    return $.extend(this,deferred.promise());
+    return $.extend(this, deferred.promise());
+}
+
+function HexagonMarker(centerLatLng, options) {
+    var markerFactory = function(fZ) {
+        return L.polygon(function() {
+            return [
+                L.latLng([centerLatLng[0], centerLatLng[1] + options.radius / fZ]),
+                L.latLng([centerLatLng[0] + options.radius / (1.585*fZ), centerLatLng[1] + options.radius / (1.585*fZ)]),
+                L.latLng([centerLatLng[0] + options.radius / (1.585*fZ), centerLatLng[1] - options.radius / (1.585*fZ)]),
+                L.latLng([centerLatLng[0], centerLatLng[1] - options.radius / fZ]),
+                L.latLng([centerLatLng[0] - options.radius / (1.585*fZ), centerLatLng[1] - options.radius / (1.585*fZ)]),
+                L.latLng([centerLatLng[0] - options.radius / (1.585*fZ), centerLatLng[1] + options.radius / (1.585*fZ)])
+                //,L.latLng([centerLatLng[0], centerLatLng[1] + options.radius / fZ])
+            ];
+        }(), options);
+    }
+
+    var marker = new markerFactory(200);
+
+    this.addTo = function(layerGroup) {
+        layerGroup._map.on("zoomend", function(e) {
+            try{
+                layerGroup.removeLayer(marker);
+            }catch(e){
+                //
+            }
+            marker= new markerFactory(Math.pow(2, layerGroup._map.getZoom()*0.93));
+            marker.addTo(layerGroup);
+        });
+        layerGroup._map.fire("zoomend");
+    }
+
+    return $.extend(true, marker, this);
+}
+
+function SquareMarker(centerLatLng, options) {
+    var markerFactory = function(fZ) {
+        return L.rectangle(function() {
+            return [
+                L.latLng([centerLatLng[0] + options.radius*.14142 / fZ, centerLatLng[1] + options.radius*.14142 / fZ]),
+                L.latLng([centerLatLng[0] + options.radius*.14142 / fZ, centerLatLng[1] - options.radius*.14142 / fZ]),
+                L.latLng([centerLatLng[0] - options.radius*.14142 / fZ, centerLatLng[1] - options.radius*.14142 / fZ]),
+                L.latLng([centerLatLng[0] - options.radius*.14142 / fZ, centerLatLng[1] + options.radius*.14142 / fZ])
+            ];
+        }(), options);
+    }
+
+    var marker = new markerFactory(200);
+
+    this.addTo = function(layerGroup) {
+        layerGroup._map.on("zoomend", function(e) {
+            try{
+                layerGroup.removeLayer(marker);
+            }catch(e){
+                //
+            }
+            marker= new markerFactory(Math.pow(2, layerGroup._map.getZoom()*0.65));
+            marker.addTo(layerGroup);
+        });
+        layerGroup._map.fire("zoomend");
+    }
+
+    return $.extend(true, marker, this);
+}
+
+function TriangleMarker(centerLatLng, options) {
+    var markerFactory = function(fZ) {
+        return L.polygon(function() {
+            return [
+                L.latLng([centerLatLng[0] + options.radius / fZ, centerLatLng[1]]),
+                L.latLng([centerLatLng[0] - 0.5*options.radius / fZ, centerLatLng[1] - 0.866*options.radius / fZ]),
+                L.latLng([centerLatLng[0] - 0.5*options.radius / fZ, centerLatLng[1] + 0.866*options.radius / fZ]),
+                //L.latLng([centerLatLng[0] + options.radius / fZ, centerLatLng[1]])
+            ];
+        }(), options);
+    }
+
+    var marker = new markerFactory(200);
+
+    this.addTo = function(layerGroup) {
+        layerGroup._map.on("zoomend", function(e) {
+            try{
+                layerGroup.removeLayer(marker);
+            }catch(e){
+                //
+            }
+            marker= new markerFactory(Math.pow(2, layerGroup._map.getZoom()*0.84));
+            marker.addTo(layerGroup);
+        });
+        layerGroup._map.fire("zoomend");
+    }
+
+    return $.extend(true, marker, this);
+}
+
+function CircleMarker(centerLatLng, options) {
+    var markerFactory = function(fZ) {
+        return L.circle(centerLatLng, options.radius*100000/fZ, options);
+    }
+
+    var marker = new markerFactory(200);
+
+    this.addTo = function(layerGroup) {
+        layerGroup._map.on("zoomend", function(e) {
+            try{
+                layerGroup.removeLayer(marker);
+            }catch(e){
+                //
+            }
+            marker= new markerFactory(Math.pow(2, layerGroup._map.getZoom()*0.97));
+            marker.addTo(layerGroup);
+        });
+        layerGroup._map.fire("zoomend");
+    }
+
+    return $.extend(true, marker, this);
 }

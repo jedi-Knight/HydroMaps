@@ -580,11 +580,11 @@ div.leaflet-control-layers-separator{
 }
 
 .leaflet-google-layer{
-    -webkit-filter: brightness(1.4) contrast(1.2);
+    -webkit-filter: contrast(0.8);
 }
 
 .leaflet-google-layer.normal{
-    -webkit-filter: brightness(1.2) contrast(1.05);
+    -webkit-filter: contrast(0.8);
 }
 
 .leaflet-marker-icon.small img{
@@ -641,9 +641,12 @@ border: #aaaaaa thin solid;
 
 span.marker-label-districts{
 /*    color: #d5aad0;*/
-    color: #000000;
+    color: #333333;
     /*background-color: #cccccc;*/
     /*text-shadow: 0px 0px 4px #ffffff, 0px 0px 2px #ffffff;*/
+}
+span.marker-label-districts.dark-background{
+    color: #ffffff;
 }
 
 @media all and (max-width:960px)
