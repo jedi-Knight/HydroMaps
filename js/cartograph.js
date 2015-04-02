@@ -1619,11 +1619,11 @@ function HexagonMarker(centerLatLng, options) {
         return L.polygon(function() {
             return [
                 L.latLng([centerLatLng[0], centerLatLng[1] + options.radius / fZ]),
-                L.latLng([centerLatLng[0] + options.radius / (1.585*fZ), centerLatLng[1] + options.radius / (1.585*fZ)]),
-                L.latLng([centerLatLng[0] + options.radius / (1.585*fZ), centerLatLng[1] - options.radius / (1.585*fZ)]),
+                L.latLng([centerLatLng[0] + 0.866*options.radius / fZ, centerLatLng[1] + 0.5*options.radius / fZ]),
+                L.latLng([centerLatLng[0] + 0.866*options.radius / fZ, centerLatLng[1] - 0.5*options.radius / fZ]),
                 L.latLng([centerLatLng[0], centerLatLng[1] - options.radius / fZ]),
-                L.latLng([centerLatLng[0] - options.radius / (1.585*fZ), centerLatLng[1] - options.radius / (1.585*fZ)]),
-                L.latLng([centerLatLng[0] - options.radius / (1.585*fZ), centerLatLng[1] + options.radius / (1.585*fZ)])
+                L.latLng([centerLatLng[0] - 0.866*options.radius / fZ, centerLatLng[1] - 0.5*options.radius / fZ]),
+                L.latLng([centerLatLng[0] - 0.866*options.radius / fZ, centerLatLng[1] + 0.5*options.radius / fZ])
                 //,L.latLng([centerLatLng[0], centerLatLng[1] + options.radius / fZ])
             ];
         }(), options);
