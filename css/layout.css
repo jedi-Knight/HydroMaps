@@ -13,13 +13,13 @@ body{
 .ui-tabbed-column{
     position: absolute;
 /*    top: 220px;*/
-    top: 120px;
-    left: 6px;
+    top: 98px;
+    left: 16px;
     /*height: 650px;*/
 /*    height: 100%;*/
 /*    height: 326px;*/
 /*    width: 236px;*/
-    max-width: 236px;
+    max-width: 256px;
     z-index: 10000;
 }
 
@@ -78,7 +78,11 @@ body{
 /*    direction:rtl;*/
     text-align: left;
     background-color: #ffffff;
-    padding: 0px 6px 0px 6px;
+    padding: 4px 6px 0px 12px;
+    border: #999999 thin solid;
+/*    margin-left: 21px;*/
+    margin-top: -5px;
+    max-width: 215px;
 }
 
 .ui-column-content::-webkit-scrollbar{
@@ -121,12 +125,12 @@ div::-webkit-scrollbar-thumb{
 
 .ui-tabbed-column{
     /*background-color: #e7dfd6;*/
-    background-color: rgba(255,255,255,0.8);
-    padding: 0px 12px 0px 6px;
+/*    background-color: rgba(255,255,255,0.8);*/
+/*    padding: 0px 12px 0px 6px;*/
 /*    border-right: #333333 thin solid;*/
 /*    box-shadow: 4px 2px 4px rgba(0,0,0,0.4);*/
-    border: #999999 thin solid;
-    box-shadow: 0px 0px 4px rgba(0,0,0,0.4);
+/*    border: #999999 thin solid;*/
+/*    box-shadow: 0px 0px 4px rgba(0,0,0,0.4);*/
     text-transform: uppercase;
 }
 
@@ -197,12 +201,14 @@ div::-webkit-scrollbar-thumb{
 
 #filter-search{
     /*width: 200px;*/
-    width: 180px;
-    margin-left: 21px;
+/*    width: 180px;*/
+    width: 140px;
+/*    margin-left: 21px;*/
 /*	margin-top: -6px;*/
     margin-top: 4px;
 	margin-bottom: 4px;
 	line-height: 20px;
+    padding-left: 26px;
 }
 
 body,html
@@ -466,13 +472,13 @@ div.leaflet-control-search{
 .leaflet-control-zoom
 {
     /*border: #666 thick solid;*/
-    /*border-radius: 0;*/
+    border-radius: 0px;
     background-color: #ffffff;
 }
 
 .leaflet-control-zoom a
 {
-    border-radius: 0;
+    border-radius: 0px;
     background-color: transparent;
 }
 
@@ -490,6 +496,24 @@ div.leaflet-control-search{
 
 .leaflet-control-container .leaflet-top.leaflet-left{
     border: none;
+}
+
+.leaflet-bar{
+    box-shadow: none;
+    border: #999999 thin solid;
+}
+
+.leaflet-bottom.leaflet-left .leaflet-control{
+    display: inline-block;
+}
+
+.leaflet-bottom.leaflet-left{
+    margin-bottom: 6px;
+}
+
+.leaflet-bottom.leaflet-left .leaflet-control-scale{
+    position: absolute;
+    bottom: 2px;
 }
 
 .msg
@@ -641,7 +665,7 @@ border: #aaaaaa thin solid;
 
 span.marker-label-districts{
 /*    color: #d5aad0;*/
-    color: #333333;
+    color: #4b4b4b;
     /*background-color: #cccccc;*/
     /*text-shadow: 0px 0px 4px #ffffff, 0px 0px 2px #ffffff;*/
 }
@@ -940,11 +964,11 @@ span.marker-label-districts.dark-background{
     width: 20px;
     height: 20px;
 */
-    outline: #999999 thin solid;
+/*    outline: #999999 thin solid;*/
     position: absolute;
     top: 4px;
     right: 4px;
-    text-align: center;
+    text-align: right;
 /*    padding: 4px;*/
     font-size: 12px;
     background-color: rgba(255,255,255,0.8);
@@ -971,8 +995,10 @@ span.marker-label-districts.dark-background{
 }
 
 .sidebar-close-button span, .sidebar-restore-button span{
-    font-size: 12px;
+    font-size: 16px;
+    font-weight: 100;
     color: #000000;
+    line-height: .5em;
 }
 
 /*
@@ -1012,8 +1038,8 @@ i.fa.fa-bars::after{
 /*    top: 74px !important;
     left: 4px !important;*/
 /*    top: 216px !important;*/
-    top: 126px !important;
-    left: 10px !important;
+    top: 104px !important;
+    left: 19px !important;
 
 }
 
@@ -1033,7 +1059,8 @@ float: left;
 .zui-selectbox-holder.ui-filter-search-by-selector .zui-selectbox-options{
     /*width: 60px;*/
 	left: 22px;
-	width: 178px;
+/*	width: 178px;*/
+    width: 140px;
         margin-top: 0px;
         font-size: 12px;
 }
@@ -1124,7 +1151,63 @@ a.wiki{
     font-size: 28px;
     margin-top: 10px;
     margin-right: 10px;
+    cursor: pointer;
 }
+
+#about{
+    position: absolute;
+    background-color: rgba(255,255,255,0.8);
+    padding: 10px;
+    border: #999999 thin solid;
+    top: 50px;
+    left: 50%;
+    margin-left: -350px;
+    width: 700px;
+    height: 500px;
+}
+
+#about .close-button{
+    position: absolute;
+    top: 4px;
+    right: 4px;
+}
+
+#about h4{
+    text-align: center;
+}
+
+.map-title{
+    position: absolute;
+    top: 60px;
+    left: 10px;
+    padding: 10px;
+    cursor: pointer;
+/*    background-color: rgba(255,255,255,0.8)*/
+}
+
+.map-title:hover{
+    text-decoration: underline;
+}
+
+.control-box{
+    position: absolute;
+    top: 20px;
+    left: 10px;
+/*    width: 120px;*/
+    height: 120px;
+    padding: 0px 16px 0px 10px;
+    background-color: rgba(255,255,255,0.4);
+}
+
+.control-box h2{
+/*    letter-spacing: .1em;*/
+    line-height: .1em;
+}
+
+.map-title{
+/*    width: */
+}
+
 
 .frozen{
     pointer-events: none;

@@ -53,7 +53,7 @@ config = {
             fillColor: '#ffffff',
             weight: 1,
             opacity: 0.8,
-            color: '#333333',
+            color: '#4b4b4b',
             dashArray: '2 6',
             fillOpacity: 0,
             clickable: false
@@ -63,7 +63,7 @@ config = {
             weight: 1.6,
             opacity: 0.8,
             //color: '#d5aad0',30
-            color: '#333333',
+            color: '#4b4b4b',
             dashArray: '1 4',
             fillOpacity: 0.2,
             clickable: false

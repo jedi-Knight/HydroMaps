@@ -8,7 +8,8 @@ function Map(options) {
          L.latLng(config["map-options"]["map-bounds"]["northeast"]),
          L.latLng(config["map-options"]["map-bounds"]["southwest"])
          ),*/
-        doubleClickZoom: true
+        doubleClickZoom: true,
+        zoomControl: false
     };
 
     if (options && options["mapOptions"]) {
@@ -1219,6 +1220,10 @@ function UI_Control_Filter(options) {
     });
     $(uiElement).focus(function(e) {
         $(uiElement).parent().addClass("active");
+        $(uiElement).closest(".ui-tabbed-column").addClass("active");
+        $(uiElement).animate({
+            width: "235px"
+        });
         container.show({
             duration: 400
         });
@@ -1226,9 +1231,13 @@ function UI_Control_Filter(options) {
     $(uiElement).blur(function(e) {
         $(uiElement).parent().removeClass("active");
         if (!uiElement.value) {
+            $(uiElement).animate({
+            width: "140px"
+        });
             container.hide({
                 duration: 400
             });
+            $(uiElement).closest(".ui-tabbed-column").removeClass("active");
         }
     });
 
@@ -1638,7 +1647,7 @@ function HexagonMarker(centerLatLng, options) {
             }catch(e){
                 //
             }
-            marker= new markerFactory(Math.pow(2, layerGroup._map.getZoom()*0.93));
+            marker= new markerFactory(Math.pow(2, layerGroup._map.getZoom()*0.97));
             marker.addTo(layerGroup);
         });
         layerGroup._map.fire("zoomend");

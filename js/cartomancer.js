@@ -5,10 +5,10 @@ $(document).ready(function() {
         "basemaps": {
             "OpenStreetMap": {
                 "tileLayer": L.tileLayer('http://104.131.69.181/osm/{z}/{x}/{y}.png', {})
-            },
+            }/*,
             "Satellite Imagery": {
                 "tileLayer": new L.Google()
-            }
+            }*/
         }
     });
     $("#map").find("a.leaflet-control-zoom-out").text("–");
@@ -23,11 +23,11 @@ $(document).ready(function() {
 
     map.setMaxBounds(map.getBounds().pad(0.025));
 
-    /*L.control.zoom({
-        position: "bottomright"
-    }).addTo(map);*/
-
     L.control.scale({
+        position: "bottomleft"
+    }).addTo(map);
+
+    L.control.zoom({
         position: "bottomleft"
     }).addTo(map);
 
@@ -607,6 +607,7 @@ $(document).ready(function() {
             boundaryLayersControl.addOverlay(districtLayers, "District");
             districtLayers.addTo(map);
             boundaryLayersControl.addTo(map);
+            $(boundaryLayersControl._container).hide();
 
             $("<div class='controls-title controls-seperator'><h5>Administrative Boundaries</h5></div>").prependTo(boundaryLayersControl._container);
 
@@ -900,6 +901,22 @@ $(document).ready(function() {
             $(".marker-label-districts").removeClass("dark-background");
         }
         //$(map.getPanes().tilePane).toggleClass("grayscale", layer.name === "OpenStreetMap Grayscale");
+    });
+
+    $(new UI_Button({
+        attributes: {
+            class:"map-title"
+        },
+        eventHandlers: {
+            click: function(e){
+                $("#about").removeClass("hidden");
+            }
+        },
+        content: "<span>About</span>"
+    })).appendTo("body");
+
+    $("#about").find(".close-button").click(function(e){
+        $(this).parent().addClass("hidden");
     });
 
 
