@@ -52,7 +52,7 @@ config = {
         "vdc": {
             fillColor: '#ffffff',
             weight: 1,
-            opacity: 1,
+            opacity: 0.8,
             color: '#d5aad0',
             dashArray: '2 6',
             fillOpacity: 0,
@@ -61,7 +61,7 @@ config = {
         "districts": {
             fillColor: '#ffffff',
             weight: 1.6,
-            opacity: 1,
+            opacity: 0.8,
             //color: '#d5aad0',30
             color: '#000000',
             dashArray: '1 4',
@@ -78,18 +78,190 @@ config = {
         },
         "extent-marquee":{
             color: "#666666",
-            opacity: 1,
+            opacity: 0.8,
             weight: 1,
             fillColor: "#aaccee",
             fillOpacity: 0.4
         },
         "highlight-circle":{
             fillOpacity: 0,
-            opacity: 1,
+            opacity: 0.8,
             weight: 2,
             color: "#0080ff",
             radius: 20
-        }
+        },
+		"markers":{
+			"operational":{
+				"small":{
+					color: "#ffffff",
+					fillColor: "#8da0cb",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 5
+				},
+				"medium":{
+					color: "#ffffff",
+					fillColor: "#8da0cb",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 10
+				},
+				"large":{
+					color: "#ffffff",
+					fillColor: "#8da0cb",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 15
+				},
+				"mega":{
+					color: "#ffffff",
+					fillColor: "#8da0cb",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 20
+				}
+			},
+			"construction-approved":{
+				"small":{
+					color: "#ffffff",
+					fillColor: "#a6d854",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 5
+				},
+				"medium":{
+					color: "#ffffff",
+					fillColor: "#a6d854",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 10
+				},
+				"large":{
+					color: "#ffffff",
+					fillColor: "#a6d854",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 15
+				},
+				"mega":{
+					color: "#ffffff",
+					fillColor: "#a6d854",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 20
+				}
+			},
+			"construction-applied":{
+				"small":{
+					color: "#ffffff",
+					fillColor: "#66c2a5",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 5
+				},
+				"medium":{
+					color: "#ffffff",
+					fillColor: "#66c2a5",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 10
+				},
+				"large":{
+					color: "#ffffff",
+					fillColor: "#66c2a5",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 15
+				},
+				"mega":{
+					color: "#ffffff",
+					fillColor: "#66c2a5",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 20
+				}
+			},
+			"survey-approved":{
+				"small":{
+					color: "#ffffff",
+					fillColor: "#fc8d62",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 5
+				},
+				"medium":{
+					color: "#ffffff",
+					fillColor: "#fc8d62",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 10
+				},
+				"large":{
+					color: "#ffffff",
+					fillColor: "#fc8d62",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 15
+				},
+				"mega":{
+					color: "#ffffff",
+					fillColor: "#fc8d62",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 20
+				}
+			},
+			"survey-applied":{
+				"small":{
+					color: "#ffffff",
+					fillColor: "#e78ac3",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 5
+				},
+				"medium":{
+					color: "#ffffff",
+					fillColor: "#e78ac3",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 10
+				},
+				"large":{
+					color: "#ffffff",
+					fillColor: "#e78ac3",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 15
+				},
+				"mega":{
+					color: "#ffffff",
+					fillColor: "#e78ac3",
+					weight: 3,
+					fillOpacity: 1,
+					opacity: 0.8,
+					radius: 20
+				}
+			}
+		}
     },
     "filter-search-by-elements":[
         {
@@ -102,5 +274,14 @@ config = {
             icon: "img/ui-filter-search-by-icon-river.png",
             className: "ui-filter-search-by-icon"
         }
-    ]    
+    ],
+colorList:["#66c2a5","#fc8d62","#8da0cb", "#e78ac3", "#a6d854"],
+opacity: 0.8
 };
+
+function setRandomStyles(colorList, opacity){
+return {
+	fillColor: colorList[Math.floor(Math.random()*colorList.length)],
+	opacity: opacity
+};
+}

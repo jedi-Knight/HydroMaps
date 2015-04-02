@@ -390,7 +390,8 @@ $(document).ready(function() {
 
                                                 for (var feature in data.features) {
                                                     //console.log(data.features[feature]["geometry"]["coordinates"]);
-                                                    var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
+													var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
+                                                    /*var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
                                                         icon: L.divIcon({
                                                             className: data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase(),
                                                             //html: "<img src='" + item["icon-src"] + "'/>"
@@ -398,9 +399,25 @@ $(document).ready(function() {
                                                                 var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
 
                                                                 return "<img src='img/marker_" + markerCategory + ".png'/>";
-                                                            }()
-                                                        })
-                                                    });
+                                                           // }()
+                                                        //})
+                                                    //});*/
+
+//													var marker = L.circleMarker(data.features[feature]["geometry"]["coordinates"].reverse(), $.extend(config["layer-styles"]["markers"][index][markerCategory],setRandomStyle(config.colorList,config.opacity)));
+													var marker = L.circleMarker(data.features[feature]["geometry"]["coordinates"].reverse(), config["layer-styles"]["markers"][index][markerCategory]);
+
+                                                    //var centerLatLng = data.features[feature]["geometry"]["coordinates"].reverse();
+                                                    /*var marker = L.polygon(function(){
+                                                        return [
+                                                            L.latLng([centerLatLng[0]+0.3, centerLatLng[1]+0.3]),
+                                                            L.latLng([centerLatLng[0]+0.15, centerLatLng[1]+0.15]),
+                                                            L.latLng([centerLatLng[0]-0.15, centerLatLng[1]-0.15]),
+                                                            L.latLng([centerLatLng[0]-0.3, centerLatLng[1]-0.3]),
+                                                            L.latLng([centerLatLng[0]+0.3, centerLatLng[1]+0.3])
+                                                        ];
+                                                    }(), config["layer-styles"]["markers"][index][markerCategory]);*/
+
+                                                    //console.log(index);
 
                                                     var popupContent = new TableContent_fix(data.features[feature].properties.getAttributes());
 
@@ -568,9 +585,9 @@ $(document).ready(function() {
                 style: config["layer-styles"]["districts"],
                 onEachFeature: function(feature, layer) {
                     setTimeout(function() {
-                        layer.setStyle({
+                        /*layer.setStyle({
                             fillColor: randomColor()
-                        });
+                        });*/
                         //districtLabelsOverlay.addLayer(new L.LabelOverlays(L.latLng(getPolygonCentroid(feature.geometry)), "123"));
                         //districtLabelsOverlay.addLayer(new L.LabelOverlays(layer.getBounds().getCenter(), feature.properties.Name));
                         districtLayers.addLayer(function() {
