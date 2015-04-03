@@ -1191,6 +1191,8 @@ a.wiki{
     margin-top: 10px;
     margin-right: 10px;
     cursor: pointer;
+    color: #333333;
+    font-weight: 100;
 }
 
 #about{

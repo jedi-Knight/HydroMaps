@@ -5,7 +5,8 @@ $(document).ready(function() {
         "basemaps": {
             "OpenStreetMap": {
                 "tileLayer": L.tileLayer('http://104.131.69.181/osm/{z}/{x}/{y}.png', {})
-            }/*,
+            }
+            /*,
             "Satellite Imagery": {
                 "tileLayer": new L.Google()
             }*/
@@ -388,7 +389,7 @@ $(document).ready(function() {
 
                                                 for (var feature in data.features) {
                                                     //console.log(data.features[feature]["geometry"]["coordinates"]);
-													var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
+                                                    var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
                                                     /*var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
                                                         icon: L.divIcon({
                                                             className: data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase(),
@@ -401,19 +402,19 @@ $(document).ready(function() {
                                                         //})
                                                     //});*/
 
-//													var marker = L.circleMarker(data.features[feature]["geometry"]["coordinates"].reverse(), $.extend(config["layer-styles"]["markers"][index][markerCategory],setRandomStyle(config.colorList,config.opacity)));
-													//var marker = L.circleMarker(data.features[feature]["geometry"]["coordinates"].reverse(), config["layer-styles"]["markers"][index][markerCategory]);
+                                                    //													var marker = L.circleMarker(data.features[feature]["geometry"]["coordinates"].reverse(), $.extend(config["layer-styles"]["markers"][index][markerCategory],setRandomStyle(config.colorList,config.opacity)));
+                                                    //var marker = L.circleMarker(data.features[feature]["geometry"]["coordinates"].reverse(), config["layer-styles"]["markers"][index][markerCategory]);
 
                                                     var centerLatLng = data.features[feature]["geometry"]["coordinates"].reverse();
-//                                                    marker = L.polygon(function(){
-//                                                        return [
-//                                                            L.latLng([centerLatLng[0], centerLatLng[1]+0.3]),
-//                                                            L.latLng([centerLatLng[0]+0.15, centerLatLng[1]+0.15]),
-//                                                            L.latLng([centerLatLng[0]+0.15, centerLatLng[1]-0.15]),
-//                                                            L.latLng([centerLatLng[0], centerLatLng[1]-0.3]),
-//                                                            L.latLng([centerLatLng[0], centerLatLng[1]+0.3])
-//                                                        ];
-//                                                    }(), config["layer-styles"]["markers"][index][markerCategory]);
+                                                    //                                                    marker = L.polygon(function(){
+                                                    //                                                        return [
+                                                    //                                                            L.latLng([centerLatLng[0], centerLatLng[1]+0.3]),
+                                                    //                                                            L.latLng([centerLatLng[0]+0.15, centerLatLng[1]+0.15]),
+                                                    //                                                            L.latLng([centerLatLng[0]+0.15, centerLatLng[1]-0.15]),
+                                                    //                                                            L.latLng([centerLatLng[0], centerLatLng[1]-0.3]),
+                                                    //                                                            L.latLng([centerLatLng[0], centerLatLng[1]+0.3])
+                                                    //                                                        ];
+                                                    //                                                    }(), config["layer-styles"]["markers"][index][markerCategory]);
 
                                                     var marker;
 
@@ -434,9 +435,10 @@ $(document).ready(function() {
                                                     );
                                                     marquee.bindPopup(popupContent);
 
-                                                    var marqueeCloseButton = L.marker(marquee._latlngs[2],{
+                                                    var marqueeCloseButton = L.marker(marquee._latlngs[2], {
                                                         icon: L.divIcon({
-                                                            iconSize: [10,10],
+                                                            iconSize: [10, 10],
+                                                            iconAnchor: [21, 9],
                                                             className: "project-extent-rectangle-close-button frozen hidden",
                                                             html: "<a>&times;</a>"
                                                         })
@@ -458,6 +460,23 @@ $(document).ready(function() {
                                                         marker.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
                                                         marqueeObj.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
                                                         marqueeObj.addTo(extentMarqueeGroup);
+
+                                                        marqueeCloseButton.on("click", function(e) {
+                                                            //extentMarqueeGroup.removeLayer(marqueeObj);
+                                                            //tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()].removeLayer(marqueeObj);
+                                                            marqueeObj.eachLayer(function(layer, index) {
+                                                                if (layer._icon) {
+                                                                    $(layer._icon).addClass("frozen hidden");
+                                                                } else {
+                                                                    map._layers[layer._leaflet_id].setStyle({
+                                                                        opacity: 0,
+                                                                        fillOpacity: 0
+                                                                    });
+                                                                }
+                                                            });
+
+
+                                                        });
                                                         //console.log(marquee.toGeoJSON());
                                                     } catch (e) {
                                                         console.log(e);
@@ -505,7 +524,7 @@ $(document).ready(function() {
                                             _layerGroup.clearLayers();
                                         });
                                         hackObj.switchStates[hackObj.c] = 0;
-                                        $(context).find("input")[0].checked=false;
+                                        $(context).find("input")[0].checked = false;
 
                                     }, 0);
 
@@ -525,11 +544,11 @@ $(document).ready(function() {
             $("<div class='controls-title controls-seperator'><h5>Project Status</h5></div>").prependTo($(".leaflet-top.leaflet-right").find(".ui-switchboard"));
 
             (new UI_Button({
-                attributes:{
-                    class:"sidebar-close-button"
+                attributes: {
+                    class: "sidebar-close-button"
                 },
-                eventHandlers:{
-                    click: function(e){
+                eventHandlers: {
+                    click: function(e) {
                         $(this).parent().hide({
                             duration: 400
                         });
@@ -540,7 +559,7 @@ $(document).ready(function() {
                                 class: "sidebar-restore-button"
                             },
                             eventHandlers: {
-                                click: function(e){
+                                click: function(e) {
                                     $(this).remove();
                                     $(context).parent().show({
                                         duration: 400
@@ -887,13 +906,13 @@ $(document).ready(function() {
 
 
     map.on("baselayerchange", function(layer) {
-        if(layer.name==="Satellite Imagery"){
+        if (layer.name === "Satellite Imagery") {
             districtLayers.setStyle({
                 color: "#ffffff",
                 fillOpacity: 0
             });
             $(".marker-label-districts").addClass("dark-background");
-        }else{
+        } else {
             districtLayers.setStyle({
                 color: "#333333",
                 fillOpacity: 0.2
@@ -905,17 +924,17 @@ $(document).ready(function() {
 
     $(new UI_Button({
         attributes: {
-            class:"map-title"
+            class: "map-title"
         },
         eventHandlers: {
-            click: function(e){
+            click: function(e) {
                 $("#about").removeClass("hidden");
             }
         },
         content: "<span>About</span>"
     })).appendTo("body");
 
-    $("#about").find(".close-button").click(function(e){
+    $("#about").find(".close-button").click(function(e) {
         $(this).parent().addClass("hidden");
     });
 
