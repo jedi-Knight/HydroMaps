@@ -1222,7 +1222,7 @@ function UI_Control_Filter(options) {
         $(uiElement).parent().addClass("active");
         $(uiElement).closest(".ui-tabbed-column").addClass("active");
         $(uiElement).animate({
-            width: "235px"
+            width: "264px"
         });
         container.show({
             duration: 400
@@ -1232,7 +1232,7 @@ function UI_Control_Filter(options) {
         $(uiElement).parent().removeClass("active");
         if (!uiElement.value) {
             $(uiElement).animate({
-            width: "140px"
+            width: "168px"
         });
             container.hide({
                 duration: 400
@@ -1557,6 +1557,7 @@ function UI_Switchboard(options) {
                 switchIcon.appendTo(aSwitch);
                 aSwitch.append($("<span class='ui-switch-label'/>").text(options.switches[c].label));
                 $(aSwitch).attr("_id", c);
+                $(aSwitch).addClass("_id_"+c);
 
                 aSwitch.on("check", function(e) {
 
@@ -1647,7 +1648,7 @@ function HexagonMarker(centerLatLng, options) {
             }catch(e){
                 //
             }
-            marker= new markerFactory(Math.pow(2, layerGroup._map.getZoom()*0.97));
+            marker= new markerFactory(Math.pow(2, (layerGroup._map.getZoom()-0.1)*0.97));
             marker.addTo(layerGroup);
         });
         layerGroup._map.fire("zoomend");
@@ -1677,7 +1678,7 @@ function SquareMarker(centerLatLng, options) {
             }catch(e){
                 //
             }
-            marker= new markerFactory(Math.pow(2, layerGroup._map.getZoom()*0.65));
+            marker= new markerFactory(Math.pow(2, layerGroup._map.getZoom()*0.67));
             marker.addTo(layerGroup);
         });
         layerGroup._map.fire("zoomend");

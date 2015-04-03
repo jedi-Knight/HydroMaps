@@ -94,7 +94,7 @@ config = {
 			"operational":{
 				"small":{
 					color: "#ffffff",
-					fillColor: "#8da0cb",
+					fillColor: "#0080ff",
 					weight: 3,
 					fillOpacity: 1,
 					opacity: 0.8,
@@ -102,7 +102,7 @@ config = {
 				},
 				"medium":{
 					color: "#ffffff",
-					fillColor: "#8da0cb",
+					fillColor: "#0080ff",
 					weight: 3,
 					fillOpacity: 1,
 					opacity: 0.8,
@@ -110,7 +110,7 @@ config = {
 				},
 				"large":{
 					color: "#ffffff",
-					fillColor: "#8da0cb",
+					fillColor: "#0080ff",
 					weight: 3,
 					fillOpacity: 1,
 					opacity: 0.8,
@@ -118,7 +118,7 @@ config = {
 				},
 				"mega":{
 					color: "#ffffff",
-					fillColor: "#8da0cb",
+					fillColor: "#0080ff",
 					weight: 3,
 					fillOpacity: 1,
 					opacity: 0.8,

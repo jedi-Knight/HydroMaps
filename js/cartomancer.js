@@ -872,7 +872,7 @@ $(document).ready(function() {
                             fillOpacity: 0
                         })
                     });
-                    $("map").find(".project-extent-rectangle-close-button").addClass("frozen hidden");
+                    $("#map").find(".project-extent-rectangle-close-button").addClass("frozen hidden");
                 }, 0);
             }
 
