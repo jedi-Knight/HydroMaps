@@ -1654,6 +1654,15 @@ function HexagonMarker(centerLatLng, options) {
         layerGroup._map.fire("zoomend");
     }
 
+	this.bindPopup = function(content){
+        var popup = L.popup(content);
+
+        marker.on("click", function(e){
+
+        });
+		//marker.bindPopup(content);
+	};
+
     return $.extend(true, marker, this);
 }
 
