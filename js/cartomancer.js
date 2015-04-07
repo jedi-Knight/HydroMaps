@@ -38,6 +38,17 @@ $(document).ready(function() {
 
     mapGlobals.mapData = mapData;
 
+    mapGlobals.frozen=false;
+    mapGlobals.freezeScreen={
+        freeze: function(){
+            $(".freezeScreen").removeClass("hidden");
+        },
+        unfreeze: function(){
+            $(".freezeScreen").addClass("hidden");
+            $("#map").click();
+        }
+    }
+
     /*TODO: var layerGroupExtendedOptions = function() {
      var layerGroup = L.layerGroup();
      layerGroup["min-zoom"] = LayerStyles["map-features"]["min-zoom"];
@@ -258,6 +269,10 @@ $(document).ready(function() {
                     events: {
                         "switch-on": function(e) {
 
+                            if($(this).attr("_id")===5)return;
+
+                            mapGlobals.freezeScreen.freeze();
+
                             currentTab = index;
 
                             if (index !== "operational") {
@@ -384,10 +399,13 @@ $(document).ready(function() {
                                             _marqueeStyle.opacity = 0;
                                             _marqueeStyle.fillOpacity = 0;
 
+                                            feature=0;
+
                                             setTimeout(function() {
 
 
-                                                for (var feature in data.features) {
+                                                for (var _c in data.features) {
+                                                    setTimeout(function(){
                                                     //console.log(data.features[feature]["geometry"]["coordinates"]);
                                                     var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
                                                     /*var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
@@ -483,7 +501,12 @@ $(document).ready(function() {
                                                     }
                                                     //marker.addTo(tabs["operational"]["layerGroups"][data.features[feature].properties.getAttributes()["Project_Si"].split("(")[0].trim().toLowerCase()]);
                                                     //marker.addTo(map);
-                                                }
+                                                        if(feature===data.features.length-1){
+                                                            //mapGlobals.frozen=false;
+                                                            mapGlobals.freezeScreen.unfreeze();
+                                                        }
+                                                        feature++;
+                                                },100);}
 
                                                 //$(theLayerControl._container).find("input").click();
 
@@ -505,10 +528,12 @@ $(document).ready(function() {
 
                         },
                         "switch-off": function(e, hackObj) {
+                            if($(this).attr("_id")===5)return;
+                            mapGlobals.freezeScreen.freeze();
                             var context = this;
                             setTimeout(function() {
 
-                                console.log(context);
+                                //console.log(context);
 
                                 $.map(tabs[index].layerGroups, function(_layerGroup, _size) {
                                     _layerGroup.clearLayers();
@@ -519,14 +544,23 @@ $(document).ready(function() {
 
 
                                     setTimeout(function() {
+
+                                        $(context).find("input")[0].checked = false;
+
                                         $.map(tabs[index].layerGroups, function(_layerGroup, _size) {
                                             //L.circleMarker([0,0]).addTo(_layerGroup);
                                             _layerGroup.clearLayers();
+//                                            if(_size==="small"){
+//                                                mapGlobals.freezeScreen.unfreeze();
+//                                            }
                                         });
                                         hackObj.switchStates[hackObj.c] = 0;
-                                        $(context).find("input")[0].checked = false;
+
 
                                     }, 0);
+                                    setTimeout(function(){
+                                        mapGlobals.freezeScreen.unfreeze();
+                                    }, 5000);
 
                                 }, 0);
 
@@ -540,6 +574,7 @@ $(document).ready(function() {
         })).done(function(context) {
 
             var ui = context.getUI().prependTo(".leaflet-top.leaflet-right");
+            ui.find("._id_5").attr("title", "This option will be available soon..");
 
             $("<div class='controls-title controls-seperator'><h5>Project Status</h5></div>").prependTo($(".leaflet-top.leaflet-right").find(".ui-switchboard"));
 
