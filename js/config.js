@@ -281,6 +281,9 @@ config = {
             className: "ui-filter-search-by-icon"
         }
     ],
+    "special-function-parameters":{
+        "operational-year-range": [1970, 2015]
+    },
 
 
 
