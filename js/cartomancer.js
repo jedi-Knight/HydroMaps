@@ -6,10 +6,10 @@ $(document).ready(function() {
             "OpenStreetMap": {
                 "tileLayer": L.tileLayer('http://104.131.69.181/osm/{z}/{x}/{y}.png', {})
             }
-            /*,
+            ,
             "Satellite Imagery": {
                 "tileLayer": new L.Google()
-            }*/
+            }
         }
     });
     $("#map").find("a.leaflet-control-zoom-out").text("–");
@@ -624,7 +624,7 @@ $(document).ready(function() {
     var districtLayers = L.featureGroup();
     var vdcLayer = L.featureGroup();
 
-    var modelQueryDistrict = mapData.fetchData({
+    var modelQueryDistrict = {done:function(f){return;}}/*mapData.fetchData({
         query: {
             geometries: {
                 type: "polygons",
@@ -633,7 +633,7 @@ $(document).ready(function() {
             url: "districts.geojson"
         },
         returnDataMeta: {}
-    });
+    });*/
 
     modelQueryDistrict.done(function(data, params) {
         setTimeout(function() {
@@ -666,6 +666,7 @@ $(document).ready(function() {
             $("<div class='controls-title controls-seperator'><h5>Administrative Boundaries</h5></div>").prependTo(boundaryLayersControl._container);
 
             cartograph.initializeBasemaps();
+            L.tileLayer("../slippy-maps/nepaldistricts-vdcs/{z}/{x}/{y}.png",{}).addTo(map);
 
             $($(boundaryLayersControl._container).find("input")[1]).after(function() {
                 return $("<span></span>").addClass("legend-icon").css({
@@ -973,7 +974,10 @@ $(document).ready(function() {
         $(this).parent().addClass("hidden");
     });
 
-
+cartograph.initializeBasemaps();
+            var districtsBasemap = L.tileLayer("../slippy-maps/nepal-districts-vdcs/{z}/{x}/{y}.png",{});
+    map.addLayer(districtsBasemap);
+    $(districtsBasemap._container).css("z-index",2);
 
     map.fire("moveend");
 
