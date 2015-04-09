@@ -975,9 +975,13 @@ $(document).ready(function() {
     });
 
 cartograph.initializeBasemaps();
-            var districtsBasemap = L.tileLayer("../slippy-maps/nepal-districts-vdcs/{z}/{x}/{y}.png",{});
+    var districtsBasemap = L.tileLayer("http://raw.githubusercontent.com/jedi-Knight/Maps-of-Nepal/master/nepal/{z}/{x}/{y}.png",{});
     map.addLayer(districtsBasemap);
     $(districtsBasemap._container).css("z-index",2);
+    
+    var powergridBasemap = L.tileLayer("https://raw.githubusercontent.com/jedi-Knight/Maps-of-Nepal/master/power-grid/{z}/{x}/{y}.png",{});
+    map.addLayer(powergridBasemap);
+    $(powergridBasemap._container).css("z-index",3);
 
     map.fire("moveend");
 
