@@ -1308,3 +1308,12 @@ body *{
 }
 
 
+
+.miscellaneous-controls div, .miscellaneous-controls input, .miscellaneous-controls h5{
+    display: inline-block;
+    cursor: pointer;
+}
+.miscellaneous-controls input{
+    vertical-align: text-bottom;
+    margin-bottom: 2px;
+}
