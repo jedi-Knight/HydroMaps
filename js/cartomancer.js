@@ -1,6 +1,7 @@
 $(document).ready(function() {
     $(".numberCircle").hide();
 
+
     var cartograph = new Map({
         "basemaps": {
             "OpenStreetMap": {
@@ -276,7 +277,10 @@ $(document).ready(function() {
                     events: {
                         "switch-on": function(e) {
 
-                            if ($(this).attr("_id") === 5) return;
+                            if (index==="all-projects"){
+
+                                return;
+                            };
 
                             mapGlobals.freezeScreen.freeze();
 
@@ -417,7 +421,7 @@ $(document).ready(function() {
                                                         var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
                                                         var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
                                                         icon: L.divIcon({
-                                                            className: data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase(),
+                                                            className: data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()+" project-marker-icon",
                                                             //html: "<img src='" + item["icon-src"] + "'/>"
                                                             html: function() {
                                                                 var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
@@ -549,7 +553,7 @@ $(document).ready(function() {
 
                         },
                         "switch-off": function(e, hackObj) {
-                            if ($(this).attr("_id") === 5) return;
+                            if ($(this).attr("_id") === "5") return;
                             mapGlobals.freezeScreen.freeze();
                             var context = this;
                             setTimeout(function() {
@@ -629,7 +633,7 @@ $(document).ready(function() {
                 content: "<span>&times;</span>"
             })).prependTo(".leaflet-top.leaflet-right");
 
-            $(ui.find("a")[2]).click();
+            $(ui.find("a")[0]).click();
         });
 
 
@@ -909,11 +913,26 @@ $(document).ready(function() {
                 $('.numberCircle').text(capacityYear[1] + " MW");
             }*/
 
+            if(ui.value<config["special-function-parameters"]["operational-year-range"][1]){
+                $(".project-marker-icon").addClass("greyed-out");
+            }else{
+                $(".project-marker-icon").removeClass("greyed-out");
+            }
+
             var aggr = 0;
 
             for (var c in capacityYear){
                 if(c<=ui.value && capacityYear[c]){
+                    //console.log(capacityYear[c]);
                     aggr+=capacityYear[c].increment;
+
+                    $.map(capacityYear[c]._icons, function(_icon, index){
+                        //setTimeout(function(){
+                        //if(c<=ui.value){
+                            $(_icon).removeClass("greyed-out");
+                        //}
+                        //},0);
+                    });
                 }
             }
             $('.numberCircle').text(aggr>99?Math.floor(aggr)+" MW":(Math.floor(aggr*10))/10 + " MW");
@@ -930,7 +949,7 @@ $(document).ready(function() {
     });
 
     tooltip.text("BS 2071");
-    $('.numberCircle').text(capacityYear[2068] + " MW");
+    $('.numberCircle').text("718 MW");
     //}
 
 
