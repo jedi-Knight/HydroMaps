@@ -171,7 +171,7 @@ $(document).ready(function() {
     var highlightLayer = L.layerGroup();
     highlightLayer.addTo(map);
 
-    var markerURLs = ["img/marker_mega.png", "img/marker_large.png", "img/marker_medium.png", "img/marker_small.png"]
+    var markerURLs = ["img/markers/mega.svg", "img/markers/large.svg", "img/markers/medium.svg", "img/markers/small.svg"]
     //setTimeout(function() {
     //$.map(theLayerControls, function(layerControl, index) {
     $(theLayerControl._container).find("input").each(function(c) {
@@ -415,22 +415,22 @@ $(document).ready(function() {
                                                     setTimeout(function() {
                                                         //console.log(data.features[feature]["geometry"]["coordinates"]);
                                                         var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
-                                                        /*var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
+                                                        var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
                                                         icon: L.divIcon({
                                                             className: data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase(),
                                                             //html: "<img src='" + item["icon-src"] + "'/>"
                                                             html: function() {
                                                                 var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
 
-                                                                return "<img src='img/marker_" + markerCategory + ".png'/>";
-                                                           // }()
-                                                        //})
-                                                    //});*/
+                                                                return "<img src='img/markers/"+index+"/"+ markerCategory + ".svg'/>";
+                                                           }()
+                                                        })
+                                                    });
 
                                                         //													var marker = L.circleMarker(data.features[feature]["geometry"]["coordinates"].reverse(), $.extend(config["layer-styles"]["markers"][index][markerCategory],setRandomStyle(config.colorList,config.opacity)));
                                                         //var marker = L.circleMarker(data.features[feature]["geometry"]["coordinates"].reverse(), config["layer-styles"]["markers"][index][markerCategory]);
 
-                                                        var centerLatLng = data.features[feature]["geometry"]["coordinates"].reverse();
+                                                        /*var centerLatLng = data.features[feature]["geometry"]["coordinates"].reverse();
                                                         //                                                    marker = L.polygon(function(){
                                                         //                                                        return [
                                                         //                                                            L.latLng([centerLatLng[0], centerLatLng[1]+0.3]),
@@ -444,7 +444,7 @@ $(document).ready(function() {
                                                         var marker;
 
                                                         marker = new window[config["layer-styles"]["marker-shapes"][markerCategory]](centerLatLng, config["layer-styles"]["markers"][index][markerCategory]);
-                                                        //marker.addTo(map);
+                                                        //marker.addTo(map);*/
 
                                                         //console.log(index);
 
@@ -497,7 +497,7 @@ $(document).ready(function() {
                                                                         };
                                                                     }
                                                             }
-                                                            a=capacityYear;
+                                                            //a=capacityYear;
 
                                                             marqueeCloseButton.on("click", function(e) {
                                                                 //extentMarqueeGroup.removeLayer(marqueeObj);
@@ -526,7 +526,7 @@ $(document).ready(function() {
                                                             mapGlobals.freezeScreen.unfreeze();
                                                         }
                                                         feature++;
-                                                    }, 100);
+                                                    }, 1);
                                                 }
 
                                                 //$(theLayerControl._container).find("input").click();
