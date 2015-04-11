@@ -467,7 +467,9 @@ $(document).ready(function() {
 
                                                         var popupContent = panelDocument.getDocument();
 
-                                                        marker.bindPopup(popupContent);
+                                                        marker.bindPopup(popupContent, {
+                                                            offset: L.point(0,-12)
+                                                        });
 
 
 
@@ -475,7 +477,9 @@ $(document).ready(function() {
                                                         var marquee = L.rectangle(L.latLngBounds(data.features[feature].properties.getAttributes().NE.split(",").reverse(), data.features[feature].properties.getAttributes().SW.split(",").reverse()),
                                                             _marqueeStyle
                                                         );
-                                                        marquee.bindPopup(popupContent);
+                                                        marquee.bindPopup(popupContent,{
+                                                            offset: L.point(0,6)
+                                                        });
 
                                                         var marqueeCloseButton = L.marker(marquee._latlngs[2], {
                                                             icon: L.divIcon({

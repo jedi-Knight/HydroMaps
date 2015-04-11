@@ -234,13 +234,13 @@ function PanelDocumentModel(pointAttributes, docdef) {  //TODO: full of temporar
         }
     });
 
-    $.map(_docdef.tabs, function(tab, index){
+    $.map(_docdef.tabs, function(tab, tabc){
         $.map(tab.content, function(item, index){
             if(typeof item === "string"){
                 tab.content[index] = pointAttributes[item];
             }else{
             $.map(item, function(_item, _index){
-                tab.content[index] = _index?", "+pointAttributes[_item]: pointAttributes[_item];
+                tab.content[index] = _index?tab.content[index]+", "+pointAttributes[_item]: pointAttributes[_item];
             });
             }
 
@@ -416,7 +416,26 @@ function TableContent(jsonData, invert) {
         var tableRow = $("<div></div>")
             .addClass("table-row")
             .append(function() {
-                return jsonData[row] === "999" || jsonData[row] === "999.0" || !jsonData[row] ? $("<div></div>").text(row).append($("<div></div>").addClass("not-available").text("उपलब्ध छैन")) : $("<div></div>").text(row).append($("<div></div>").text(jsonData[row].replace(/_/g, " ")));
+                return !jsonData[row] ? $("<div></div>").text(row).append($("<div></div>").addClass("not-available").text("Not Available")) : $("<div></div>").text(row).append(function(){
+                    var rowData = $("<div></div>");
+                    if((jsonData[row].indexOf("http://")+1) || (jsonData[row].indexOf("www.")+1) || (jsonData[row].indexOf(".co")+1) || (jsonData[row].indexOf(".net")+1) || (jsonData[row].indexOf(".org")+1) || (jsonData[row].indexOf(".io")+1)){
+                        var aElement = $("<a></a>");
+                        aElement.attr({
+                           "href": "http://"+jsonData[row].replace("http://", ""),
+                            "target": "_blank"
+                        });
+                        if(($.inArray(row,$.map(config["popup-docdef"]["tabs"][1]["content"], function(item, index){ return item;}))+1)){
+                            aElement.text(jsonData[row].split("\/").pop())
+                        }else{
+                            aElement.text(jsonData[row].replace("http:://", "").replace("www.", ""));
+                        }
+                        aElement.appendTo(rowData);
+                    }else{
+                        rowData.text(jsonData[row].replace(/_/g, " ").replace(/, null/g, ""));
+                    }
+
+                    return rowData;
+                });
             });
         invert ? tableRow.prependTo(content).addClass(row.toLowerCase().replace(/ /g, "_")) : tableRow.appendTo(content).addClass(row.toLowerCase().replace(/ /g, "_"));
     }

@@ -354,6 +354,117 @@
 
 .leaflet-popup-content-wrapper, .float.panel.media-viewer{
     padding: 0px 0px 6px 0px;
+    background-color: rgba(255,255,255,0.8);
+    box-shadow: none;
+}
+
+.tab-trigger{
+    background-color: rgba(255,255,255,0.8);
+}
+.tab-trigger .label{
+    color: #333333;
+}
+
+.float.panel-document .inactive a.tab-trigger{
+    background-color: rgba(255,255,255,0.6);
+}
+.inactive .tab-trigger .label{
+    color: #aaaaaa;
+    margin-left: 0px;
+    overflow: hidden;
+    width: 30px;
+}
+
+.inactive .tab-trigger::after{
+    content: "..";
+    line-height: 0px;
+    vertical-align: text-top;
+    color: #aaaaaa;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.tab-trigger{
+    border: #999999 thin solid;
+    border-bottom: rgba(255,255,255,0.6) 2px solid;;
+    box-shadow: none;
+    font-family: 'Raleway', 'Open Sans', sans-serif;
+    font-weight: 600;
+}
+
+.tab-trigger *{
+    cursor: default;
+}
+
+.inactive .tab-trigger{
+    border: #aaaaaa thin solid;
+    border-left: none;
+    border-right: none;
+    margin-top: 0px;
+    font-weight: 300;
+    cursor: pointer;
+}
+
+.inactive .tab-trigger *{
+    cursor: pointer;
+}
+
+.inactive .tab-trigger.left-of-center{
+    border-left: #aaaaaa thin solid;
+    padding-left: 0px;
+}
+.inactive .tab-trigger.right-of-center{
+    border-right: #aaaaaa thin solid;
+    padding-right: 0px;
+}
+
+.panel-document-page{
+    z-index: 1000;
+    margin-top: -1px;
+    background-color: rgba(255,255,255,0.8);
+    box-shadow: none;
+    position: relative;
+    border: #999999 thin solid;
+}
+
+.leaflet-container a.leaflet-popup-close-button, .close.trigger{
+    border: none;
+    border-radius: 0px;
+    font-weight: 400;
+}
+
+.cartomancer-popup-table .table-row{
+    width: 310px;
+}
+
+.table-content, .cartomancer-popup-table{
+    overflow-x: hidden;
+    outline: none;
+    padding: 2px 0px;
+}
+
+.table-content, .cartomancer-popup-table .table-row{
+    width: 326px;
+}
+.leaflet-popup-content .table-row>*{
+    width: 320px;
+}
+
+.panel-document-header .header-row>div:last-child{
+    color: #333333;
+    font-weight: 600;
+}
+
+.table-row>*:first-child, .cartomancer-popup-table .table-row>div>div{
+    color: #666666;
+    font-weight: 600;
+}
+.table-row>*:first-child{
+    font-weight: 400;
+}
+
+.table-row a{
+    text-transform: lowercase;
 }
 
 /**/

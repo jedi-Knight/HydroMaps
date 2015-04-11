@@ -29,23 +29,32 @@ $.fn.switchToTab = function(fn) {
                     "margin-left": 12 + index * 54,
                     "z-index": index+1
                 });
+                $(this).addClass("left-of-center");
+                $(this).removeClass("right-of-center");
                 c = index + 1;
             });
 
             $(this).find("a.tab-trigger").css({
                 "margin-left": 12 + c * 54,
-                "z-index":1000
+                "z-index":1001
             });
+
 
             $(this).nextAll().find("a.tab-trigger").each(function(index) {
                 $(this).css({
-                    "margin-left": 12 + c * 54 + 150 + index * 54,
+                    "margin-left": 12 + c * 54 + 114 + (index+1) * 54,
                     "z-index": 999-index
                 });
+                $(this).addClass("right-of-center");
+                $(this).removeClass("left-of-center");
             });
         });
 
     });
+
+    $(this).removeClass("left-of-center");
+    $(this).removeClass("right-of-center");
+
     if (fn)
         fn.call(this);
 };
