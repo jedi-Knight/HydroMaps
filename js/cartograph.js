@@ -224,7 +224,7 @@ function PanelDocumentModel(pointAttributes, docdef) {  //TODO: full of temporar
         }else if(pointAttributes[item] === null){
             return;
         }else{
-            txt = index?",<br/>"+pointAttributes[item]:pointAttributes[item];
+            txt = index?", <br/>"+pointAttributes[item]:pointAttributes[item];
         }
 
         if(index){

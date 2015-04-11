@@ -314,3 +314,47 @@
     color: #666666;
     box-shadow: 0px 0px 1px rgba(0,0,0,0.4) inset, 0px 0px 6px rgba(255,255,255,0.6) inset;
 }
+
+
+
+/**fixes**/
+/*no-slider*/
+.no-slider .panel-document-header .header-row>div br{
+    display: none;
+}
+
+.panel-document-header .title{
+    display: none;
+}
+
+.no-slider .panel-document-header .header-row{
+    width: 360px;
+}
+
+.no-slider .panel-document-header.panel-document-section{
+    width: initial;
+    margin-left: 0px;
+    margin-top: 0px;
+    height: auto;
+}
+
+.no-slider .head-plug{
+    display: none;
+}
+
+/**/
+
+/**cartography**/
+
+.panel-document-section, .float.panel-document .panel-document-body{
+    box-shadow: none;
+    border: none;
+    background-color: transparent;
+}
+
+.leaflet-popup-content-wrapper, .float.panel.media-viewer{
+    padding: 0px 0px 6px 0px;
+}
+
+/**/
+/****/
