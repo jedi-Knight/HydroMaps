@@ -879,6 +879,33 @@ $(document).ready(function() {
     var year = "BS 207";
 
     var arrayYear = [1, 2, 3, 4, 5];
+    
+    function sliderSlid(event, ui) {           
+            if(ui.value<config["special-function-parameters"]["operational-year-range"][1]){
+                $(".project-marker-icon").addClass("greyed-out");
+            }else{
+                $(".project-marker-icon").removeClass("greyed-out");
+            }
+
+            var aggr = 0;
+
+            for (var c in capacityYear){
+                if(c<=ui.value && capacityYear[c]){
+                    //console.log(capacityYear[c]);
+                    aggr+=capacityYear[c].increment;
+
+                    $.map(capacityYear[c]._icons, function(_icon, index){
+                        //setTimeout(function(){
+                        //if(c<=ui.value){
+                            $(_icon).removeClass("greyed-out");
+                        //}
+                        //},0);
+                    });
+                }
+            }
+            $('.numberCircle').text(aggr>99?Math.floor(aggr)+" MW":(Math.floor(aggr*10))/10 + " MW");
+
+        };
 
     /*var capacityYear = {
         2051: 291,
@@ -904,45 +931,16 @@ $(document).ready(function() {
     $('#slider').slider({
         min: config["special-function-parameters"]["operational-year-range"][0],
         max: config["special-function-parameters"]["operational-year-range"][1],
-        slide: function(event, ui) {
-            /*if ($.inArray(ui.value, arrayYear)) {
-                //tooltip.text(year + ui.value);
-                $('.numberCircle').text(capacityYear[ui.value] + " MW");
-            } else {
-                tooltip.text("BS 2071");
-                $('.numberCircle').text(capacityYear[1] + " MW");
-            }*/
-
-            if(ui.value<config["special-function-parameters"]["operational-year-range"][1]){
-                $(".project-marker-icon").addClass("greyed-out");
-            }else{
-                $(".project-marker-icon").removeClass("greyed-out");
-            }
-
-            var aggr = 0;
-
-            for (var c in capacityYear){
-                if(c<=ui.value && capacityYear[c]){
-                    //console.log(capacityYear[c]);
-                    aggr+=capacityYear[c].increment;
-
-                    $.map(capacityYear[c]._icons, function(_icon, index){
-                        //setTimeout(function(){
-                        //if(c<=ui.value){
-                            $(_icon).removeClass("greyed-out");
-                        //}
-                        //},0);
-                    });
-                }
-            }
-            $('.numberCircle').text(aggr>99?Math.floor(aggr)+" MW":(Math.floor(aggr*10))/10 + " MW");
-
-        }
+        slide: sliderSlid
     }).find(".ui-slider-handle").append(tooltip).hover(function() {
         tooltip.show();
     });
+    
+    $("#slider").hover(function(e){
+        console.log(e);
+    });
 
-    $('#slider').slider("value", 2068);
+    //$('#slider').slider("value", 2068);
 
     $(".ui-slider-handle").append(function() {
         return "<img src='img/sliderknob.png'/>";
@@ -1050,6 +1048,30 @@ $(document).ready(function() {
     }).appendTo(".leaflet-top.leaflet-right");
 
     map.fire("moveend");
+    
+    
+    
+    
+    
+    
+    map.on("click",function(e){
+        //if(eventFlag.mouseIsDragging) return;
+        //console.log(e);
+        $("#slider").slider("value", config["special-function-parameters"]["operational-year-range"][1]);
+        sliderSlid(null, {value : config["special-function-parameters"]["operational-year-range"][1]});
+        
+        $(".scale-marking").animate({
+            height: "1px"
+        });
+    });
+    
+    $("#slider").on("mouseover",function(e){
+        
+        $(".scale-marking").animate({
+            height: "16px"
+        });
+    });
+    
 
 });
 
