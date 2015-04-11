@@ -1028,6 +1028,19 @@ $(document).ready(function() {
     });
 
     cartograph.initializeBasemaps();
+    var districtsBasemap = L.tileLayer("../Maps-of-Nepal/nepal-districts-vdcs/{z}/{x}/{y}.png", {});
+    map.addLayer(districtsBasemap);
+    $(districtsBasemap._container).css("z-index", 2);
+
+    var powergridBasemap = L.tileLayer("../Maps-of-Nepal/power-grid-2/{z}/{x}/{y}.png", {});
+    map.addLayer(powergridBasemap);
+    $(powergridBasemap._container).addClass("hidden").css("z-index", 3);
+
+    var detailsBasemap = L.tileLayer("tiles/project_details/{z}/{x}/{y}.png", {});
+    map.addLayer(detailsBasemap);
+    $(detailsBasemap._container).css("z-index", 4);
+    
+    /*cartograph.initializeBasemaps();
     var districtsBasemap = L.tileLayer("http://raw.githubusercontent.com/jedi-Knight/Maps-of-Nepal/master/nepal-districts-vdcs/{z}/{x}/{y}.png", {});
     map.addLayer(districtsBasemap);
     $(districtsBasemap._container).css("z-index", 2);
@@ -1038,7 +1051,7 @@ $(document).ready(function() {
 
     var detailsBasemap = L.tileLayer("tiles/project_details/{z}/{x}/{y}.png", {});
     map.addLayer(detailsBasemap);
-    $(detailsBasemap._container).css("z-index", 4);
+    $(detailsBasemap._container).css("z-index", 4);*/
 
     $("<div class='leaflet-control-layers leaflet-control-layers-expanded leaflet-control miscellaneous-controls'/>").append(function(){
         return $("<div class='controls-title controls-seperator'><input type='checkbox'/><h5>Transmission Lines</h5></div>").on("click", function(){
