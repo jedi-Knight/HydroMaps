@@ -452,7 +452,20 @@ $(document).ready(function() {
 
                                                         //console.log(index);
 
-                                                        var popupContent = new TableContent_fix(data.features[feature].properties.getAttributes());
+
+                                                        var dom = new PanelDocumentModel(data.features[feature].properties.getAttributes(), config["popup-docdef"]);
+
+            var panelDocument = new PanelDocument(dom);
+            panelDocument.addToTitleBar(dom.titleBarJson);
+            panelDocument.addHeader(dom.headerJson);
+            panelDocument.addTabs(dom.tabsJson, PlugsForStyling.popup && PlugsForStyling.popup.body ? PlugsForStyling.popup.body : false);
+
+
+                                                        //var popupContent = new TableContent_fix(data.features[feature].properties.getAttributes());
+
+                                                        //marker.bindPopup(popupContent);
+
+                                                        var popupContent = panelDocument.getDocument();
 
                                                         marker.bindPopup(popupContent);
 
@@ -1084,7 +1097,7 @@ $(document).ready(function() {
             height: "16px"
         });
     });
-    
+
 
 });
 

@@ -1,0 +1,316 @@
+.float.panel-document{
+    /*width:300px;*/
+}
+.float.panel-document .panel-document-body{
+    /*margin-top:12pt;*/
+    height:174px;
+    background-color: #eeeeee;
+    padding-top:6pt;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.6);
+    z-index:3;
+    border-top: #ffffff thin solid;
+    margin-top: -1px;
+}
+.float.panel-document .panel-document-body>div.panel-document-tab{
+    position: absolute;
+}
+.float.panel-document .panel-document-body>div.panel-document-tab.inactive>div.panel-document-page{
+    display: none;
+}
+
+
+
+.thumbnail{
+    /*width: 80px;*/
+    height: 80px;
+    display: inline-block;
+    /*margin: 0px 1px;*/
+    padding: 0px;
+    cursor: pointer;
+    z-index:100;
+}
+
+.ui-thumbnail-strip{
+    display: inline-block;
+    white-space: nowrap;
+    margin-left: 22px;
+}
+
+.ui-thumbnail-slide{
+    display: inline-block;
+    width: 160px;
+    height: 85px;
+    /*margin-left: 20px;*/
+    overflow: hidden;
+    z-index:1;
+}
+
+.ui-slider-nav{
+    position:absolute;
+    top:16px;
+    width:160px;
+    height:80px;
+    vertical-align: middle;
+    white-space: nowrap;
+    //z-index: 1;
+    float: right;
+    pointer-events: none;
+}
+
+.ui-slider-nav>a{
+    width:20px;
+    height: 85px;
+    display:inline-block;
+    vertical-align: middle;
+    pointer-events: auto;
+}
+
+.ui-slider-nav .icon{
+    cursor: default;
+}
+
+/*.ui-slider-nav .ui-slider-button-prev{
+    background: linear-gradient(to left, transparent, #666666);
+}*/
+
+.ui-slider-nav .ui-slider-button-next{
+    margin-left: 120px;
+}
+
+.ui-thumbnail-slider{
+    width: 160px;
+    height: 85px;
+    background-color: #eeeeee;
+    float: right;
+}
+
+.float.panel-document a.tab-trigger{
+    position: relative;
+    float:both;
+    display: inline-block;
+    width: 150px;
+    word-wrap: normal;
+}
+.float.panel-document .inactive a.tab-trigger{
+    width:50px;
+    overflow: hidden;
+    /*white-space: nowrap;*/
+}
+
+.panel-document-titleBar{
+    display: flex;
+    z-index: 1;
+}
+.panel-document-titleBar>div{
+    min-width: 180px;
+    /*font-size:16pt;*/
+    /*line-height: 2;*/
+    /*font-style: normal;*/
+}
+.panel-document-title{
+    width: 200px;
+    z-index:2;
+    height: 30pt;
+    font-size: 12pt;
+    line-height: 12pt;
+    font-weight: 700;
+    margin-top:-8px;
+    margin-bottom:1px;
+    text-transform: capitalize;
+    /*text-shadow: 0px 0px 2px #ffffff, 0px 0px 2px #ffffff, 0px 0px 3px #ffffff, 0px 0px 3px #ffffff;*/
+    text-shadow: 0px 0px 2px #ffffff, 0px 0px 2px #ffffff, 0px 0px 4px #ffffff, 0px 0px 4px #ffffff;
+    /*color: #223366;*/
+    color: #0078a8;
+}
+.panel-document-slider{
+    max-width: 300px;
+    overflow: hidden;
+    z-index:1;
+    border-bottom-left-radius: 10px;
+    margin-left:-220px;
+    /*margin-bottom:-20px;*/
+    /*margin-top:12px;*/
+}
+
+.panel-document-header{
+    display: flex;
+    flex-flow: column wrap;
+    margin-top: -40pt;
+    margin-left:167px;
+    padding-top: 2pt;
+    background-color: #eeeeee;
+    width: 200px;
+    height: 56px;
+    border-top-right-radius: 10px;
+    z-index: 2;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.6);
+    border-top: #ffffff thin solid;
+    border-right: #ffffff thin solid;
+}
+
+/*.panel-document-header .tail-plug{
+    width: inherit;
+    height: 4px;
+    position: absolute;
+    background-color: #eeeeee;
+}*/
+
+.panel-document-header .header-row{
+    display: inline-block;
+    width:192px;
+    padding: 0px 2px 4px 8px;
+}
+.panel-document-header .header-row>div{
+    display: inline-block;
+    font-weight: 700;
+    padding: 2px 0px;
+    text-transform: capitalize;
+    line-height: 18pt;
+}
+
+.panel-document-header .header-row>div:first-child{
+    display:none;
+}
+
+.panel-document-header .header-row>div:last-child{
+    /*float:right;*/
+    /*color: #223366;*/
+    color: #0078a8;
+    font-size: 12pt;
+}
+
+.panel-document-header .header-row>div.smaller-text{
+    font-size: 10pt;
+}
+
+.panel-document-body .head-plug{
+    width: 200px;
+    height: 6px;
+    position: absolute;
+    z-index: 100;
+    margin-top: -14px;
+    right:16px;
+    background-color:  #eeeeee;
+    border-right: #ffffff thin solid;
+}
+
+.tab-trigger{
+    background-color: #333333;
+    padding: 6px 8px;
+    border: #cccccc thin solid;
+    border-bottom: #333333 medium solid;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    margin-bottom: -1px;
+    box-shadow: 0px -1px 2px 0px rgba(0,0,0,0.4);
+    white-space: nowrap;
+    text-align: center;
+    font-family: "Helvetica";
+    font-size: 10pt;
+    font-weight: 700;
+
+}
+.inactive .tab-trigger{
+    padding: 6px 4px;
+    border: #bbbbbb thin solid;
+    border-bottom: transparent thin solid;
+    border-bottom: none;
+    background-color: #666666;
+    background-color: #999999;
+    margin-top: 2px;
+}
+.tab-trigger .label{
+    display: inline-block;
+    text-align: center;
+    margin-right: 2px;
+    margin-left: -4px;
+    /*margin: auto;*/
+    color: #eeeeee;
+
+}
+.inactive .tab-trigger .label{
+    margin-left: 12px;
+    color: #333333;
+}
+
+.panel-document-page{
+    background-color: #333333;
+    margin: 0px 7px 8px;
+    padding: 6px;
+    width:340px;
+    z-index: 2000;
+    border: #cccccc thin solid;
+    box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.4);
+}
+
+.cartomancer-popup-table{
+    overflow: auto;
+    height: 120px;
+    padding: 2px 8px;
+}
+
+.cartomancer-popup-table .table-row>div>div{
+    display: inline-block;
+    /*margin: 2px 6px;*/
+    float: right;
+    font-weight: 700;
+    /*color: #223366;*/
+    color: #0078a8;
+    text-transform: capitalize;
+}
+.cartomancer-popup-table .table-row>div>div.not-available{
+    font-weight: 400;
+    color: #aaaaaa;
+    font-style: italic;
+}
+.cartomancer-popup-table .table-row{
+    font-size: 10pt;
+    line-height: 1.4;
+    padding: 2px;
+    border-bottom: #cccccc thin solid;
+}
+
+
+
+
+
+
+
+.leaflet-popup-content{
+    padding: 0px;
+    margin: 0px;
+    /*width: 368px !important;*/
+    width: auto !important;
+}
+
+.leaflet-popup-content-wrapper, .float.panel.media-viewer{
+    padding: 15px;
+    border-radius: 0px;
+    background-color: rgba(180,180,200,0.6);
+    box-shadow: 0 3px 14px rgba(0,0,0,0.4), 0px 0px 6px #ffffff inset;
+    border: #999999 thin solid;
+}
+
+.leaflet-popup-tip-container{
+    display:none;
+}
+
+.leaflet-container  a.leaflet-popup-close-button, .close.trigger{
+    top: 3px;
+    right: 3px;
+    /*border-radius: 5px;*/
+    background-color: transparent;
+    border: #999999 thin solid;
+    padding:0px;
+    box-shadow: 0px 0px 6px rgba(255,255,255,0.6) inset;
+    color: #666666;
+}
+.leaflet-container  a.leaflet-popup-close-button:hover, .close.trigger:hover{
+    color: #666666;
+    box-shadow: 0px 0px 1px rgba(0,0,0,0.4), 0px 0px 6px rgba(255,255,255,0.6) inset;
+    text-shadow: 0px 0px 2px #ffffff;
+}
+.leaflet-container  a.leaflet-popup-close-button:active, .close.trigger:active{
+    color: #666666;
+    box-shadow: 0px 0px 1px rgba(0,0,0,0.4) inset, 0px 0px 6px rgba(255,255,255,0.6) inset;
+}

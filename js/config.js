@@ -2,7 +2,7 @@ config = {
     "map-of": "Hydropower Projects in Nepal",
     "map-options": {
         "init-center": [28.478348, 86.542285],
-        "map-bounds": {  //78.739439,26.487043,89.847341,30.688485
+        "map-bounds": { //78.739439,26.487043,89.847341,30.688485
             "northeast": [30.688485, 89.847341],
             "southwest": [26.487043, 78.739439],
         },
@@ -39,13 +39,13 @@ config = {
             "title": "Applied for Survey License",
             "icon-src": "markers/survey-applied.png"
         },
-        
-        
-        
+
+
+
         "all-projects": {
             "src": "all-projects.geojson",
             "title": "All Projects",
-            "icon-src":"markers/all-projects.png"
+            "icon-src": "markers/all-projects.png"
         }
     },
     "layer-styles": {
@@ -76,224 +76,254 @@ config = {
             fillOpacity: 0,
             clickable: false
         },
-        "extent-marquee":{
+        "extent-marquee": {
             color: "#666666",
             opacity: 0.8,
             weight: 1,
             fillColor: "#aaccee",
             fillOpacity: 0.4
         },
-        "highlight-circle":{
+        "highlight-circle": {
             fillOpacity: 0,
             opacity: 0.8,
             weight: 2,
             color: "#0080ff",
             radius: 20
         },
-		"markers":{
-			"operational":{
-				"small":{
-					color: "#ffffff",
-					fillColor: "#0080ff",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 5
-				},
-				"medium":{
-					color: "#ffffff",
-					fillColor: "#0080ff",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 10
-				},
-				"large":{
-					color: "#ffffff",
-					fillColor: "#0080ff",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 15
-				},
-				"mega":{
-					color: "#ffffff",
-					fillColor: "#0080ff",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 20
-				}
-			},
-			"construction-approved":{
-				"small":{
-					color: "#ffffff",
-					fillColor: "#a6d854",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 5
-				},
-				"medium":{
-					color: "#ffffff",
-					fillColor: "#a6d854",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 10
-				},
-				"large":{
-					color: "#ffffff",
-					fillColor: "#a6d854",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 15
-				},
-				"mega":{
-					color: "#ffffff",
-					fillColor: "#a6d854",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 20
-				}
-			},
-			"construction-applied":{
-				"small":{
-					color: "#ffffff",
-					fillColor: "#66c2a5",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 5
-				},
-				"medium":{
-					color: "#ffffff",
-					fillColor: "#66c2a5",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 10
-				},
-				"large":{
-					color: "#ffffff",
-					fillColor: "#66c2a5",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 15
-				},
-				"mega":{
-					color: "#ffffff",
-					fillColor: "#66c2a5",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 20
-				}
-			},
-			"survey-approved":{
-				"small":{
-					color: "#ffffff",
-					fillColor: "#fc8d62",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 5
-				},
-				"medium":{
-					color: "#ffffff",
-					fillColor: "#fc8d62",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 10
-				},
-				"large":{
-					color: "#ffffff",
-					fillColor: "#fc8d62",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 15
-				},
-				"mega":{
-					color: "#ffffff",
-					fillColor: "#fc8d62",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 20
-				}
-			},
-			"survey-applied":{
-				"small":{
-					color: "#ffffff",
-					fillColor: "#e78ac3",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 5
-				},
-				"medium":{
-					color: "#ffffff",
-					fillColor: "#e78ac3",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 10
-				},
-				"large":{
-					color: "#ffffff",
-					fillColor: "#e78ac3",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 15
-				},
-				"mega":{
-					color: "#ffffff",
-					fillColor: "#e78ac3",
-					weight: 3,
-					fillOpacity: 1,
-					opacity: 0.8,
-					radius: 20
-				}
-			}
-		},
-        "marker-shapes":{
+        "markers": {
+            "operational": {
+                "small": {
+                    color: "#ffffff",
+                    fillColor: "#0080ff",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 5
+                },
+                "medium": {
+                    color: "#ffffff",
+                    fillColor: "#0080ff",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 10
+                },
+                "large": {
+                    color: "#ffffff",
+                    fillColor: "#0080ff",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 15
+                },
+                "mega": {
+                    color: "#ffffff",
+                    fillColor: "#0080ff",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 20
+                }
+            },
+            "construction-approved": {
+                "small": {
+                    color: "#ffffff",
+                    fillColor: "#a6d854",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 5
+                },
+                "medium": {
+                    color: "#ffffff",
+                    fillColor: "#a6d854",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 10
+                },
+                "large": {
+                    color: "#ffffff",
+                    fillColor: "#a6d854",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 15
+                },
+                "mega": {
+                    color: "#ffffff",
+                    fillColor: "#a6d854",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 20
+                }
+            },
+            "construction-applied": {
+                "small": {
+                    color: "#ffffff",
+                    fillColor: "#66c2a5",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 5
+                },
+                "medium": {
+                    color: "#ffffff",
+                    fillColor: "#66c2a5",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 10
+                },
+                "large": {
+                    color: "#ffffff",
+                    fillColor: "#66c2a5",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 15
+                },
+                "mega": {
+                    color: "#ffffff",
+                    fillColor: "#66c2a5",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 20
+                }
+            },
+            "survey-approved": {
+                "small": {
+                    color: "#ffffff",
+                    fillColor: "#fc8d62",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 5
+                },
+                "medium": {
+                    color: "#ffffff",
+                    fillColor: "#fc8d62",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 10
+                },
+                "large": {
+                    color: "#ffffff",
+                    fillColor: "#fc8d62",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 15
+                },
+                "mega": {
+                    color: "#ffffff",
+                    fillColor: "#fc8d62",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 20
+                }
+            },
+            "survey-applied": {
+                "small": {
+                    color: "#ffffff",
+                    fillColor: "#e78ac3",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 5
+                },
+                "medium": {
+                    color: "#ffffff",
+                    fillColor: "#e78ac3",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 10
+                },
+                "large": {
+                    color: "#ffffff",
+                    fillColor: "#e78ac3",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 15
+                },
+                "mega": {
+                    color: "#ffffff",
+                    fillColor: "#e78ac3",
+                    weight: 3,
+                    fillOpacity: 1,
+                    opacity: 0.8,
+                    radius: 20
+                }
+            }
+        },
+        "marker-shapes": {
             "small": "TriangleMarker",
             "medium": "CircleMarker",
             "large": "SquareMarker",
             "mega": "HexagonMarker"
         }
     },
-    "filter-search-by-elements":[
-        {
-            title: "No Filter",
-            icon: "img/ui-filter-search-by-icon-none.png",
-            className: "ui-filter-search-by-icon"
-        },
-        {
-            title: "River",
-            icon: "img/ui-filter-search-by-icon-river.png",
-            className: "ui-filter-search-by-icon"
-        }
-    ],
-    "special-function-parameters":{
+    "filter-search-by-elements": [{
+        title: "No Filter",
+        icon: "img/ui-filter-search-by-icon-none.png",
+        className: "ui-filter-search-by-icon"
+    }, {
+        title: "River",
+        icon: "img/ui-filter-search-by-icon-river.png",
+        className: "ui-filter-search-by-icon"
+    }],
+    "special-function-parameters": {
         "operational-year-range": [1970, 2015]
+    },
+
+    "popup-docdef": {
+            "slider": "pictures"
+        ,
+        header: ["Project", "Capacity (MW)", "MW"],
+        tabs: [{
+                title: "Salient Features",
+                content: {
+                    "River": "River",
+                    "Promoter": ["Promoter", "Address"],
+                    "License Issue Date": "Issue Date",
+                    "License Valid Upto": "Validity",
+                    "License Number": "License No",
+                    "Commercial Operation Date": "Commercial Operation Date",
+                    "Data Source": "Data Source"
+                }
+            },
+            {
+                title: "Project Documents",
+                content: {
+                    "EIA/SIA Report": "EIA/SIA Report",
+                    "Annual Report": "Annual Report",
+                    "Other Documents": "Othe Documents"
+                }
+            },
+            {
+                title: "Web-Links",
+                content: {
+                    "Website": "Website"
+                }
+            }
+        ]
     },
 
 
 
-colorList:["#66c2a5","#fc8d62","#8da0cb", "#e78ac3", "#a6d854"],
-opacity: 0.8
+    colorList: ["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854"],
+    opacity: 0.8
 };
 
-function setRandomStyles(colorList, opacity){
-return {
-	fillColor: colorList[Math.floor(Math.random()*colorList.length)],
-	opacity: opacity
-};
+function setRandomStyles(colorList, opacity) {
+    return {
+        fillColor: colorList[Math.floor(Math.random() * colorList.length)],
+        opacity: opacity
+    };
 }

@@ -170,6 +170,92 @@ function UI_OverviewMap(options) {
     };
 }
 
+var PlugsForStyling = {
+  popup:{
+      body:{
+          "head-plug": "<div class='head-plug'/>"
+      }
+  }
+};
+
+
+function PanelDocumentModel(pointAttributes, docdef) {  //TODO: full of temporary project-specific hacks
+    var _docdef = $.extend(true, {}, docdef);
+    _docdef.titleBarJson = {};
+    if(pointAttributes.Images === null){
+        _docdef.slider=0;
+    }else{
+        pointAttributes.Images = pointAttributes.Images.split(",");
+        _docdef.titleBarJson.slider = new UI_ThumbnailView({
+                thumbUrls: function() {
+                    var srcs = [];
+                    for (var photo in pointAttributes.Images) {
+                        srcs.push(pointAttributes.Images[photo]);
+                    }
+                    return srcs;
+                }(),
+                photoUrls: function() {
+                    var srcs = [];
+                    for (var photo in pointAttributes.Images) {
+                        srcs.push(pointAttributes.Images[photo]);
+                    }
+                    return srcs;
+                }(),
+                mediaOptions: function(params) {
+                    return {
+                        triggers: {
+                            click: function(e) {
+                                new SplashScreen(MediaDocument(params.src)).appendTo("body");
+                            }
+                        }
+                    };
+                }
+            }).createSlider();
+    }
+
+    _docdef.headerJson = {
+        "title": ""
+    };
+
+    $.map(_docdef.header, function(item, index){
+        var txt;
+        if(!pointAttributes[item] && pointAttributes[item] !== null){
+            txt = " "+item;
+        }else if(pointAttributes[item] === null){
+            return;
+        }else{
+            txt = index?",<br/>"+pointAttributes[item]:pointAttributes[item];
+        }
+
+        if(index){
+            _docdef.headerJson["project-name-capacity"] += txt;
+        }else{
+            _docdef.headerJson["project-name-capacity"] = txt;
+        }
+    });
+
+    $.map(_docdef.tabs, function(tab, index){
+        $.map(tab.content, function(item, index){
+            if(typeof item === "string"){
+                tab.content[index] = pointAttributes[item];
+            }else{
+            $.map(item, function(_item, _index){
+                tab.content[index] = _index?", "+pointAttributes[_item]: pointAttributes[_item];
+            });
+            }
+
+        });
+    });
+
+    _docdef.tabsJson = {
+        tabs: _docdef.tabs
+    };
+
+    return _docdef;
+
+}
+
+
 function Cluster(features, options, map) {
 
     var clusteringOptions = {
@@ -387,6 +473,8 @@ function PanelDocument(documentModel) {
          returnArray.push(_footer);*/
         return returnArray.addClass("panel-document-section");
     });
+
+    if(!documentModel.slider) $(_panelDocument).addClass("no-slider"); //TODO: very very dirty temporary hack, project-specific
 
     function _addToTitleBar(titleBarJson) {
         setTimeout(function() {
