@@ -26,7 +26,7 @@ $.fn.switchToTab = function(fn) {
                     .siblings().addClass("inactive");
             $(this).prevAll().find("a.tab-trigger").each(function(index) {
                 $(this).css({
-                    "margin-left": 12 + index * 54,
+                    "margin-left": 12 + index * 46,
                     "z-index": index+1
                 });
                 $(this).addClass("left-of-center");
@@ -35,14 +35,14 @@ $.fn.switchToTab = function(fn) {
             });
 
             $(this).find("a.tab-trigger").css({
-                "margin-left": 12 + c * 54,
+                "margin-left": 12 + c * 46,
                 "z-index":1001
             });
 
 
             $(this).nextAll().find("a.tab-trigger").each(function(index) {
                 $(this).css({
-                    "margin-left": 12 + c * 54 + 114 + (index+1) * 54,
+                    "margin-left": 12 + c * 46 + 114 + (index+1) * 46,
                     "z-index": 999-index
                 });
                 $(this).addClass("right-of-center");

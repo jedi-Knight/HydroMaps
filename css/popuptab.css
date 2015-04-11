@@ -390,6 +390,8 @@
     box-shadow: none;
     font-family: 'Raleway', 'Open Sans', sans-serif;
     font-weight: 600;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .tab-trigger *{
