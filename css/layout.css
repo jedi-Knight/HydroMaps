@@ -654,7 +654,27 @@ div.leaflet-control-layers-separator{
     z-index: 999 !important;
 }
 
+/*
 .leaflet-marker-icon img{
+    margin-top: -25%;
+    margin-left: -25%;
+}
+*/
+.leaflet-marker-icon.small img{
+/*
+    margin-top: -25%;
+    margin-left: -25%;
+*/
+}
+.leaflet-marker-icon.medium img{
+    margin-top: -25%;
+    margin-left: -25%;
+}
+.leaflet-marker-icon.large img{
+    margin-top: -25%;
+    margin-left: -25%;
+}
+.leaflet-marker-icon.mega img{
     margin-top: -50%;
     margin-left: -50%;
 }

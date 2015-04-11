@@ -468,7 +468,17 @@ $(document).ready(function() {
                                                         var popupContent = panelDocument.getDocument();
 
                                                         marker.bindPopup(popupContent, {
-                                                            offset: L.point(0,-12)
+                                                            offset: L.point(0,-22)
+                                                        });
+
+                                                        var highLightCircle;
+
+                                                        marker.on("popupopen", function(e){
+                                                            highLightCircle = L.circleMarker(this._latlng, config["layer-styles"]["highlight-circle"]);
+                                                            highLightCircle.addTo(map);
+                                                        });
+                                                        marker.on("popupclose", function(e){
+                                                            map.removeLayer(highLightCircle);
                                                         });
 
 
