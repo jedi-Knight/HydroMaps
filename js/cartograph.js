@@ -182,7 +182,7 @@ var PlugsForStyling = {
 function PanelDocumentModel(pointAttributes, docdef) {  //TODO: full of temporary project-specific hacks
     var _docdef = $.extend(true, {}, docdef);
     _docdef.titleBarJson = {};
-    if(pointAttributes.Images === null){
+    if(pointAttributes.Images === null || pointAttributes.Images === "null" || !pointAttributes.Images){
         _docdef.slider=0;
     }else{
         pointAttributes.Images = pointAttributes.Images.split(",");
