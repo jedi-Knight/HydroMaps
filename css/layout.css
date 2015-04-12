@@ -780,23 +780,28 @@ span.marker-label-districts.dark-background{
 /*    border: #cccccc 19px solid;*/
     border: none;
     border-radius: 0px;
-    border-right: rgba(255,255,255,0.6) 120px solid;
+/*    border-right: rgba(255,255,255,0) 120px solid;*/
 /*	border-bottom: #cccccc 24px solid;*/
     height: 82px;
     margin-top: 80px;
     /*border-style: solid;*/
-    background-color: rgba(255,255,255,0.6);
+/*    background-color: rgba(255,255,255,0.6);*/
     /*background: url('../img/bg-track.png') repeat top left;*/
 /*    box-shadow: inset 0 1px 5px 0px rgba(0, 0, 0, .5), */
+    background: transparent;
     margin-top: -80px;
     margin-left: 260px;
 /*    background: -moz-repeating-linear-gradient(left,black, transparent 0.2%, transparent 6.25%);*/
 }
 
+#slider, #slider *{
+    cursor: ew-resize;
+}
+
 #slider.inactive{
-    background-color: rgba(255,255,255,0);
+/*    background-color: rgba(255,255,255,0);*/
     outline: none;
-    border-right: rgba(255,255,255,0) 120px solid;
+/*    border-right: rgba(255,255,255,0) 120px solid;*/
 /*
     height: 20px;
     margin-top: -55px;
@@ -884,8 +889,9 @@ span.marker-label-districts.dark-background{
     margin-left: 0px;
     margin-right: 41px;*/
     
-    width: 726px;
-    height: 34px;
+    width: 848px;
+    height: 45px;
+    
     /*background: -moz-repeating-linear-gradient(left,black, transparent 0.2%, transparent 6.25%);*/
     /*background: -moz-repeating-linear-gradient(left,black, transparent 0.1%, transparent 6.25%, black 0.1%);
     background: -o-repeating-linear-gradient(left,black, transparent 0.1%, transparent 6.25%, black 0.1%);
@@ -900,7 +906,18 @@ span.marker-label-districts.dark-background{
 	
 	background: url("../img/slider-markings.png");
     background-size: 724px 34px;
-    background-position: 2px 0px;
+    background-repeat: no-repeat;
+    background-position: 14px 8px;
+    margin-left: -12px;
+    
+    background-color: rgba(255,255,255,0.8);
+    opacity: 0.8;
+    filter: contrast(1.2);
+    box-sizing: content-box;
+    border: #999999 thin solid;
+    
+    
+/*    border-right: rgba(255,255,255,0.4) 116px solid;*/
     
 /*    border-left: #999999 thin solid;*/
 /*    border-right: #999999 thin solid;*/
@@ -913,7 +930,9 @@ span.marker-label-districts.dark-background{
 #slider.inactive .scale-marking{
 /*    margin-top: -22px;*/
     height: 16px;
-    opacity: 0.6;
+    opacity: 1;
+    background-color: rgba(255,255,255,0);
+    border: none;
 }
 
 
@@ -973,7 +992,7 @@ span.marker-label-districts.dark-background{
     z-index: 2234234;  
     width: 25px;  
     height: 25px;  
-    cursor: pointer;  
+/*    cursor: pointer;  */
     /*background: url('../img/handle.png') no-repeat 60% 60%;*/  
     background: transparent;
     font-weight: bold;  
