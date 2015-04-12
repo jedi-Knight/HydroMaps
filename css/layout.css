@@ -254,9 +254,14 @@ div.title{
 
 .overlay-tiles.dark-background{
     -webkit-filter: invert(1) contrast(12);
+    filter: invert(1) contrast(12);
 }
 .overlay-tiles.districts.dark-background{
 /*    -webkit-filter: invert(1) contrast(0.2);*/
+}
+.overlay-tiles.dark-background.powergrid{
+    -webkit-filter: hue-rotate(190deg) contrast(0.7) invert(1) brightness(2.4);
+    filter: hue-rotate(190deg) contrast(0.7) invert(1) brightness(2.4);
 }
 
 .leaflet-control-container .leaflet-top{

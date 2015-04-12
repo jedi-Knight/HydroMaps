@@ -1066,11 +1066,11 @@ $(document).ready(function() {
 
     var powergridBasemap = L.tileLayer("http://raw.githubusercontent.com/jedi-Knight/Maps-of-Nepal/master/power-grid-2/{z}/{x}/{y}.png", {});
     map.addLayer(powergridBasemap);
-    $(powergridBasemap._container).addClass("hidden overlay-tiles").css("z-index", 3);
+    $(powergridBasemap._container).addClass("hidden overlay-tiles powergrid").css("z-index", 3);
 
     var detailsBasemap = L.tileLayer("tiles/project_details/{z}/{x}/{y}.png", {});
     map.addLayer(detailsBasemap);
-    $(detailsBasemap._container).addClass("overlay-tiles").css("z-index", 4);
+    $(detailsBasemap._container).addClass("overlay-tiles project-details").css("z-index", 4);
     
     /*cartograph.initializeBasemaps();
     var districtsBasemap = L.tileLayer("http://raw.githubusercontent.com/jedi-Knight/Maps-of-Nepal/master/nepal-districts-vdcs/{z}/{x}/{y}.png", {});
