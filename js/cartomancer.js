@@ -1023,17 +1023,22 @@ $(document).ready(function() {
 
     map.on("baselayerchange", function(layer) {
         if (layer.name === "Satellite Imagery") {
-            districtLayers.setStyle({
+            /*districtLayers.setStyle({
                 color: "#ffffff",
                 fillOpacity: 0
             });
-            $(".marker-label-districts").addClass("dark-background");
+            $(".marker-label-districts").addClass("dark-background");*/
+
+            $(".overlay-tiles").addClass("dark-background");
+
         } else {
-            districtLayers.setStyle({
+            /*districtLayers.setStyle({
                 color: "#333333",
                 fillOpacity: 0.2
             });
-            $(".marker-label-districts").removeClass("dark-background");
+            $(".marker-label-districts").removeClass("dark-background");*/
+
+            $(".overlay-tiles").removeClass("dark-background");
         }
         //$(map.getPanes().tilePane).toggleClass("grayscale", layer.name === "OpenStreetMap Grayscale");
     });
@@ -1055,17 +1060,17 @@ $(document).ready(function() {
     });
 
     cartograph.initializeBasemaps();
-    var districtsBasemap = L.tileLayer("../Maps-of-Nepal/nepal-districts-vdcs/{z}/{x}/{y}.png", {});
+    var districtsBasemap = L.tileLayer("http://raw.githubusercontent.com/jedi-Knight/Maps-of-Nepal/master/nepal-districts-vdcs/{z}/{x}/{y}.png", {});
     map.addLayer(districtsBasemap);
-    $(districtsBasemap._container).css("z-index", 2);
+    $(districtsBasemap._container).addClass("overlay-tiles districts").css("z-index", 2);
 
-    var powergridBasemap = L.tileLayer("../Maps-of-Nepal/power-grid-2/{z}/{x}/{y}.png", {});
+    var powergridBasemap = L.tileLayer("http://raw.githubusercontent.com/jedi-Knight/Maps-of-Nepal/master/power-grid-2/{z}/{x}/{y}.png", {});
     map.addLayer(powergridBasemap);
-    $(powergridBasemap._container).addClass("hidden").css("z-index", 3);
+    $(powergridBasemap._container).addClass("hidden overlay-tiles").css("z-index", 3);
 
     var detailsBasemap = L.tileLayer("tiles/project_details/{z}/{x}/{y}.png", {});
     map.addLayer(detailsBasemap);
-    $(detailsBasemap._container).css("z-index", 4);
+    $(detailsBasemap._container).addClass("overlay-tiles").css("z-index", 4);
     
     /*cartograph.initializeBasemaps();
     var districtsBasemap = L.tileLayer("http://raw.githubusercontent.com/jedi-Knight/Maps-of-Nepal/master/nepal-districts-vdcs/{z}/{x}/{y}.png", {});
@@ -1092,7 +1097,7 @@ $(document).ready(function() {
     
     
     
-    
+    var mouseoverTriggered = 0;
     
     map.on("click",function(e){
         //if(eventFlag.mouseIsDragging) return;
@@ -1100,17 +1105,57 @@ $(document).ready(function() {
         $("#slider").slider("value", config["special-function-parameters"]["operational-year-range"][1]);
         sliderSlid(null, {value : config["special-function-parameters"]["operational-year-range"][1]});
         
-        $(".scale-marking").animate({
-            height: "1px"
-        });
+
+
+//        $("#slider").find(".scale-marking").hide();
+//        $("#slider").animate({
+//           height:"4px",
+//            "margin-top": "-40px"
+//        }, 400);
+
+       // var mouseoverTriggered = 0;
+
+        $("#slider").addClass("inactive");
+        mouseoverTriggered = 0;
+
     });
     
-    $("#slider").on("mouseover",function(e){
-        
-        $(".scale-marking").animate({
-            height: "16px"
-        });
+    map.on("move", function(e){
+        //scalefocusout = 1;
+        if(!mouseoverTriggered) return;
+        setTimeout(function(){
+
+            sliderSlid(null, {value : config["special-function-parameters"]["operational-year-range"][1]});
+
+
+            $("#slider").addClass("inactive");
+                mouseoverTriggered = 0;
+
+        }, 10000);
     });
+
+
+
+    $("#slider").on("mouseenter",function(e){
+
+        if(mouseoverTriggered) return;
+
+        mouseoverTriggered = 1;
+
+        $("#slider").removeClass("inactive");
+
+    });
+
+    /*$("#slider").on("mouseleave", function(){
+        if(!mouseoverTriggered) return;
+        intervalID = setInterval(function(){
+            if(sliderfocusout){
+            $("#slider").addClass("inactive");
+            mouseoverTriggered = 0;
+            }
+            clearInterval(intervalID);
+        }, 10000);
+    });*/
 
 
 });
