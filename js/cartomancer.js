@@ -517,9 +517,9 @@ $(document).ready(function() {
                                                             marqueeObj.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
                                                             marqueeObj.addTo(extentMarqueeGroup);
 
-                                                            if(!capacityYear.updated && index==="operational"/* && data.features[feature].properties.getAttributes()["Commercial Operation Year"]>=config["special-function-parameters"]["operational-year-range"][0] && data.features[feature].properties.getAttributes()["Commercial Operation Year"]<=config["special-function-parameters"]["operational-year-range"][1]*/){
+                                                            if(index==="operational"/* && data.features[feature].properties.getAttributes()["Commercial Operation Year"]>=config["special-function-parameters"]["operational-year-range"][0] && data.features[feature].properties.getAttributes()["Commercial Operation Year"]<=config["special-function-parameters"]["operational-year-range"][1]*/){
                                                                     if(capacityYear[data.features[feature].properties.getAttributes()["Commercial Operation Year"]]){
-                                                                        capacityYear[data.features[feature].properties.getAttributes()["Commercial Operation Year"]].increment += data.features[feature].properties.getAttributes()["Capacity (MW)"];
+                                                                        capacityYear[data.features[feature].properties.getAttributes()["Commercial Operation Year"]].increment += capacityYear.updated?0:data.features[feature].properties.getAttributes()["Capacity (MW)"];
                                                                         capacityYear[data.features[feature].properties.getAttributes()["Commercial Operation Year"]]._icons.push(marker._icon);
                                                                     }else{
                                                                         capacityYear[data.features[feature].properties.getAttributes()["Commercial Operation Year"]]={
@@ -527,6 +527,9 @@ $(document).ready(function() {
                                                                             _icons : [marker._icon]
                                                                         };
                                                                     }
+                                                                if(feature===data.features.length-1){
+                                                                    capacityYear.updated = true;
+                                                                }
                                                             }
                                                             //a=capacityYear;
 
@@ -1124,7 +1127,8 @@ $(document).ready(function() {
         //scalefocusout = 1;
         if(!mouseoverTriggered) return;
         setTimeout(function(){
-
+            
+            $("#slider").slider("value", config["special-function-parameters"]["operational-year-range"][1]);
             sliderSlid(null, {value : config["special-function-parameters"]["operational-year-range"][1]});
 
 
