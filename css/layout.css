@@ -773,13 +773,14 @@ span.marker-label-districts.dark-background{
 }*/
 
 #slider{
-    width: 714px;
+/*    width: 714px;*/
+    width: 720px;
     /*width: 816px;*/
 /*    height: 2px;*/
 /*    border: #cccccc 19px solid;*/
     border: none;
     border-radius: 0px;
-    border-right: #cccccc 120px solid;
+    border-right: rgba(255,255,255,0.6) 120px solid;
 /*	border-bottom: #cccccc 24px solid;*/
     height: 45px;
     margin-top: 80px;
@@ -787,21 +788,23 @@ span.marker-label-districts.dark-background{
     background-color: rgba(255,255,255,0.6);
     /*background: url('../img/bg-track.png') repeat top left;*/
 /*    box-shadow: inset 0 1px 5px 0px rgba(0, 0, 0, .5), */
-     0 1px 0 0px rgba(250, 250, 250, .5);  
     margin-top: -80px;
     margin-left: 260px;
-    //background: -moz-repeating-linear-gradient(left,black, transparent 0.2%, transparent 6.25%);
+/*    background: -moz-repeating-linear-gradient(left,black, transparent 0.2%, transparent 6.25%);*/
 }
 
 #slider.inactive{
-    background-color: rgba(255,255,255,0.2);
+    background-color: rgba(255,255,255,0);
     outline: none;
+    border-right: rgba(255,255,255,0) 120px solid;
+/*
     height: 20px;
     margin-top: -55px;
+*/
 }
 
 #slider .scale-marking{
-    margin-top: 20px;
+/*    margin-top: 20px;*/
 }
 
 /*#slider span.label{
@@ -876,8 +879,8 @@ span.marker-label-districts.dark-background{
     margin-left: 0px;
     margin-right: 41px;*/
     
-    width: 714px;
-    height: 16px;
+    width: 726px;
+    height: 34px;
     /*background: -moz-repeating-linear-gradient(left,black, transparent 0.2%, transparent 6.25%);*/
     /*background: -moz-repeating-linear-gradient(left,black, transparent 0.1%, transparent 6.25%, black 0.1%);
     background: -o-repeating-linear-gradient(left,black, transparent 0.1%, transparent 6.25%, black 0.1%);
@@ -891,17 +894,21 @@ span.marker-label-districts.dark-background{
 	/*background: repeating-linear-gradient(left,black, transparent 0.1%, transparent 5.9%, black 0.1%);*/
 	
 	background: url("../img/slider-markings.png");
+    background-size: 724px 34px;
+    background-position: 2px 0px;
     
-    border-left: #999999 thin solid;
-    border-right: #999999 thin solid;
-	border-right: #666666 2px solid;
+/*    border-left: #999999 thin solid;*/
+/*    border-right: #999999 thin solid;*/
+/*	border-right: #666666 2px solid;*/
     display: inline-block;
-    margin-top: -28px;
-    margin-top: -12px;
+/*    margin-top: -28px;*/
+    margin-top: 2px;
 }
 
 #slider.inactive .scale-marking{
-    margin-top: -22px;
+/*    margin-top: -22px;*/
+    height: 16px;
+    opacity: 0.6;
 }
 
 
@@ -945,7 +952,8 @@ span.marker-label-districts.dark-background{
     font: 27px Arial, sans-serif;
     display: inline-block;
     position: absolute;
-    margin-left: 1050px;
+/*    margin-left: 1050px;*/
+    margin-left: 1000px;
     margin-top: -56px; 
 	margin-top: -64px;	
 }
@@ -1217,7 +1225,7 @@ a.wiki{
 }
 
 ._id_0 .ui-switch-icon{
-    background-color: #0080ff;
+    background-color: #79a6ff;
 }
 ._id_1 .ui-switch-icon{
     background-color: #a6d854;
