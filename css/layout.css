@@ -782,7 +782,7 @@ span.marker-label-districts.dark-background{
     border-radius: 0px;
     border-right: rgba(255,255,255,0.6) 120px solid;
 /*	border-bottom: #cccccc 24px solid;*/
-    height: 45px;
+    height: 82px;
     margin-top: 80px;
     /*border-style: solid;*/
     background-color: rgba(255,255,255,0.6);
@@ -803,8 +803,13 @@ span.marker-label-districts.dark-background{
 */
 }
 
-#slider .scale-marking{
-/*    margin-top: 20px;*/
+#slider.inactive{
+    margin-top: -40px;
+}
+
+#slider.inactive+.numberCircle{
+    font-size: 14pt;
+    margin-top: -107px;
 }
 
 /*#slider span.label{
@@ -955,7 +960,7 @@ span.marker-label-districts.dark-background{
 /*    margin-left: 1050px;*/
     margin-left: 1000px;
     margin-top: -56px; 
-	margin-top: -64px;	
+	margin-top: -99px;
 }
 
 /*.ui-slider{
