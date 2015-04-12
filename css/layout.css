@@ -1367,17 +1367,20 @@ body *{
     width: 30px;
     height: 30px;
 */
+    width: 135px;
     top: 50%;
     left: 50%;
-    margin-left: -109px;
-    margin-top: -75px;
+    margin-left: -10px;
+    margin-top: -4em;
+    -webkit-filter: contrast(1.8);
+    filter: contrast(1.8);
 }
 .freezeScreen p{
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-left: -60px;
-    margin-top: -2.4em;
+    margin-left: -96px;
+    margin-top: -1.4em;
     font-size: 1.4em;
     font-family: "Open sans", "Helvetica", sans-serif;
     text-transform: capitalize;
