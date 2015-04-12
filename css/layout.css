@@ -1359,22 +1359,25 @@ body *{
     z-index: 100000;
     background-color: rgba(255,255,255,0.5);
     top: 0px;
-    cursor: wait;
+/*    cursor: progress;*/
 }
 .freezeScreen img{
     position: absolute;
+/*
     width: 30px;
     height: 30px;
+*/
     top: 50%;
     left: 50%;
-    margin-left: -15px;
+    margin-left: -109px;
+    margin-top: -75px;
 }
 .freezeScreen p{
     position: absolute;
     top: 50%;
     left: 50%;
     margin-left: -60px;
-    margin-top: -1.4em;
+    margin-top: -2.4em;
     font-size: 1.4em;
     font-family: "Open sans", "Helvetica", sans-serif;
     text-transform: capitalize;
