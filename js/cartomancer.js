@@ -1,10 +1,10 @@
 $(document).ready(function() {
     $(".numberCircle").hide();
-    
+
     var nepalBorderLatLngArray = [];
-    
+
     var nepalBorderGeoJSON = L.geoJson(nepal_border);
-    $.map(nepalBorderGeoJSON._layers, function(layer, index){
+    $.map(nepalBorderGeoJSON._layers, function(layer, index) {
         $.extend(nepalBorderLatLngArray, layer._latlngs);
     });
 
@@ -12,8 +12,8 @@ $(document).ready(function() {
         "basemaps": {
             "OpenStreetMap": {
                 "tileLayer": L.TileLayer.boundaryCanvas("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    boundary: nepalBorderLatLngArray,
-    doubleClickZoom: true
+                    boundary: nepalBorderLatLngArray,
+                    doubleClickZoom: true
                 })
             },
             "Satellite Imagery": {
@@ -276,7 +276,8 @@ $(document).ready(function() {
                             "title": l1_index + 1 + ". " + l1_item.Project + ", " + l1_item["Capacity (MW)"] + "MW",
                             "infoKeys": ["River", "Promoter"],
                             "attributes": {
-                                "_id": l1_item._cartomancer_id
+                                "_id": l1_item._cartomancer_id,
+                                "_feature-group": l1_item._metaX["feature-group"]
                             },
                             "data": l1_item,
                             "index": l1_index
@@ -284,11 +285,19 @@ $(document).ready(function() {
 
                         overviewBox.click(function(e) {
                             //var pointOfAttributes = mapData.getGeometries()["points"][index]["features"][$(this).attr("_id")];
-                            var pointOfAttributes = mapData.getGeometries()["points"][index]["features"][l1_item["_cartomancer_id"]];
+                            var pointOfAttributes = mapData.getGeometries()["points"][$(this).attr("_feature-group")]["features"][$(this).attr("_id")];
                             var popup = L.popup({});
                             map.closePopup();
                             //popup.setLatLng(e.latlng);
-                            popup.setContent(new TableContent_fix(pointOfAttributes.properties.getAttributes()));
+                            var dom = new PanelDocumentModel(pointOfAttributes.properties.getAttributes(), config["popup-docdef"]);
+
+                            var panelDocument = new PanelDocument(dom);
+                            panelDocument.addToTitleBar(dom.titleBarJson);
+                            panelDocument.addHeader(dom.headerJson);
+                            panelDocument.addTabs(dom.tabsJson, PlugsForStyling.popup && PlugsForStyling.popup.body ? PlugsForStyling.popup.body : false);
+
+                            var popupContent = panelDocument.getDocument();
+                            popup.setContent(popupContent);
                             //popup.openOn(map);
                             //console.log(pointOfAttributes);
                             var latlng = L.latLng(Number(pointOfAttributes.geometry.coordinates[0]) + 0.03, Number(pointOfAttributes.geometry.coordinates[1]));
@@ -354,6 +363,7 @@ $(document).ready(function() {
         var markersGroupsGen = new UI_MarkerGroups(dataArr);
         markersGroupsGen.done(function(markerGroups) {
             mapGlobals.freezeScreen.unfreeze();
+            $('.numberCircle').text("718 MW");
             markersPrep.resolve(markerGroups);
         });
     })
@@ -532,17 +542,17 @@ $(document).ready(function() {
                                                 feature++;
 
                                                 if (feature === data.features.length) {
-                                                    setTimeout(function(){
-                                                    $(context).find("input")[0].checked = true;
-                                                    $(context).addClass("on");
-                                                    $(context).removeClass("off");
+                                                    setTimeout(function() {
+                                                        $(context).find("input")[0].checked = true;
+                                                        $(context).addClass("on");
+                                                        $(context).removeClass("off");
 
-                                                    if (index === "operational") {
-                                                        $("#slider").show();
-                                                        if ($("#slider").css("display") !== "none")
-                                                            $(".numberCircle").show();
-                                                    };
-                                                    },0);
+                                                        if (index === "operational") {
+                                                            $("#slider").show();
+                                                            if ($("#slider").css("display") !== "none")
+                                                                $(".numberCircle").show();
+                                                        };
+                                                    }, 0);
                                                 }
 
 
@@ -1017,8 +1027,8 @@ $(document).ready(function() {
         return "<img src='img/sliderknob.png'/>";
     });
 
-    tooltip.text("BS 2071");
-    $('.numberCircle').text("718 MW");
+    //tooltip.text("BS 2071");
+    //$('.numberCircle').text("718 MW");
     //}
 
 
