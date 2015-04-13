@@ -38,3 +38,21 @@ function Util_DateConverter(options) {
         return _format(format);
     };
 }
+
+
+$.whenListDone = function(defArr){
+    var c = 0;
+    var dataArr = [];
+    var deferred = $.Deferred();
+    
+    $.map(defArr, function(cDeferred, index){
+        cDeferred.done(function(data){
+            dataArr.push(data);
+            if(++c === defArr.length){
+                deferred.resolve(dataArr);
+            }
+        });
+    });
+    
+    return deferred.promise();
+}
