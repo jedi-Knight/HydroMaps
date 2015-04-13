@@ -46,8 +46,8 @@ $.whenListDone = function(defArr){
     var deferred = $.Deferred();
     
     $.map(defArr, function(cDeferred, index){
-        cDeferred.done(function(data){
-            dataArr.push(data);
+        cDeferred.done(function(){
+            dataArr.push(arguments);
             if(++c === defArr.length){
                 deferred.resolve(dataArr);
             }

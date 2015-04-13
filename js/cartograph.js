@@ -171,77 +171,77 @@ function UI_OverviewMap(options) {
 }
 
 var PlugsForStyling = {
-  popup:{
-      body:{
-          "head-plug": "<div class='head-plug'/>"
-      }
-  }
+    popup: {
+        body: {
+            "head-plug": "<div class='head-plug'/>"
+        }
+    }
 };
 
 
-function PanelDocumentModel(pointAttributes, docdef) {  //TODO: full of temporary project-specific hacks
+function PanelDocumentModel(pointAttributes, docdef) { //TODO: full of temporary project-specific hacks
     var _docdef = $.extend(true, {}, docdef);
     _docdef.titleBarJson = {};
-    if(pointAttributes.Images === null || pointAttributes.Images === "null" || !pointAttributes.Images){
-        _docdef.slider=0;
-    }else{
+    if (pointAttributes.Images === null || pointAttributes.Images === "null" || !pointAttributes.Images) {
+        _docdef.slider = 0;
+    } else {
         pointAttributes.Images = pointAttributes.Images.split(",");
         _docdef.titleBarJson.slider = new UI_ThumbnailView({
-                thumbUrls: function() {
-                    var srcs = [];
-                    for (var photo in pointAttributes.Images) {
-                        srcs.push(pointAttributes.Images[photo]);
-                    }
-                    return srcs;
-                }(),
-                photoUrls: function() {
-                    var srcs = [];
-                    for (var photo in pointAttributes.Images) {
-                        srcs.push(pointAttributes.Images[photo]);
-                    }
-                    return srcs;
-                }(),
-                mediaOptions: function(params) {
-                    return {
-                        triggers: {
-                            click: function(e) {
-                                new SplashScreen(MediaDocument(params.src)).appendTo("body");
-                            }
-                        }
-                    };
+            thumbUrls: function() {
+                var srcs = [];
+                for (var photo in pointAttributes.Images) {
+                    srcs.push(pointAttributes.Images[photo]);
                 }
-            }).createSlider();
+                return srcs;
+            }(),
+            photoUrls: function() {
+                var srcs = [];
+                for (var photo in pointAttributes.Images) {
+                    srcs.push(pointAttributes.Images[photo]);
+                }
+                return srcs;
+            }(),
+            mediaOptions: function(params) {
+                return {
+                    triggers: {
+                        click: function(e) {
+                            new SplashScreen(MediaDocument(params.src)).appendTo("body");
+                        }
+                    }
+                };
+            }
+        }).createSlider();
     }
 
     _docdef.headerJson = {
         "title": ""
     };
 
-    $.map(_docdef.header, function(item, index){
+    $.map(_docdef.header, function(item, index) {
         var txt;
-        if(!pointAttributes[item] && pointAttributes[item] !== null){
-            txt = " "+item;
-        }else if(pointAttributes[item] === null){
+        if (!pointAttributes[item] && pointAttributes[item] !== null) {
+            txt = " " + item;
+        } else if (pointAttributes[item] === null) {
             return;
-        }else{
-            txt = index?", <br/>"+pointAttributes[item]:pointAttributes[item];
+        } else {
+            txt = index ? ", <br/>" + pointAttributes[item] : pointAttributes[item];
         }
 
-        if(index){
+        if (index) {
             _docdef.headerJson["project-name-capacity"] += txt;
-        }else{
+        } else {
             _docdef.headerJson["project-name-capacity"] = txt;
         }
     });
 
-    $.map(_docdef.tabs, function(tab, tabc){
-        $.map(tab.content, function(item, index){
-            if(typeof item === "string"){
+    $.map(_docdef.tabs, function(tab, tabc) {
+        $.map(tab.content, function(item, index) {
+            if (typeof item === "string") {
                 tab.content[index] = pointAttributes[item];
-            }else{
-            $.map(item, function(_item, _index){
-                tab.content[index] = _index?tab.content[index]+", "+pointAttributes[_item]: pointAttributes[_item];
-            });
+            } else {
+                $.map(item, function(_item, _index) {
+                    tab.content[index] = _index ? tab.content[index] + ", " + pointAttributes[_item] : pointAttributes[_item];
+                });
             }
 
         });
@@ -416,21 +416,23 @@ function TableContent(jsonData, invert) {
         var tableRow = $("<div></div>")
             .addClass("table-row")
             .append(function() {
-                return !jsonData[row] ? $("<div></div>").text(row).append($("<div></div>").addClass("not-available").text("Not Available")) : $("<div></div>").text(row).append(function(){
+                return !jsonData[row] ? $("<div></div>").text(row).append($("<div></div>").addClass("not-available").text("Not Available")) : $("<div></div>").text(row).append(function() {
                     var rowData = $("<div></div>");
-                    if((jsonData[row].indexOf("http://")+1) || (jsonData[row].indexOf("www.")+1) || (jsonData[row].indexOf(".co")+1) || (jsonData[row].indexOf(".net")+1) || (jsonData[row].indexOf(".org")+1) || (jsonData[row].indexOf(".io")+1)){
+                    if ((jsonData[row].indexOf("http://") + 1) || (jsonData[row].indexOf("www.") + 1) || (jsonData[row].indexOf(".co") + 1) || (jsonData[row].indexOf(".net") + 1) || (jsonData[row].indexOf(".org") + 1) || (jsonData[row].indexOf(".io") + 1)) {
                         var aElement = $("<a></a>");
                         aElement.attr({
-                           "href": "http://"+jsonData[row].replace("http://", ""),
+                            "href": "http://" + jsonData[row].replace("http://", ""),
                             "target": "_blank"
                         });
-                        if(($.inArray(row,$.map(config["popup-docdef"]["tabs"][1]["content"], function(item, index){ return item;}))+1)){
+                        if (($.inArray(row, $.map(config["popup-docdef"]["tabs"][1]["content"], function(item, index) {
+                            return item;
+                        })) + 1)) {
                             aElement.text(jsonData[row].split("\/").pop())
-                        }else{
+                        } else {
                             aElement.text(jsonData[row].replace("http:://", "").replace("www.", ""));
                         }
                         aElement.appendTo(rowData);
-                    }else{
+                    } else {
                         rowData.text(jsonData[row].replace(/_/g, " ").replace(/, null/g, ""));
                     }
 
@@ -493,7 +495,7 @@ function PanelDocument(documentModel) {
         return returnArray.addClass("panel-document-section");
     });
 
-    if(!documentModel.slider) $(_panelDocument).addClass("no-slider"); //TODO: very very dirty temporary hack, project-specific
+    if (!documentModel.slider) $(_panelDocument).addClass("no-slider"); //TODO: very very dirty temporary hack, project-specific
 
     function _addToTitleBar(titleBarJson) {
         setTimeout(function() {
@@ -1339,8 +1341,8 @@ function UI_Control_Filter(options) {
         $(uiElement).parent().removeClass("active");
         if (!uiElement.value) {
             $(uiElement).animate({
-            width: "168px"
-        });
+                width: "168px"
+            });
             container.hide({
                 duration: 400
             });
@@ -1664,7 +1666,7 @@ function UI_Switchboard(options) {
                 switchIcon.appendTo(aSwitch);
                 aSwitch.append($("<span class='ui-switch-label'/>").text(options.switches[c].label));
                 $(aSwitch).attr("_id", c);
-                $(aSwitch).addClass("_id_"+c);
+                $(aSwitch).addClass("_id_" + c);
 
                 aSwitch.on("check", function(e) {
 
@@ -1736,11 +1738,11 @@ function HexagonMarker(centerLatLng, options) {
         return L.polygon(function() {
             return [
                 L.latLng([centerLatLng[0], centerLatLng[1] + options.radius / fZ]),
-                L.latLng([centerLatLng[0] + 0.866*options.radius / fZ, centerLatLng[1] + 0.5*options.radius / fZ]),
-                L.latLng([centerLatLng[0] + 0.866*options.radius / fZ, centerLatLng[1] - 0.5*options.radius / fZ]),
+                L.latLng([centerLatLng[0] + 0.866 * options.radius / fZ, centerLatLng[1] + 0.5 * options.radius / fZ]),
+                L.latLng([centerLatLng[0] + 0.866 * options.radius / fZ, centerLatLng[1] - 0.5 * options.radius / fZ]),
                 L.latLng([centerLatLng[0], centerLatLng[1] - options.radius / fZ]),
-                L.latLng([centerLatLng[0] - 0.866*options.radius / fZ, centerLatLng[1] - 0.5*options.radius / fZ]),
-                L.latLng([centerLatLng[0] - 0.866*options.radius / fZ, centerLatLng[1] + 0.5*options.radius / fZ])
+                L.latLng([centerLatLng[0] - 0.866 * options.radius / fZ, centerLatLng[1] - 0.5 * options.radius / fZ]),
+                L.latLng([centerLatLng[0] - 0.866 * options.radius / fZ, centerLatLng[1] + 0.5 * options.radius / fZ])
                 //,L.latLng([centerLatLng[0], centerLatLng[1] + options.radius / fZ])
             ];
         }(), options);
@@ -1750,25 +1752,25 @@ function HexagonMarker(centerLatLng, options) {
 
     this.addTo = function(layerGroup) {
         layerGroup._map.on("zoomend", function(e) {
-            try{
+            try {
                 layerGroup.removeLayer(marker);
-            }catch(e){
+            } catch (e) {
                 //
             }
-            marker= new markerFactory(Math.pow(2, (layerGroup._map.getZoom()-0.1)*0.97));
+            marker = new markerFactory(Math.pow(2, (layerGroup._map.getZoom() - 0.1) * 0.97));
             marker.addTo(layerGroup);
         });
         layerGroup._map.fire("zoomend");
     }
 
-	this.bindPopup = function(content){
+    this.bindPopup = function(content) {
         var popup = L.popup(content);
 
-        marker.on("click", function(e){
+        marker.on("click", function(e) {
 
         });
-		//marker.bindPopup(content);
-	};
+        //marker.bindPopup(content);
+    };
 
     return $.extend(true, marker, this);
 }
@@ -1777,10 +1779,10 @@ function SquareMarker(centerLatLng, options) {
     var markerFactory = function(fZ) {
         return L.rectangle(function() {
             return [
-                L.latLng([centerLatLng[0] + options.radius*.14142 / fZ, centerLatLng[1] + options.radius*.14142 / fZ]),
-                L.latLng([centerLatLng[0] + options.radius*.14142 / fZ, centerLatLng[1] - options.radius*.14142 / fZ]),
-                L.latLng([centerLatLng[0] - options.radius*.14142 / fZ, centerLatLng[1] - options.radius*.14142 / fZ]),
-                L.latLng([centerLatLng[0] - options.radius*.14142 / fZ, centerLatLng[1] + options.radius*.14142 / fZ])
+                L.latLng([centerLatLng[0] + options.radius * .14142 / fZ, centerLatLng[1] + options.radius * .14142 / fZ]),
+                L.latLng([centerLatLng[0] + options.radius * .14142 / fZ, centerLatLng[1] - options.radius * .14142 / fZ]),
+                L.latLng([centerLatLng[0] - options.radius * .14142 / fZ, centerLatLng[1] - options.radius * .14142 / fZ]),
+                L.latLng([centerLatLng[0] - options.radius * .14142 / fZ, centerLatLng[1] + options.radius * .14142 / fZ])
             ];
         }(), options);
     }
@@ -1789,12 +1791,12 @@ function SquareMarker(centerLatLng, options) {
 
     this.addTo = function(layerGroup) {
         layerGroup._map.on("zoomend", function(e) {
-            try{
+            try {
                 layerGroup.removeLayer(marker);
-            }catch(e){
+            } catch (e) {
                 //
             }
-            marker= new markerFactory(Math.pow(2, layerGroup._map.getZoom()*0.67));
+            marker = new markerFactory(Math.pow(2, layerGroup._map.getZoom() * 0.67));
             marker.addTo(layerGroup);
         });
         layerGroup._map.fire("zoomend");
@@ -1808,8 +1810,8 @@ function TriangleMarker(centerLatLng, options) {
         return L.polygon(function() {
             return [
                 L.latLng([centerLatLng[0] + options.radius / fZ, centerLatLng[1]]),
-                L.latLng([centerLatLng[0] - 0.5*options.radius / fZ, centerLatLng[1] - 0.866*options.radius / fZ]),
-                L.latLng([centerLatLng[0] - 0.5*options.radius / fZ, centerLatLng[1] + 0.866*options.radius / fZ]),
+                L.latLng([centerLatLng[0] - 0.5 * options.radius / fZ, centerLatLng[1] - 0.866 * options.radius / fZ]),
+                L.latLng([centerLatLng[0] - 0.5 * options.radius / fZ, centerLatLng[1] + 0.866 * options.radius / fZ]),
                 //L.latLng([centerLatLng[0] + options.radius / fZ, centerLatLng[1]])
             ];
         }(), options);
@@ -1819,12 +1821,12 @@ function TriangleMarker(centerLatLng, options) {
 
     this.addTo = function(layerGroup) {
         layerGroup._map.on("zoomend", function(e) {
-            try{
+            try {
                 layerGroup.removeLayer(marker);
-            }catch(e){
+            } catch (e) {
                 //
             }
-            marker= new markerFactory(Math.pow(2, layerGroup._map.getZoom()*0.84));
+            marker = new markerFactory(Math.pow(2, layerGroup._map.getZoom() * 0.84));
             marker.addTo(layerGroup);
         });
         layerGroup._map.fire("zoomend");
@@ -1835,23 +1837,136 @@ function TriangleMarker(centerLatLng, options) {
 
 function CircleMarker(centerLatLng, options) {
     var markerFactory = function(fZ) {
-        return L.circle(centerLatLng, options.radius*100000/fZ, options);
+        return L.circle(centerLatLng, options.radius * 100000 / fZ, options);
     }
 
     var marker = new markerFactory(200);
 
     this.addTo = function(layerGroup) {
         layerGroup._map.on("zoomend", function(e) {
-            try{
+            try {
                 layerGroup.removeLayer(marker);
-            }catch(e){
+            } catch (e) {
                 //
             }
-            marker= new markerFactory(Math.pow(2, layerGroup._map.getZoom()*0.97));
+            marker = new markerFactory(Math.pow(2, layerGroup._map.getZoom() * 0.97));
             marker.addTo(layerGroup);
         });
         layerGroup._map.fire("zoomend");
     }
 
     return $.extend(true, marker, this);
+}
+
+function UI_MarkerGroups(pointsGroupsArray, map) {
+    var deferred = $.Deferred();
+    var markerGroups = {};
+    var c = 0;
+
+    var _marqueeStyle = $.extend(true, {}, config["layer-styles"]["extent-marquee"]);
+    _marqueeStyle.opacity = 0;
+    _marqueeStyle.fillOpacity = 0;
+    //setTimeout(function() {
+    $.map(pointsGroupsArray, function(pointsGroup, index) {
+        c++;
+        markerGroups[pointsGroup[1].query.geometries.group] = [];
+        $.map(pointsGroup[0].features, function(feature, feature_index) {
+            //setTimeout(function() {
+            var marker = L.marker(feature["geometry"]["coordinates"].reverse(), {
+                icon: L.divIcon({
+                    className: feature.properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase() + " project-marker-icon",
+                    //html: "<img src='" + item["icon-src"] + "'/>"
+                    html: function() {
+                        var markerCategory = feature.properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
+
+                        return "<img src='img/markers/" + pointsGroup[1].query.geometries.group + "/" + markerCategory + ".svg'/>";
+                    }()
+                })
+            });
+
+            var dom = new PanelDocumentModel(feature.properties.getAttributes(), config["popup-docdef"]);
+
+            var panelDocument = new PanelDocument(dom);
+            panelDocument.addToTitleBar(dom.titleBarJson);
+            panelDocument.addHeader(dom.headerJson);
+            panelDocument.addTabs(dom.tabsJson, PlugsForStyling.popup && PlugsForStyling.popup.body ? PlugsForStyling.popup.body : false);
+
+
+            //var popupContent = new TableContent_fix(data.features[feature].properties.getAttributes());
+
+            //marker.bindPopup(popupContent);
+
+            var popupContent = panelDocument.getDocument();
+
+            marker.bindPopup(popupContent, {
+                offset: L.point(0, -22)
+            });
+
+            var highLightCircle;
+
+            marker.on("popupopen", function(e) {
+                highLightCircle = L.circleMarker(this._latlng, config["layer-styles"]["highlight-circle"]);
+                highLightCircle.addTo(map);
+            });
+            marker.on("popupclose", function(e) {
+                map.removeLayer(highLightCircle);
+            });
+
+
+
+
+            var marquee = L.rectangle(L.latLngBounds(feature.properties.getAttributes().NE.split(",").reverse(), feature.properties.getAttributes().SW.split(",").reverse()),
+                _marqueeStyle
+            );
+            marquee.bindPopup(popupContent, {
+                offset: L.point(0, 6)
+            });
+
+            var marqueeCloseButton = L.marker(marquee._latlngs[2], {
+                icon: L.divIcon({
+                    iconSize: [10, 10],
+                    iconAnchor: [21, 9],
+                    className: "project-extent-rectangle-close-button frozen hidden",
+                    html: "<a>&times;</a>"
+                })
+            });
+
+            marqueeCloseButton.on("click", function(e) {
+                //extentMarqueeGroup.removeLayer(marqueeObj);
+                //tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()].removeLayer(marqueeObj);
+                marqueeObj.eachLayer(function(layer, index) {
+                    if (layer._icon) {
+                        $(layer._icon).addClass("frozen hidden");
+                    } else {
+                        map._layers[layer._leaflet_id].setStyle({
+                            opacity: 0,
+                            fillOpacity: 0
+                        });
+                    }
+                });
+
+
+            });
+
+            var marqueeObj = L.featureGroup();
+            marqueeObj.addLayer(marquee);
+            marqueeObj.addLayer(marqueeCloseButton);
+
+            markerGroups[pointsGroup[1].query.geometries.group].push({
+                marker: marker,
+                popupContent: popupContent,
+                marqueeObj: marqueeObj
+            });
+
+
+
+            if (c === pointsGroupsArray.length && feature_index === pointsGroup[0].features.length - 1) {
+                deferred.resolve(markerGroups);
+            }
+            // },0);
+        });
+
+    });
+    //}, 0);
+    return deferred.promise();
 }

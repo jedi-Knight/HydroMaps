@@ -262,9 +262,18 @@ $(document).ready(function() {
             })
         );
     });
+    
+    var markersPrep = $.Deferred();
+    
+    $.whenListDone(dataPrepList).done(function(dataArr){
+        var markersGroupsGen = new UI_MarkerGroups(dataArr);
+        markersGroupsGen.done(function(markerGroups){
+            markersPrep.resolve(markerGroups);
+        });
+    })
 
 
-    $.whenListDone(dataPrepList).done(function() {
+    markersPrep.done(function(markerGroups) {
 
         setTimeout(function() { /*1*/
 
@@ -435,20 +444,19 @@ $(document).ready(function() {
                                                 var data = callbackOptions.data;
                                                 var params = callbackOptions.params;
 
-                                                var _marqueeStyle = $.extend(true, {}, config["layer-styles"]["extent-marquee"]);
-                                                _marqueeStyle.opacity = 0;
-                                                _marqueeStyle.fillOpacity = 0;
+                                                
 
-                                                feature = 0;
+                                                var feature = 0;
 
                                                 setTimeout(function() {
 
 
                                                     for (var _c in data.features) {
+                                                        //$.map(data.features, function(feature, _c){
                                                         setTimeout(function() {
                                                             //console.log(data.features[feature]["geometry"]["coordinates"]);
-                                                            var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
-                                                            var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
+                                                            //var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
+                                                            /*var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
                                                                 icon: L.divIcon({
                                                                     className: data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase() + " project-marker-icon",
                                                                     //html: "<img src='" + item["icon-src"] + "'/>"
@@ -477,7 +485,7 @@ $(document).ready(function() {
                                                         var marker;
 
                                                         marker = new window[config["layer-styles"]["marker-shapes"][markerCategory]](centerLatLng, config["layer-styles"]["markers"][index][markerCategory]);
-                                                        //marker.addTo(map);*/
+                                                        //marker.addTo(map);*\\\\/
 
                                                             //console.log(index);
 
@@ -508,30 +516,16 @@ $(document).ready(function() {
                                                             });
                                                             marker.on("popupclose", function(e) {
                                                                 map.removeLayer(highLightCircle);
-                                                            });
+                                                            });*/
+                                                            
+                                                            var marker = markerGroups[index][feature].marker;
+                                                            var popupContent = markerGroups[index][feature].popupContent;
+                                                            var marqueeObj = markerGroups[index][feature].marqueeObj;
 
 
 
 
-                                                            var marquee = L.rectangle(L.latLngBounds(data.features[feature].properties.getAttributes().NE.split(",").reverse(), data.features[feature].properties.getAttributes().SW.split(",").reverse()),
-                                                                _marqueeStyle
-                                                            );
-                                                            marquee.bindPopup(popupContent, {
-                                                                offset: L.point(0, 6)
-                                                            });
-
-                                                            var marqueeCloseButton = L.marker(marquee._latlngs[2], {
-                                                                icon: L.divIcon({
-                                                                    iconSize: [10, 10],
-                                                                    iconAnchor: [21, 9],
-                                                                    className: "project-extent-rectangle-close-button frozen hidden",
-                                                                    html: "<a>&times;</a>"
-                                                                })
-                                                            });
-
-                                                            var marqueeObj = L.featureGroup();
-                                                            marqueeObj.addLayer(marquee);
-                                                            marqueeObj.addLayer(marqueeCloseButton);
+                                                            
 
                                                             /*var popup = L.popup({});
                              marker.on('click', function(e) {
@@ -562,25 +556,10 @@ $(document).ready(function() {
                                                                 }
                                                                 //a=capacityYear;
 
-                                                                marqueeCloseButton.on("click", function(e) {
-                                                                    //extentMarqueeGroup.removeLayer(marqueeObj);
-                                                                    //tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()].removeLayer(marqueeObj);
-                                                                    marqueeObj.eachLayer(function(layer, index) {
-                                                                        if (layer._icon) {
-                                                                            $(layer._icon).addClass("frozen hidden");
-                                                                        } else {
-                                                                            map._layers[layer._leaflet_id].setStyle({
-                                                                                opacity: 0,
-                                                                                fillOpacity: 0
-                                                                            });
-                                                                        }
-                                                                    });
-
-
-                                                                });
+                                                                
                                                                 //console.log(marquee.toGeoJSON());
                                                             } catch (e) {
-                                                                console.log(e);
+                                                                throw(e);
                                                             }
                                                             //marker.addTo(tabs["operational"]["layerGroups"][data.features[feature].properties.getAttributes()["Project_Si"].split("(")[0].trim().toLowerCase()]);
                                                             //marker.addTo(map);
@@ -589,8 +568,9 @@ $(document).ready(function() {
                                                                 mapGlobals.freezeScreen.unfreeze();
                                                             }
                                                             feature++;
-                                                        }, 1);
-                                                    }
+                                                        }, 0);
+                                                    //});
+                                                }
 
                                                     //$(theLayerControl._container).find("input").click();
 
@@ -623,7 +603,7 @@ $(document).ready(function() {
                                         _layerGroup.clearLayers();
                                     });
                                     setTimeout(function() {
-                                        $(context).click();
+                                        //$(context).click();
 
 
 
@@ -631,20 +611,20 @@ $(document).ready(function() {
 
                                             $(context).find("input")[0].checked = false;
 
-                                            $.map(tabs[index].layerGroups, function(_layerGroup, _size) {
+                                            /*$.map(tabs[index].layerGroups, function(_layerGroup, _size) {
                                                 //L.circleMarker([0,0]).addTo(_layerGroup);
                                                 _layerGroup.clearLayers();
                                                 //                                            if(_size==="small"){
                                                 //                                                mapGlobals.freezeScreen.unfreeze();
                                                 //                                            }
-                                            });
+                                            });*/
                                             hackObj.switchStates[hackObj.c] = 0;
 
 
                                         }, 0);
                                         setTimeout(function() {
                                             mapGlobals.freezeScreen.unfreeze();
-                                        }, 1000);
+                                        }, 0);
 
                                     }, 0);
 
