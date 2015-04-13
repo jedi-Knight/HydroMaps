@@ -1,11 +1,20 @@
 $(document).ready(function() {
     $(".numberCircle").hide();
-
+    
+    var nepalBorderLatLngArray = [];
+    
+    var nepalBorderGeoJSON = L.geoJson(nepal_border);
+    $.map(nepalBorderGeoJSON._layers, function(layer, index){
+        $.extend(nepalBorderLatLngArray, layer._latlngs);
+    });
 
     var cartograph = new Map({
         "basemaps": {
             "OpenStreetMap": {
-                "tileLayer": L.tileLayer('http://104.131.69.181/osm/{z}/{x}/{y}.png', {})
+                "tileLayer": L.TileLayer.boundaryCanvas("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    boundary: nepalBorderLatLngArray,
+    doubleClickZoom: true
+                })
             },
             "Satellite Imagery": {
                 "tileLayer": new L.Google()
@@ -19,7 +28,8 @@ $(document).ready(function() {
 
     var popup = new Popup();
     mapGlobals = {
-        map: map
+        map: map,
+        border: nepalBorderLatLngArray
     };
 
     map.setMaxBounds(map.getBounds().pad(0.025));
