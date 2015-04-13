@@ -56,3 +56,9 @@ $.whenListDone = function(defArr){
     
     return deferred.promise();
 }
+
+$.fn.toggleAttr = function(attribute, value){
+    return $(this).each(function(index){
+        $(this).attr(attribute) === value? $(this).removeAttr(attribute): $(this).attr(attribute, value);
+    });
+}

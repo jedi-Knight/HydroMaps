@@ -268,6 +268,7 @@ $(document).ready(function() {
     $.whenListDone(dataPrepList).done(function(dataArr){
         var markersGroupsGen = new UI_MarkerGroups(dataArr);
         markersGroupsGen.done(function(markerGroups){
+            mapGlobals.freezeScreen.unfreeze();
             markersPrep.resolve(markerGroups);
         });
     })
@@ -306,32 +307,38 @@ $(document).ready(function() {
                     var tabDef = {
                         label: item["title"],
                         events: {
-                            "switch-on": function(e) {
+                            "switch-on": function(e, switchObj, context) {
+
+                                    if($(context).hasClass("busy")) return;
+
+                                    $(context).find("input")[0].checked=true;
+                                    $(context).addClass("on");
+                                    $(context).removeClass("off");
 
                                 if (index === "all-projects") {
 
-                                    $(this).parent().siblings(".ui-switch").find("a").each(function(_indx) {
-                                        var context = this;
+                                    setTimeout(function(){$(context).addClass("busy");}, 0);
+                                    setTimeout(function(){$(context).removeClass("busy");}, 300);
+
+                                    $(context).parent().siblings(".ui-switch").find("a.off").each(function(_indx) {
+                                        var _context = this;
                                         setTimeout(function() {
-                                            $(context).click();
-                                        }, _indx * 1000);
+                                            $(_context).click();
+                                        }, _indx * 0);
                                     });
 
                                     return;
-                                };
-
-                                mapGlobals.freezeScreen.freeze();
-
-                                currentTab = index;
-
-                                if (index !== "operational") {
-                                    $("#slider").hide();
-                                    $(".numberCircle").hide();
-                                } else {
+                                }else if(index === "operational"){
                                     $("#slider").show();
                                     if ($("#slider").css("display") !== "none")
                                         $(".numberCircle").show();
-                                }
+                                };
+
+                                //mapGlobals.freezeScreen.freeze();
+
+                                currentTab = index;
+
+
 
                                 var deferred = $.Deferred();
                                 //a=$(layerControls[index]._container).find("input")[0];
@@ -563,10 +570,10 @@ $(document).ready(function() {
                                                             }
                                                             //marker.addTo(tabs["operational"]["layerGroups"][data.features[feature].properties.getAttributes()["Project_Si"].split("(")[0].trim().toLowerCase()]);
                                                             //marker.addTo(map);
-                                                            if (feature === data.features.length - 1) {
+                                                            /*if (feature === data.features.length - 1) {
                                                                 //mapGlobals.frozen=false;
                                                                 mapGlobals.freezeScreen.unfreeze();
-                                                            }
+                                                            }*/
                                                             feature++;
                                                         }, 0);
                                                     //});
@@ -591,10 +598,42 @@ $(document).ready(function() {
                                 });
 
                             },
-                            "switch-off": function(e, hackObj) {
-                                if ($(this).attr("_id") === "5") return;
-                                mapGlobals.freezeScreen.freeze();
-                                var context = this;
+                            "switch-off": function(e, hackObj, context) {
+
+                                if($(context).hasClass("busy")) return;
+
+                                    $(context).find("input")[0].checked=false;
+                                    $(context).removeClass("on");
+                                    $(context).addClass("off");
+                                    //hackObj.switchStates[hackObj.c] = 0;
+
+
+                                if (index === "all-projects"){
+
+                                    setTimeout(function(){$(context).addClass("busy");}, 0);
+                                    setTimeout(function(){$(context).removeClass("busy");}, 300);
+
+                                    $(context).parent().siblings(".ui-switch").find("a.on").each(function(_indx) {
+                                        $(this).find("input")[0].checked=false;
+                                        $(this).removeClass("on");
+                                        $(this).addClass("off");
+                                        var _context = this;
+                                        setTimeout(function() {
+                                            $(_context).click();
+                                        }, _indx * 0);
+                                    });
+
+
+
+                                    return;
+                                }else if(index === "operational"){
+                                    $("#slider").hide();
+                                    $(".numberCircle").hide();
+                                };
+
+
+                                //mapGlobals.freezeScreen.freeze();
+                                //var context = this;
                                 setTimeout(function() {
 
                                     //console.log(context);
@@ -602,6 +641,8 @@ $(document).ready(function() {
                                     $.map(tabs[index].layerGroups, function(_layerGroup, _size) {
                                         _layerGroup.clearLayers();
                                     });
+
+
                                     setTimeout(function() {
                                         //$(context).click();
 
@@ -609,7 +650,7 @@ $(document).ready(function() {
 
                                         setTimeout(function() {
 
-                                            $(context).find("input")[0].checked = false;
+                                            //$(context).find("input")[0].checked = false;
 
                                             /*$.map(tabs[index].layerGroups, function(_layerGroup, _size) {
                                                 //L.circleMarker([0,0]).addTo(_layerGroup);
@@ -618,13 +659,13 @@ $(document).ready(function() {
                                                 //                                                mapGlobals.freezeScreen.unfreeze();
                                                 //                                            }
                                             });*/
-                                            hackObj.switchStates[hackObj.c] = 0;
+                                            //hackObj.switchStates[hackObj.c] = 0;
 
 
                                         }, 0);
-                                        setTimeout(function() {
+                                        /*setTimeout(function() {
                                             mapGlobals.freezeScreen.unfreeze();
-                                        }, 0);
+                                        }, 0);*/
 
                                     }, 0);
 
@@ -671,6 +712,8 @@ $(document).ready(function() {
                     },
                     content: "<span>&times;</span>"
                 })).prependTo(".leaflet-top.leaflet-right");
+
+                ui.find("a").addClass("off");
 
                 $(ui.find("a")[0]).click();
             });
