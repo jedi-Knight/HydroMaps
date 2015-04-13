@@ -388,7 +388,15 @@ $(document).ready(function() {
                                             var pointAttributeList = mapData.getAttributes({
                                                 "order-by": "Project",
                                                 "geometry-type": "points",
-                                                "feature-group": index
+                                                "feature-group": function(){
+                                                    var lookupFeatureGroups = [];
+                                                    $.map(Object.keys(tabs), function(tabName, _indx){
+                                                        if($(context).closest(".ui-switchboard").find("input")[_indx].checked){
+                                                            lookupFeatureGroups.push(tabName);
+                                                        }
+                                                    });
+                                                    return lookupFeatureGroups;
+                                                }()
                                             });
                                             //console.log(pointAttributeList);
                                             var overviewCollection = $("<div></div>");
