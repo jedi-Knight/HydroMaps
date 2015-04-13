@@ -386,9 +386,7 @@ $(document).ready(function() {
 
                                 if ($(context).hasClass("busy")) return;
 
-                                $(context).find("input")[0].checked = true;
-                                $(context).addClass("on");
-                                $(context).removeClass("off");
+
 
                                 if (index === "all-projects") {
 
@@ -407,11 +405,7 @@ $(document).ready(function() {
                                     });
 
                                     return;
-                                } else if (index === "operational") {
-                                    $("#slider").show();
-                                    if ($("#slider").css("display") !== "none")
-                                        $(".numberCircle").show();
-                                };
+                                }
 
                                 //mapGlobals.freezeScreen.freeze();
 
@@ -526,6 +520,22 @@ $(document).ready(function() {
                                                 }
 
                                                 feature++;
+
+                                                if (feature === data.features.length) {
+                                                    setTimeout(function(){
+                                                    $(context).find("input")[0].checked = true;
+                                                    $(context).addClass("on");
+                                                    $(context).removeClass("off");
+
+                                                    if (index === "operational") {
+                                                        $("#slider").show();
+                                                        if ($("#slider").css("display") !== "none")
+                                                            $(".numberCircle").show();
+                                                    };
+                                                    },0);
+                                                }
+
+
                                             }, 0);
                                             //});
                                         }
