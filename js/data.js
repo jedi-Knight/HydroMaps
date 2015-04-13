@@ -113,8 +113,8 @@ function Data() {
 
 
             for (var c in orderedKeys) {
-                if (orderedAttributes[orderedKeys[c]]._metaX["feature-group"] === query["feature-group"]) {
-                    orderedAttributes[orderedKeys[c]]["_cartomancer_id"] = orderedKeys[c] - Number(geometries[query["geometry-type"]][query["feature-group"]]._cartomancer_countstart);
+                if ($.inArray(orderedAttributes[orderedKeys[c]]._metaX["feature-group"], query["feature-group"])+1) {
+                    orderedAttributes[orderedKeys[c]]["_cartomancer_id"] = orderedKeys[c] - Number(geometries[query["geometry-type"]][query["feature-group"][$.inArray(orderedAttributes[orderedKeys[c]]._metaX["feature-group"], query["feature-group"])]]._cartomancer_countstart);
                     orderedCollection.push(orderedAttributes[orderedKeys[c]]);
                 }
             }
