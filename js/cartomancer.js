@@ -244,6 +244,81 @@ $(document).ready(function() {
         return $(content)[0];
     }
 
+
+
+    function updateSearchBox(options) {
+        options.asyncList.updateContent({
+            contentGen: function() {
+
+                var deferred = $.Deferred();
+
+                setTimeout(function() {
+
+                    var pointAttributeList = mapData.getAttributes({
+                        "order-by": "Project",
+                        "geometry-type": "points",
+                        "feature-group": options.lookupFeatureGroups
+                    });
+                    //console.log(pointAttributeList);
+                    var overviewCollection = $("<div></div>");
+                    var featuresOverview = $.map(pointAttributeList, function(l1_item, l1_index) {
+                        var overviewBox = new UI_FeatureInfoOverview({
+                            "title": l1_index + 1 + ". " + l1_item.Project + ", " + l1_item["Capacity (MW)"] + "MW",
+                            "infoKeys": ["River", "Promoter"],
+                            "attributes": {
+                                "_id": l1_item._cartomancer_id
+                            },
+                            "data": l1_item,
+                            "index": l1_index
+                        });
+
+                        overviewBox.click(function(e) {
+                            //var pointOfAttributes = mapData.getGeometries()["points"][index]["features"][$(this).attr("_id")];
+                            var pointOfAttributes = mapData.getGeometries()["points"][index]["features"][l1_item["_cartomancer_id"]];
+                            var popup = L.popup({});
+                            map.closePopup();
+                            //popup.setLatLng(e.latlng);
+                            popup.setContent(new TableContent_fix(pointOfAttributes.properties.getAttributes()));
+                            //popup.openOn(map);
+                            //console.log(pointOfAttributes);
+                            var latlng = L.latLng(Number(pointOfAttributes.geometry.coordinates[0]) + 0.03, Number(pointOfAttributes.geometry.coordinates[1]));
+
+
+                            setTimeout(function() {
+
+                                map.setView(latlng, 12, {
+                                    animate: false
+                                });
+
+
+                                latlng = L.latLng(pointOfAttributes.geometry.coordinates[0], pointOfAttributes.geometry.coordinates[1]);
+                                popup.setLatLng(latlng);
+
+                                //map.once("zoomend", function() {
+                                setTimeout(function() {
+                                    popup.openOn(map);
+
+                                    popup.update();
+                                }, 500);
+                                //});
+                            }, 100);
+                        });
+
+                        overviewBox.appendTo(overviewCollection);
+                    });
+
+
+
+                    deferred.resolve({
+                        jqObj: overviewCollection
+                    });
+                }, 1000);
+
+                return deferred.promise();
+            }
+        })
+    }
+
     var dataPrepList = [];
     $.map(Object.keys(tabs), function(tabKey, index) {
         if (tabKey === "all-projects") {
@@ -262,12 +337,12 @@ $(document).ready(function() {
             })
         );
     });
-    
+
     var markersPrep = $.Deferred();
-    
-    $.whenListDone(dataPrepList).done(function(dataArr){
+
+    $.whenListDone(dataPrepList).done(function(dataArr) {
         var markersGroupsGen = new UI_MarkerGroups(dataArr);
-        markersGroupsGen.done(function(markerGroups){
+        markersGroupsGen.done(function(markerGroups) {
             mapGlobals.freezeScreen.unfreeze();
             markersPrep.resolve(markerGroups);
         });
@@ -309,16 +384,20 @@ $(document).ready(function() {
                         events: {
                             "switch-on": function(e, switchObj, context) {
 
-                                    if($(context).hasClass("busy")) return;
+                                if ($(context).hasClass("busy")) return;
 
-                                    $(context).find("input")[0].checked=true;
-                                    $(context).addClass("on");
-                                    $(context).removeClass("off");
+                                $(context).find("input")[0].checked = true;
+                                $(context).addClass("on");
+                                $(context).removeClass("off");
 
                                 if (index === "all-projects") {
 
-                                    setTimeout(function(){$(context).addClass("busy");}, 0);
-                                    setTimeout(function(){$(context).removeClass("busy");}, 300);
+                                    setTimeout(function() {
+                                        $(context).addClass("busy");
+                                    }, 0);
+                                    setTimeout(function() {
+                                        $(context).removeClass("busy");
+                                    }, 300);
 
                                     $(context).parent().siblings(".ui-switch").find("a.off").each(function(_indx) {
                                         var _context = this;
@@ -328,7 +407,7 @@ $(document).ready(function() {
                                     });
 
                                     return;
-                                }else if(index === "operational"){
+                                } else if (index === "operational") {
                                     $("#slider").show();
                                     if ($("#slider").css("display") !== "none")
                                         $(".numberCircle").show();
@@ -373,256 +452,120 @@ $(document).ready(function() {
 
                                 modelQueryPoints.done(function(data, params) {
 
+                                    setTimeout(function() {
+                                        updateSearchBox({
+                                            asyncList: asyncListColumn,
+                                            lookupFeatureGroups: function() {
+                                                var lookupFeatureGroups = [];
+                                                $.map(Object.keys(tabs), function(tabName, _indx) {
+                                                    if ($(context).closest(".ui-switchboard").find("input")[_indx].checked) {
+                                                        lookupFeatureGroups.push(tabName);
+                                                    }
+                                                });
+                                                return lookupFeatureGroups;
+                                            }()
+                                        });
+                                    }, 0);
 
 
 
-                                    asyncListColumn.updateContent({
-                                        contentGen: function() {
 
-                                            /*mapData.generateExtentRectangleFromData({
+                                    //asyncListColumn.updateContent({
+                                    //contentGen: function() {
+
+                                    /*mapData.generateExtentRectangleFromData({
                                "src-geometry-type": "points",
                                 "src-feature-group": index,
                                 "tgt-feature-group": index
                             });*/ //todo: not used here..a rectangle overlay is used here instead (see code somewhere below)..explore use of such function in other cases..
 
-                                            var pointAttributeList = mapData.getAttributes({
-                                                "order-by": "Project",
-                                                "geometry-type": "points",
-                                                "feature-group": function(){
-                                                    var lookupFeatureGroups = [];
-                                                    $.map(Object.keys(tabs), function(tabName, _indx){
-                                                        if($(context).closest(".ui-switchboard").find("input")[_indx].checked){
-                                                            lookupFeatureGroups.push(tabName);
+
+
+                                    //deferred.done(function(callbackOptions) {
+
+
+
+                                    var feature = 0;
+
+                                    setTimeout(function() {
+
+
+                                        for (var _c in data.features) {
+                                            //$.map(data.features, function(feature, _c){
+                                            setTimeout(function() {
+
+
+                                                var marker = markerGroups[index][feature].marker;
+                                                var popupContent = markerGroups[index][feature].popupContent;
+                                                var marqueeObj = markerGroups[index][feature].marqueeObj;
+
+
+                                                try {
+
+                                                    marker.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
+                                                    marqueeObj.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
+                                                    marqueeObj.addTo(extentMarqueeGroup);
+
+                                                    if (index === "operational" /* && data.features[feature].properties.getAttributes()["Commercial Operation Year"]>=config["special-function-parameters"]["operational-year-range"][0] && data.features[feature].properties.getAttributes()["Commercial Operation Year"]<=config["special-function-parameters"]["operational-year-range"][1]*/ ) {
+                                                        if (capacityYear[data.features[feature].properties.getAttributes()["Commercial Operation Year"]]) {
+                                                            capacityYear[data.features[feature].properties.getAttributes()["Commercial Operation Year"]].increment += capacityYear.updated ? 0 : data.features[feature].properties.getAttributes()["Capacity (MW)"];
+                                                            capacityYear[data.features[feature].properties.getAttributes()["Commercial Operation Year"]]._icons.push(marker._icon);
+                                                        } else {
+                                                            capacityYear[data.features[feature].properties.getAttributes()["Commercial Operation Year"]] = {
+                                                                increment: data.features[feature].properties.getAttributes()["Capacity (MW)"],
+                                                                _icons: [marker._icon]
+                                                            };
                                                         }
-                                                    });
-                                                    return lookupFeatureGroups;
-                                                }()
-                                            });
-                                            //console.log(pointAttributeList);
-                                            var overviewCollection = $("<div></div>");
-                                            var featuresOverview = $.map(pointAttributeList, function(l1_item, l1_index) {
-                                                var overviewBox = new UI_FeatureInfoOverview({
-                                                    "title": l1_index + 1 + ". " + l1_item.Project + ", " + l1_item["Capacity (MW)"] + "MW",
-                                                    "infoKeys": ["River", "Promoter"],
-                                                    "attributes": {
-                                                        "_id": l1_item._cartomancer_id
-                                                    },
-                                                    "data": l1_item,
-                                                    "index": l1_index
-                                                });
+                                                        if (feature === data.features.length - 1) {
+                                                            capacityYear.updated = true;
+                                                        }
+                                                    }
 
-                                                overviewBox.click(function(e) {
-                                                    //var pointOfAttributes = mapData.getGeometries()["points"][index]["features"][$(this).attr("_id")];
-                                                    var pointOfAttributes = mapData.getGeometries()["points"][index]["features"][l1_item["_cartomancer_id"]];
-                                                    var popup = L.popup({});
-                                                    map.closePopup();
-                                                    //popup.setLatLng(e.latlng);
-                                                    popup.setContent(new TableContent_fix(pointOfAttributes.properties.getAttributes()));
-                                                    //popup.openOn(map);
-                                                    //console.log(pointOfAttributes);
-                                                    var latlng = L.latLng(Number(pointOfAttributes.geometry.coordinates[0]) + 0.03, Number(pointOfAttributes.geometry.coordinates[1]));
-
-
-                                                    setTimeout(function() {
-
-                                                        map.setView(latlng, 12, {
-                                                            animate: false
-                                                        });
-
-
-                                                        latlng = L.latLng(pointOfAttributes.geometry.coordinates[0], pointOfAttributes.geometry.coordinates[1]);
-                                                        popup.setLatLng(latlng);
-
-                                                        //map.once("zoomend", function() {
-                                                        setTimeout(function() {
-                                                            popup.openOn(map);
-
-                                                            popup.update();
-                                                        }, 500);
-                                                        //});
-                                                    }, 100);
-                                                });
-
-                                                overviewBox.appendTo(overviewCollection);
-                                            });
-
-
-
-                                            deferred.resolve({
-                                                data: data,
-                                                params: params,
-                                                jqObj: overviewCollection
-                                            });
-
-                                            deferred.done(function(callbackOptions) {
-
-                                                var data = callbackOptions.data;
-                                                var params = callbackOptions.params;
-
-                                                
-
-                                                var feature = 0;
-
-                                                setTimeout(function() {
-
-
-                                                    for (var _c in data.features) {
-                                                        //$.map(data.features, function(feature, _c){
-                                                        setTimeout(function() {
-                                                            //console.log(data.features[feature]["geometry"]["coordinates"]);
-                                                            //var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
-                                                            /*var marker = L.marker(data.features[feature]["geometry"]["coordinates"].reverse(), {
-                                                                icon: L.divIcon({
-                                                                    className: data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase() + " project-marker-icon",
-                                                                    //html: "<img src='" + item["icon-src"] + "'/>"
-                                                                    html: function() {
-                                                                        var markerCategory = data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
-
-                                                                        return "<img src='img/markers/" + index + "/" + markerCategory + ".svg'/>";
-                                                                    }()
-                                                                })
-                                                            });
-
-                                                            //													var marker = L.circleMarker(data.features[feature]["geometry"]["coordinates"].reverse(), $.extend(config["layer-styles"]["markers"][index][markerCategory],setRandomStyle(config.colorList,config.opacity)));
-                                                            //var marker = L.circleMarker(data.features[feature]["geometry"]["coordinates"].reverse(), config["layer-styles"]["markers"][index][markerCategory]);
-
-                                                            /*var centerLatLng = data.features[feature]["geometry"]["coordinates"].reverse();
-                                                        //                                                    marker = L.polygon(function(){
-                                                        //                                                        return [
-                                                        //                                                            L.latLng([centerLatLng[0], centerLatLng[1]+0.3]),
-                                                        //                                                            L.latLng([centerLatLng[0]+0.15, centerLatLng[1]+0.15]),
-                                                        //                                                            L.latLng([centerLatLng[0]+0.15, centerLatLng[1]-0.15]),
-                                                        //                                                            L.latLng([centerLatLng[0], centerLatLng[1]-0.3]),
-                                                        //                                                            L.latLng([centerLatLng[0], centerLatLng[1]+0.3])
-                                                        //                                                        ];
-                                                        //                                                    }(), config["layer-styles"]["markers"][index][markerCategory]);
-
-                                                        var marker;
-
-                                                        marker = new window[config["layer-styles"]["marker-shapes"][markerCategory]](centerLatLng, config["layer-styles"]["markers"][index][markerCategory]);
-                                                        //marker.addTo(map);*\\\\/
-
-                                                            //console.log(index);
-
-
-                                                            var dom = new PanelDocumentModel(data.features[feature].properties.getAttributes(), config["popup-docdef"]);
-
-                                                            var panelDocument = new PanelDocument(dom);
-                                                            panelDocument.addToTitleBar(dom.titleBarJson);
-                                                            panelDocument.addHeader(dom.headerJson);
-                                                            panelDocument.addTabs(dom.tabsJson, PlugsForStyling.popup && PlugsForStyling.popup.body ? PlugsForStyling.popup.body : false);
-
-
-                                                            //var popupContent = new TableContent_fix(data.features[feature].properties.getAttributes());
-
-                                                            //marker.bindPopup(popupContent);
-
-                                                            var popupContent = panelDocument.getDocument();
-
-                                                            marker.bindPopup(popupContent, {
-                                                                offset: L.point(0, -22)
-                                                            });
-
-                                                            var highLightCircle;
-
-                                                            marker.on("popupopen", function(e) {
-                                                                highLightCircle = L.circleMarker(this._latlng, config["layer-styles"]["highlight-circle"]);
-                                                                highLightCircle.addTo(map);
-                                                            });
-                                                            marker.on("popupclose", function(e) {
-                                                                map.removeLayer(highLightCircle);
-                                                            });*/
-                                                            
-                                                            var marker = markerGroups[index][feature].marker;
-                                                            var popupContent = markerGroups[index][feature].popupContent;
-                                                            var marqueeObj = markerGroups[index][feature].marqueeObj;
-
-
-
-
-                                                            
-
-                                                            /*var popup = L.popup({});
-                             marker.on('click', function(e) {
-                             console.log(marker);
-                             popup.setLatLng(e.latlng);
-                             popup.setContent(new TableContent_fix(data.features[feature].properties.getAttributes()));
-                             popup.openOn(map);
-                             });*/
-                                                            try {
-
-                                                                marker.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
-                                                                marqueeObj.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
-                                                                marqueeObj.addTo(extentMarqueeGroup);
-
-                                                                if (index === "operational" /* && data.features[feature].properties.getAttributes()["Commercial Operation Year"]>=config["special-function-parameters"]["operational-year-range"][0] && data.features[feature].properties.getAttributes()["Commercial Operation Year"]<=config["special-function-parameters"]["operational-year-range"][1]*/ ) {
-                                                                    if (capacityYear[data.features[feature].properties.getAttributes()["Commercial Operation Year"]]) {
-                                                                        capacityYear[data.features[feature].properties.getAttributes()["Commercial Operation Year"]].increment += capacityYear.updated ? 0 : data.features[feature].properties.getAttributes()["Capacity (MW)"];
-                                                                        capacityYear[data.features[feature].properties.getAttributes()["Commercial Operation Year"]]._icons.push(marker._icon);
-                                                                    } else {
-                                                                        capacityYear[data.features[feature].properties.getAttributes()["Commercial Operation Year"]] = {
-                                                                            increment: data.features[feature].properties.getAttributes()["Capacity (MW)"],
-                                                                            _icons: [marker._icon]
-                                                                        };
-                                                                    }
-                                                                    if (feature === data.features.length - 1) {
-                                                                        capacityYear.updated = true;
-                                                                    }
-                                                                }
-                                                                //a=capacityYear;
-
-                                                                
-                                                                //console.log(marquee.toGeoJSON());
-                                                            } catch (e) {
-                                                                throw(e);
-                                                            }
-                                                            //marker.addTo(tabs["operational"]["layerGroups"][data.features[feature].properties.getAttributes()["Project_Si"].split("(")[0].trim().toLowerCase()]);
-                                                            //marker.addTo(map);
-                                                            /*if (feature === data.features.length - 1) {
-                                                                //mapGlobals.frozen=false;
-                                                                mapGlobals.freezeScreen.unfreeze();
-                                                            }*/
-                                                            feature++;
-                                                        }, 0);
-                                                    //});
+                                                } catch (e) {
+                                                    throw (e);
                                                 }
 
-                                                    //$(theLayerControl._container).find("input").click();
-
-                                                    //setTimeout(function(){
-                                                    // $(theLayerControl._container).find("input").click();
-                                                    //},0);
-
-                                                }, 0);
-                                            });
-
-
-
-
-                                            return deferred.promise();
+                                                feature++;
+                                            }, 0);
+                                            //});
                                         }
-                                    });
+
+
+
+                                    }, 0);
+                                    //});
+
+
+
+
+                                    //return deferred.promise();
+                                    // }
+                                    //});
 
                                 });
 
                             },
                             "switch-off": function(e, hackObj, context) {
 
-                                if($(context).hasClass("busy")) return;
+                                if ($(context).hasClass("busy")) return;
 
-                                    $(context).find("input")[0].checked=false;
-                                    $(context).removeClass("on");
-                                    $(context).addClass("off");
-                                    //hackObj.switchStates[hackObj.c] = 0;
+                                $(context).find("input")[0].checked = false;
+                                $(context).removeClass("on");
+                                $(context).addClass("off");
+                                //hackObj.switchStates[hackObj.c] = 0;
 
 
-                                if (index === "all-projects"){
+                                if (index === "all-projects") {
 
-                                    setTimeout(function(){$(context).addClass("busy");}, 0);
-                                    setTimeout(function(){$(context).removeClass("busy");}, 300);
+                                    setTimeout(function() {
+                                        $(context).addClass("busy");
+                                    }, 0);
+                                    setTimeout(function() {
+                                        $(context).removeClass("busy");
+                                    }, 300);
 
                                     $(context).parent().siblings(".ui-switch").find("a.on").each(function(_indx) {
-                                        $(this).find("input")[0].checked=false;
+                                        $(this).find("input")[0].checked = false;
                                         $(this).removeClass("on");
                                         $(this).addClass("off");
                                         var _context = this;
@@ -634,10 +577,27 @@ $(document).ready(function() {
 
 
                                     return;
-                                }else if(index === "operational"){
+                                } else if (index === "operational") {
                                     $("#slider").hide();
                                     $(".numberCircle").hide();
                                 };
+
+
+                                setTimeout(function() {
+                                    updateSearchBox({
+                                        asyncList: asyncListColumn,
+                                        lookupFeatureGroups: function() {
+                                            var lookupFeatureGroups = [];
+                                            $.map(Object.keys(tabs), function(tabName, _indx) {
+                                                if ($(context).closest(".ui-switchboard").find("input")[_indx].checked) {
+                                                    lookupFeatureGroups.push(tabName);
+                                                }
+                                            });
+                                            return lookupFeatureGroups;
+                                        }()
+                                    });
+                                }, 0);
+
 
 
                                 //mapGlobals.freezeScreen.freeze();

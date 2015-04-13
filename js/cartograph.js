@@ -1606,10 +1606,7 @@ function UI_SimpleAsyncListColumn(options) {
         deferred.done(function(obj) {
             uiLoadingAnim.remove();
             content.append(obj.jqObj.children());
-            /* options.tabs[context.value]["eventCallbacks"]["click"](e, {
-                        data: obj.data,
-                        params: obj.params
-                    });*/
+
         });
     }
 
