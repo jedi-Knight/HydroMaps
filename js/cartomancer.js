@@ -73,6 +73,7 @@ $(document).ready(function() {
                 "large": L.layerGroup(),
                 "medium": L.layerGroup(),
                 "small": L.layerGroup()
+
             }
         },
         "construction-approved": {
@@ -81,6 +82,7 @@ $(document).ready(function() {
                 "large": L.layerGroup(),
                 "medium": L.layerGroup(),
                 "small": L.layerGroup()
+
             }
         },
         "construction-applied": {
@@ -89,6 +91,7 @@ $(document).ready(function() {
                 "large": L.layerGroup(),
                 "medium": L.layerGroup(),
                 "small": L.layerGroup()
+
             }
         },
         "survey-approved": {
@@ -97,6 +100,7 @@ $(document).ready(function() {
                 "large": L.layerGroup(),
                 "medium": L.layerGroup(),
                 "small": L.layerGroup()
+
             }
         },
         "survey-applied": {
@@ -105,11 +109,12 @@ $(document).ready(function() {
                 "large": L.layerGroup(),
                 "medium": L.layerGroup(),
                 "small": L.layerGroup()
+
             }
         },
-        
-        
-        
+
+
+
         "all-projects": {
             "layerGroups": {
                 "mega": L.layerGroup(),
@@ -142,20 +147,29 @@ $(document).ready(function() {
     };
     */
 
+    var projectSizeKeys = {
+        "mega": "Larger than 500 MW",
+        "large": "100 MW - 500 MW",
+        "medium": "25 MW - 100 MW",
+        "small": "1 MW - 25 MW"
+    }
+
     var theLayerGroups = {
-        "mega": L.layerGroup(),
-        "large": L.layerGroup(),
-        "medium": L.layerGroup(),
-        "small": L.layerGroup()
+        "Larger than 500 MW": L.layerGroup(),
+        "100 MW - 500 MW": L.layerGroup(),
+        "25 MW - 100 MW": L.layerGroup(),
+        "1 MW - 25 MW": L.layerGroup()
     };
+
+
 
 
     $.map(tabs, function(_layerGroups, _category) {
         $.map(_layerGroups.layerGroups, function(_layerGroup, _size) {
-            _layerGroup.addTo(theLayerGroups[_size]);
+            _layerGroup.addTo(theLayerGroups[projectSizeKeys[_size]]);
         });
     });
-    
+
     /*var switchLabels = {
         "small": "1MW - 24MW",
         "medium": "25MW - 99MW",
@@ -373,7 +387,7 @@ $(document).ready(function() {
     var markersPrep = $.Deferred();
 
     $.whenListDone(dataPrepList).done(function(dataArr) {
-        var markersGroupsGen = new UI_MarkerGroups(dataArr);
+        var markersGroupsGen = new UI_MarkerGroups(dataArr, map);
         markersGroupsGen.done(function(markerGroups) {
             mapGlobals.freezeScreen.unfreeze();
             $('.numberCircle').text("718 MW");
@@ -423,6 +437,8 @@ $(document).ready(function() {
                             "switch-on": function(e, switchObj, context) {
 
                                 if ($(context).hasClass("busy")) return;
+                                
+                                
 
 
 
@@ -444,6 +460,8 @@ $(document).ready(function() {
 
                                     return;
                                 }
+                                
+                                $(context).find("input")[0].checked=true;
 
                                 //mapGlobals.freezeScreen.freeze();
 
@@ -536,6 +554,8 @@ $(document).ready(function() {
 
                                                     marker.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
                                                     marqueeObj.addTo(tabs[index]["layerGroups"][data.features[feature].properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase()]);
+
+
                                                     marqueeObj.addTo(extentMarqueeGroup);
 
                                                     if (index === "operational" /* && data.features[feature].properties.getAttributes()["Commercial Operation Year"]>=config["special-function-parameters"]["operational-year-range"][0] && data.features[feature].properties.getAttributes()["Commercial Operation Year"]<=config["special-function-parameters"]["operational-year-range"][1]*/ ) {
@@ -979,12 +999,37 @@ $(document).ready(function() {
 
     var arrayYear = [1, 2, 3, 4, 5];
 
-    function sliderSlid(event, ui) {
+    var activeLayersCheckboxSelection;
+
+    function sliderSlid(event, ui, flag) {
         if (ui.value < config["special-function-parameters"]["operational-year-range"][1]) {
-            $(".project-marker-icon").addClass("greyed-out");
+            $(".operational.project-marker-icon").addClass("greyed-out");
+            //$(".ui-switchboard").addClass("slider-sliding");
+
         } else {
-            $(".project-marker-icon").removeClass("greyed-out");
+            $(".operational.project-marker-icon").removeClass("greyed-out");
+
+            //$(".ui-switchboard").removeClass("slider-sliding");
             //$(".project-marker-icon").removeClass("highlighted-icon");
+        }
+
+        if (flag) {
+            $(".project-marker-icon").removeClass("greyed-out");
+            
+            setTimeout(function() {
+
+            try {
+
+                
+                    activeLayersCheckboxSelection.find("input").each(function() {
+                        $(this)[0].checked = true;
+                    });
+                
+
+            } catch (e) {
+                //
+            }
+                }, 0);
         }
 
         var aggr = 0;
@@ -1002,6 +1047,7 @@ $(document).ready(function() {
                     //}
                     //},0);
                 });
+
             }
         }
         $('.numberCircle').text(aggr > 99 ? Math.floor(aggr) + " MW" : (Math.floor(aggr * 10)) / 10 + " MW");
@@ -1032,7 +1078,9 @@ $(document).ready(function() {
     $('#slider').slider({
         min: config["special-function-parameters"]["operational-year-range"][0],
         max: config["special-function-parameters"]["operational-year-range"][1],
-        slide: sliderSlid
+        slide: function(event, ui) {
+            sliderSlid(event, ui, false)
+        }
     }).find(".ui-slider-handle").append(tooltip).hover(function() {
         tooltip.show();
     });
@@ -1160,7 +1208,7 @@ $(document).ready(function() {
     $("<div class='leaflet-control-layers leaflet-control-layers-expanded leaflet-control miscellaneous-controls'/>").append(function() {
         return $("<div class='controls-title controls-seperator'><input type='checkbox'/><h5>Transmission Lines</h5></div>").on("click", function() {
             $(powergridBasemap._container).toggleClass("hidden");
-            $(this).find("input").attr("checked", "checked");
+            $(this).find("input")[0].checked = $(this).find("input")[0].checked ? false : true;
         });
     }).appendTo(".leaflet-top.leaflet-right");
 
@@ -1177,7 +1225,7 @@ $(document).ready(function() {
         $("#slider").slider("value", config["special-function-parameters"]["operational-year-range"][1]);
         sliderSlid(null, {
             value: config["special-function-parameters"]["operational-year-range"][1]
-        });
+        }, true);
 
 
 
@@ -1203,7 +1251,7 @@ $(document).ready(function() {
             $("#slider").slider("value", config["special-function-parameters"]["operational-year-range"][1]);
             sliderSlid(null, {
                 value: config["special-function-parameters"]["operational-year-range"][1]
-            });
+            }, true);
 
 
             $("#slider").addClass("inactive");
@@ -1221,24 +1269,37 @@ $(document).ready(function() {
         mouseoverTriggered = 1;
 
         $("#slider").removeClass("inactive");
+        $(".project-marker-icon").addClass("greyed-out");
+        $(".operational.project-marker-icon").removeClass("greyed-out");
+
+        activeLayersCheckboxSelection = $(".ui-switchboard").find("[_id].on").filter(function() {
+            return Boolean(Number($(this).attr("_id")));
+        });
+
+        setTimeout(function() {
+            activeLayersCheckboxSelection.find("input").each(function() {
+                $(this)[0].checked = false;
+            });
+        }, 0);
+
         //setTimeout(function() {
-            //if (!mouseoverTriggered) return;
-            //$("#slider").trigger("mousedown", false);
+        //if (!mouseoverTriggered) return;
+        //$("#slider").trigger("mousedown", false);
         //}, 1500);
 
     });
 
     $("#slider").on("mousedown", function(e, flag) {
         //try{
-            //flag.x++;
-            /*$(".operational.project-marker-icon").each(function(index) {
+        //flag.x++;
+        /*$(".operational.project-marker-icon").each(function(index) {
                 var context = this;
                 setTimeout(function() {
                     $(context).addClass("highlighted-icon");
                 }, index * 20);
             });
         } catch (err) {*/
-            $(".operational.project-marker-icon").addClass("highlighted-icon");
+        $(".operational.project-marker-icon").addClass("highlighted-icon");
         //}
 
     });

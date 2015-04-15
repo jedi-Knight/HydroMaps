@@ -309,7 +309,8 @@ config = {
             {
                 title: "Web-Links",
                 content: {
-                    "Website": "Website"
+                    "Website": "Website",
+                    "Wikipedia": "Wki Link"
                 }
             }
         ]
