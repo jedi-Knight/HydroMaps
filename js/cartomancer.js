@@ -67,15 +67,7 @@ $(document).ready(function() {
      };*/
 
     var tabs = {
-        "survey-approved": {
-            "layerGroups": {
-                "mega": L.layerGroup(),
-                "large": L.layerGroup(),
-                "medium": L.layerGroup(),
-                "small": L.layerGroup()
-            }
-        },
-        "survey-applied": {
+        "operational": {
             "layerGroups": {
                 "mega": L.layerGroup(),
                 "large": L.layerGroup(),
@@ -99,7 +91,7 @@ $(document).ready(function() {
                 "small": L.layerGroup()
             }
         },
-        "operational": {
+        "survey-approved": {
             "layerGroups": {
                 "mega": L.layerGroup(),
                 "large": L.layerGroup(),
@@ -107,6 +99,17 @@ $(document).ready(function() {
                 "small": L.layerGroup()
             }
         },
+        "survey-applied": {
+            "layerGroups": {
+                "mega": L.layerGroup(),
+                "large": L.layerGroup(),
+                "medium": L.layerGroup(),
+                "small": L.layerGroup()
+            }
+        },
+        
+        
+        
         "all-projects": {
             "layerGroups": {
                 "mega": L.layerGroup(),
@@ -152,6 +155,13 @@ $(document).ready(function() {
             _layerGroup.addTo(theLayerGroups[_size]);
         });
     });
+    
+    /*var switchLabels = {
+        "small": "1MW - 24MW",
+        "medium": "25MW - 99MW",
+        "large": "100MW - 499MW",
+        "mega": "Larger than 500MW"
+    }*/
 
 
     var theLayerControl = L.control.layers({}, theLayerGroups, {
@@ -160,6 +170,9 @@ $(document).ready(function() {
     theLayerControl.addTo(map);
 
     $(theLayerControl._container).find("input").click();
+    /*$(theLayerControl._container).find(".leaflet-control-layers-overlays").find("label").each(function(index){
+        $($(this).find("span")[1]).text(switchLabels[$($(this).find("span")[1]).text()]);
+    });*/
 
 
 
@@ -382,8 +395,13 @@ $(document).ready(function() {
                             highlightLayer.clearLayers();
                             setTimeout(function() {
                                 for (var c in resultArray) {
-                                    //L.circle(mapData.getGeometries().points[currentTab].features[resultArray[c]].geometry.coordinates,2000000/(Math.pow(1.9,map.getZoom()/1.05)), config["layer-styles"]["highlight-circle"]).addTo(highlightLayer);
-                                    L.circleMarker(mapData.getGeometries().points[currentTab].features[resultArray[c]].geometry.coordinates, config["layer-styles"]["highlight-circle"]).addTo(highlightLayer);
+                                    try {
+                                        //L.circle(mapData.getGeometries().points[currentTab].features[resultArray[c]].geometry.coordinates,2000000/(Math.pow(1.9,map.getZoom()/1.05)), config["layer-styles"]["highlight-circle"]).addTo(highlightLayer);
+                                        L.circleMarker(mapData.getGeometries().points[resultArray[c]["feature-group"]].features[resultArray[c]["_cartomancer_id"]].geometry.coordinates, config["layer-styles"]["highlight-circle"]).addTo(highlightLayer);
+
+                                    } catch (e) {
+                                        console.log(e);
+                                    }
                                 }
                             }, 0);
                         },
@@ -966,6 +984,7 @@ $(document).ready(function() {
             $(".project-marker-icon").addClass("greyed-out");
         } else {
             $(".project-marker-icon").removeClass("greyed-out");
+            //$(".project-marker-icon").removeClass("highlighted-icon");
         }
 
         var aggr = 0;
@@ -979,6 +998,7 @@ $(document).ready(function() {
                     //setTimeout(function(){
                     //if(c<=ui.value){
                     $(_icon).removeClass("greyed-out");
+                    //if(ui.value < config["special-function-parameters"]["operational-year-range"][1])$(_icon).addClass("highlighted-icon");
                     //}
                     //},0);
                 });
@@ -1017,9 +1037,7 @@ $(document).ready(function() {
         tooltip.show();
     });
 
-    $("#slider").hover(function(e) {
-        console.log(e);
-    });
+
 
     //$('#slider').slider("value", 2068);
 
@@ -1172,6 +1190,7 @@ $(document).ready(function() {
         // var mouseoverTriggered = 0;
 
         $("#slider").addClass("inactive");
+        $(".operational.project-marker-icon").removeClass("highlighted-icon");
         mouseoverTriggered = 0;
 
     });
@@ -1202,6 +1221,25 @@ $(document).ready(function() {
         mouseoverTriggered = 1;
 
         $("#slider").removeClass("inactive");
+        //setTimeout(function() {
+            //if (!mouseoverTriggered) return;
+            //$("#slider").trigger("mousedown", false);
+        //}, 1500);
+
+    });
+
+    $("#slider").on("mousedown", function(e, flag) {
+        //try{
+            //flag.x++;
+            /*$(".operational.project-marker-icon").each(function(index) {
+                var context = this;
+                setTimeout(function() {
+                    $(context).addClass("highlighted-icon");
+                }, index * 20);
+            });
+        } catch (err) {*/
+            $(".operational.project-marker-icon").addClass("highlighted-icon");
+        //}
 
     });
 

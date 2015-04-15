@@ -36,8 +36,8 @@ function Map(options) {
 
     L.control.attribution({
         position: "bottomright",
-        //prefix: false
-    }).addAttribution('Project By <a href="http://www.facebook.com/nitifoundation">Niti Foundation</a>| Map by <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs </a>  |   Data from <a href="http://www.doed.gov.np/issued_licenses.php">Department of Electricity</a>, 16 March 2015').addTo(map);
+        prefix: false
+    }).addAttribution('Project By <a href="http://www.facebook.com/nitifoundation">Niti Foundation</a> | Map by <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs </a>  |   Data from <a href="http://www.doed.gov.np/issued_licenses.php">Department of Electricity</a> as of 16 March 2015 | <a href="downloads/hydromapsprojects.zip">Download the Data</a> | <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>').addTo(map);
     //L.control.scale().addTo(map);
 
     //map.addLayer(osmTileLayer);
@@ -1312,7 +1312,10 @@ function UI_Control_Filter(options) {
                         //console.log(1);
                         options.eventHandlers.found.call(context, $.map(filteredSelectionClosestInfobox, function(item, index) {
                             //console.log($(item).attr("_id"));
-                            return $(item).attr("_id");
+                            return {
+                                "feature-group": $(item).attr("_feature-group"),
+                                "_cartomancer_id": $(item).attr("_id")
+                            };
                         }));
                     } catch (e) {
                         console.log("no filter search event handler defined");
@@ -1393,7 +1396,21 @@ function UI_Control_Filter(options) {
                     }
                 }
             }
-        }));
+        })).append(function(){
+            return new UI_Button({
+                attributes:{
+                    class: "close-button"
+                },
+                eventHandlers:{
+                    click: function(){
+                        uiElement.value = "";
+                        $(uiElement).trigger("keydown");
+                        $(uiElement).trigger("blur");
+                    }
+                },
+                content: "<span>&times;</span>"
+            });
+        });
     }
 
     this.getUI = function() {
@@ -1875,15 +1892,19 @@ function UI_MarkerGroups(pointsGroupsArray, map) {
         markerGroups[pointsGroup[1].query.geometries.group] = [];
         $.map(pointsGroup[0].features, function(feature, feature_index) {
             //setTimeout(function() {
+            var markerCategory = feature.properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
             var marker = L.marker(feature["geometry"]["coordinates"].reverse(), {
                 icon: L.divIcon({
-                    className: feature.properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase() + " project-marker-icon",
+                    className: markerCategory + " " + pointsGroup[1].query.geometries.group + " project-marker-icon",
                     //html: "<img src='" + item["icon-src"] + "'/>"
                     html: function() {
-                        var markerCategory = feature.properties.getAttributes()["Project Size"].split("(")[0].trim().toLowerCase();
+                        
 
-                        return "<img src='img/markers/" + pointsGroup[1].query.geometries.group + "/" + markerCategory + ".svg'/>";
-                    }()
+                        //return "<img src='img/markers/" + pointsGroup[1].query.geometries.group + "/" + markerCategory + ".svg'/>";
+                        return "<div style=\"background-image: url('img/markers/" + pointsGroup[1].query.geometries.group + "/" + markerCategory + ".svg');\"></div>";
+                    }(),
+                    iconSize: [40,40],
+                    iconAnchor: [20,20]
                 })
             });
 
@@ -1908,11 +1929,19 @@ function UI_MarkerGroups(pointsGroupsArray, map) {
             var highLightCircle;
 
             marker.on("popupopen", function(e) {
+                try{
                 highLightCircle = L.circleMarker(this._latlng, config["layer-styles"]["highlight-circle"]);
                 highLightCircle.addTo(map);
+                }catch(e){
+                    //TODO: check this
+                }
             });
             marker.on("popupclose", function(e) {
+                try{
                 map.removeLayer(highLightCircle);
+                }catch(e){
+                    //TODO: check this
+                }
             });
 
 
