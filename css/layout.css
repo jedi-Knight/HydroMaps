@@ -1609,14 +1609,14 @@ body *{
 */
 
 .slider-sliding a[_id]{
-    opacity: 0.6;
+/*    opacity: 0.6;*/
 /*
     cursor: default;
     pointer-events: none;
 */
 }
 .slider-sliding a._id_0{
-    opacity: 1;
+/*    opacity: 1;*/
 /*
     cursor: pointer;
     pointer-events: all;
@@ -1624,11 +1624,40 @@ body *{
 }
 
 .slider-sliding .ui-switch-icon{
+/*
     -webkit-filter: invert(0.5);
     filter: invert(0.5);
+*/
 }
 
 .slider-sliding ._id_0 .ui-switch-icon{
+/*
     -webkit-filter: none;
     filter: none;
+*/
+}
+
+.slider-sliding{
+    cursor: default;
+    pointer-events: none;
+    color: #cccccc;
+}
+
+.slider-sliding span{
+    color: #cccccc;
+}
+
+.slider-sliding ._id_0 span{
+    color: #333333;
+}
+
+input[type=checkbox]{
+    pointer-events: none;
+}
+
+.switches-busy *{
+    pointer-events: none;
+}
+.switches-busy{
+    cursor: wait;
 }

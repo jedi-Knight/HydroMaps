@@ -428,6 +428,8 @@ $(document).ready(function() {
             });
             asyncListColumn.getUI().appendTo("body");
 
+            var switchesReadyFlag = true;
+
             (new UI_Switchboard({
                 switches: $.map(config["map-features"], function(item, index) {
                     console.log(index);
@@ -438,18 +440,31 @@ $(document).ready(function() {
 
                                 if ($(context).hasClass("busy")) return;
                                 
+                                $(context).addClass("busy");
                                 
+                                setTimeout(function() {
+                                        $(context).removeClass("busy");
+                                    }, 100);
+
+
 
 
 
                                 if (index === "all-projects") {
 
+                                    $(".ui-switchboard").addClass("switches-busy");
+
+
                                     setTimeout(function() {
-                                        $(context).addClass("busy");
-                                    }, 0);
-                                    setTimeout(function() {
-                                        $(context).removeClass("busy");
-                                    }, 300);
+                                        $(".ui-switchboard").removeClass("switches-busy");
+                                    }, 2000);
+
+                                    //setTimeout(function() {
+//                                    $(context).addClass("busy");
+//                                    //}, 0);
+//                                    setTimeout(function() {
+//                                        $(context).removeClass("busy");
+//                                    }, 300);
 
                                     $(context).parent().siblings(".ui-switch").find("a.off").each(function(_indx) {
                                         var _context = this;
@@ -459,9 +474,16 @@ $(document).ready(function() {
                                     });
 
                                     return;
+                                }else{
+                                    /*if($("._id_5").find("input")[0].checked){
+                                        switchesReadyFlag = false;
+                                        $("._id_5").click();
+                                    }*/
                                 }
-                                
-                                $(context).find("input")[0].checked=true;
+
+                                $(context).find("input")[0].checked = true;
+                                $(context).addClass("on");
+                                $(context).removeClass("off");
 
                                 //mapGlobals.freezeScreen.freeze();
 
@@ -581,9 +603,9 @@ $(document).ready(function() {
 
                                                 if (feature === data.features.length) {
                                                     setTimeout(function() {
-                                                        $(context).find("input")[0].checked = true;
-                                                        $(context).addClass("on");
-                                                        $(context).removeClass("off");
+                                                        //$(context).find("input")[0].checked = true;
+//                                                        $(context).addClass("on");
+//                                                        $(context).removeClass("off");
 
                                                         if (index === "operational") {
                                                             $("#slider").show();
@@ -591,6 +613,7 @@ $(document).ready(function() {
                                                                 $(".numberCircle").show();
                                                         };
                                                     }, 0);
+
                                                 }
 
 
@@ -616,6 +639,11 @@ $(document).ready(function() {
                             "switch-off": function(e, hackObj, context) {
 
                                 if ($(context).hasClass("busy")) return;
+                                $(context).addClass("busy");
+
+                                setTimeout(function() {
+                                        $(context).removeClass("busy");
+                                    }, 100);
 
                                 $(context).find("input")[0].checked = false;
                                 $(context).removeClass("on");
@@ -625,17 +653,23 @@ $(document).ready(function() {
 
                                 if (index === "all-projects") {
 
+                                    if(!switchesReadyFlag) {
+                                        switchesReadyFlag = true;
+                                        return;
+                                    }
+
+                                    $(".ui-switchboard").addClass("switches-busy");
+
+
                                     setTimeout(function() {
-                                        $(context).addClass("busy");
-                                    }, 0);
-                                    setTimeout(function() {
-                                        $(context).removeClass("busy");
-                                    }, 300);
+                                        $(".ui-switchboard").removeClass("switches-busy");
+                                    }, 3000);
+
 
                                     $(context).parent().siblings(".ui-switch").find("a.on").each(function(_indx) {
-                                        $(this).find("input")[0].checked = false;
-                                        $(this).removeClass("on");
-                                        $(this).addClass("off");
+//                                        $(this).find("input")[0].checked = false;
+//                                        $(this).removeClass("on");
+//                                        $(this).addClass("off");
                                         var _context = this;
                                         setTimeout(function() {
                                             $(_context).click();
@@ -645,7 +679,13 @@ $(document).ready(function() {
 
 
                                     return;
-                                } else if (index === "operational") {
+                                }else{
+                                  /*  if($("._id_5").find("input")[0].checked){
+                                        switchesReadyFlag = false;
+                                        $("._id_5").click();
+                                    }*/
+                                }
+                                if (index === "operational") {
                                     $("#slider").hide();
                                     $(".numberCircle").hide();
                                 };
@@ -752,6 +792,26 @@ $(document).ready(function() {
                 ui.find("a").addClass("off");
 
                 $(ui.find("a")[0]).click();
+
+                /*ui.on("hover", function(e) {
+                    //scalefocusout = 1;
+                    //if (!mouseoverTriggered) return;
+                    setTimeout(function() {
+
+                        $("#slider").slider("value", config["special-function-parameters"]["operational-year-range"][1]);
+                        sliderSlid(null, {
+                            value: config["special-function-parameters"]["operational-year-range"][1]
+                        }, true);
+
+
+                        $("#slider").addClass("inactive");
+                        //mouseoverTriggered = 0;
+                        //slidin = false;
+
+                    }, 1000);
+                });*/
+
+
             });
 
 
@@ -999,7 +1059,11 @@ $(document).ready(function() {
 
     var arrayYear = [1, 2, 3, 4, 5];
 
-    var activeLayersCheckboxSelection;
+    //var activeLayersCheckboxSelection;
+
+    var activeLayersCheckboxSelection = $(".ui-switchboard").find("[_id]").filter(function() {
+            return Boolean(Number($(this).attr("_id")));
+        });
 
     function sliderSlid(event, ui, flag) {
         if (ui.value < config["special-function-parameters"]["operational-year-range"][1]) {
@@ -1015,21 +1079,22 @@ $(document).ready(function() {
 
         if (flag) {
             $(".project-marker-icon").removeClass("greyed-out");
-            
-            setTimeout(function() {
 
-            try {
+            //setTimeout(function() {
 
-                
-                    activeLayersCheckboxSelection.find("input").each(function() {
+                try {
+
+                    $(".ui-switchboard").removeClass("slider-sliding");
+                    activeLayersCheckboxSelection.filter(".on").find("input").each(function() {
                         $(this)[0].checked = true;
                     });
-                
 
-            } catch (e) {
-                //
-            }
-                }, 0);
+
+
+                } catch (e) {
+                    //
+                }
+            //}, 0);
         }
 
         var aggr = 0;
@@ -1218,6 +1283,7 @@ $(document).ready(function() {
 
 
     var mouseoverTriggered = 0;
+    var slidin = false;
 
     map.on("click", function(e) {
         //if(eventFlag.mouseIsDragging) return;
@@ -1256,9 +1322,16 @@ $(document).ready(function() {
 
             $("#slider").addClass("inactive");
             mouseoverTriggered = 0;
+            slidin = false;
 
-        }, 10000);
+        }, 1000);
     });
+
+
+
+    //    $("body")[0].onmouseup = function(e) {
+    //        slidin=false;
+    //    };
 
 
 
@@ -1272,11 +1345,12 @@ $(document).ready(function() {
         $(".project-marker-icon").addClass("greyed-out");
         $(".operational.project-marker-icon").removeClass("greyed-out");
 
-        activeLayersCheckboxSelection = $(".ui-switchboard").find("[_id].on").filter(function() {
+        activeLayersCheckboxSelection = $(".ui-switchboard").find("[_id]").filter(function() {
             return Boolean(Number($(this).attr("_id")));
         });
 
         setTimeout(function() {
+            $(".ui-switchboard").addClass("slider-sliding");
             activeLayersCheckboxSelection.find("input").each(function() {
                 $(this)[0].checked = false;
             });
@@ -1300,6 +1374,8 @@ $(document).ready(function() {
             });
         } catch (err) {*/
         $(".operational.project-marker-icon").addClass("highlighted-icon");
+
+        slidin = true;
         //}
 
     });
