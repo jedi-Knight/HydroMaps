@@ -13,7 +13,7 @@ $(document).ready(function() {
             "OpenStreetMap": {
                 "tileLayer": L.TileLayer.boundaryCanvas("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
                     boundary: nepalBorderLatLngArray,
-                    doubleClickZoom: true
+                    doubleClickZoom: false
                 })
             },
             "Satellite Imagery": {
@@ -23,6 +23,10 @@ $(document).ready(function() {
     });
     $("#map").find("a.leaflet-control-zoom-out").text("–");
     var map = cartograph.getMap();
+
+$(map._container).find(".leaflet-map-pane").dblclick(function(){
+map.setZoom(map.getZoom()+1);
+});
 
 
 
@@ -427,7 +431,7 @@ $(document).ready(function() {
 
             });
             asyncListColumn.getUI().appendTo("body");
-
+            
             var switchesReadyFlag = true;
 
             (new UI_Switchboard({
@@ -451,9 +455,9 @@ $(document).ready(function() {
 
 
                                 if (index === "all-projects") {
-
+                                    
                                     $(".ui-switchboard").addClass("switches-busy");
-
+                                    
 
                                     setTimeout(function() {
                                         $(".ui-switchboard").removeClass("switches-busy");
@@ -613,7 +617,7 @@ $(document).ready(function() {
                                                                 $(".numberCircle").show();
                                                         };
                                                     }, 0);
-
+                                                    
                                                 }
 
 
@@ -640,7 +644,7 @@ $(document).ready(function() {
 
                                 if ($(context).hasClass("busy")) return;
                                 $(context).addClass("busy");
-
+                                
                                 setTimeout(function() {
                                         $(context).removeClass("busy");
                                     }, 100);
@@ -652,19 +656,19 @@ $(document).ready(function() {
 
 
                                 if (index === "all-projects") {
-
+                                    
                                     if(!switchesReadyFlag) {
                                         switchesReadyFlag = true;
                                         return;
                                     }
-
+                                    
                                     $(".ui-switchboard").addClass("switches-busy");
-
+                                    
 
                                     setTimeout(function() {
                                         $(".ui-switchboard").removeClass("switches-busy");
                                     }, 3000);
-
+                                    
 
                                     $(context).parent().siblings(".ui-switch").find("a.on").each(function(_indx) {
 //                                        $(this).find("input")[0].checked = false;
@@ -1060,7 +1064,7 @@ $(document).ready(function() {
     var arrayYear = [1, 2, 3, 4, 5];
 
     //var activeLayersCheckboxSelection;
-
+    
     var activeLayersCheckboxSelection = $(".ui-switchboard").find("[_id]").filter(function() {
             return Boolean(Number($(this).attr("_id")));
         });
@@ -1068,12 +1072,12 @@ $(document).ready(function() {
     function sliderSlid(event, ui, flag) {
         if (ui.value < config["special-function-parameters"]["operational-year-range"][1]) {
             $(".operational.project-marker-icon").addClass("greyed-out");
-            //$(".ui-switchboard").addClass("slider-sliding");
+            
 
         } else {
             $(".operational.project-marker-icon").removeClass("greyed-out");
 
-            //$(".ui-switchboard").removeClass("slider-sliding");
+            
             //$(".project-marker-icon").removeClass("highlighted-icon");
         }
 
@@ -1084,7 +1088,8 @@ $(document).ready(function() {
 
                 try {
 
-                    $(".ui-switchboard").removeClass("slider-sliding");
+                    $(".leaflet-control-layers").removeClass("slider-sliding");
+$(".ui-switchboard").removeClass("slider-sliding");
                     activeLayersCheckboxSelection.filter(".on").find("input").each(function() {
                         $(this)[0].checked = true;
                     });
@@ -1350,7 +1355,8 @@ $(document).ready(function() {
         });
 
         setTimeout(function() {
-            $(".ui-switchboard").addClass("slider-sliding");
+            $(".leaflet-control-layers").addClass("slider-sliding");
+$(".ui-switchboard").addClass("slider-sliding");
             activeLayersCheckboxSelection.find("input").each(function() {
                 $(this)[0].checked = false;
             });

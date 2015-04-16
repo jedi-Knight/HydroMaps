@@ -277,6 +277,10 @@ config = {
         title: "River",
         icon: "img/ui-filter-search-by-icon-river.png",
         className: "ui-filter-search-by-icon"
+    }, {
+        title: "Promoter",
+        icon: "img/ui-filter-search-by-icon-promoter.png",
+        className: "ui-filter-search-by-icon"
     }],
     "special-function-parameters": {
         "operational-year-range": [1970, 2015]

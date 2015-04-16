@@ -8,7 +8,7 @@ function Map(options) {
          L.latLng(config["map-options"]["map-bounds"]["northeast"]),
          L.latLng(config["map-options"]["map-bounds"]["southwest"])
          ),*/
-        doubleClickZoom: true,
+        doubleClickZoom: false,
         zoomControl: false
     };
 
@@ -1275,7 +1275,9 @@ function UI_Control_Filter(options) {
                     var classCondition = $(this).hasClass(options.filterByElements[filterMode].title.toLowerCase());
                     if (classCondition) {
                         $(this).addClass("emphasize");
-                    }
+                    }else{
+$(this).removeClass("emphasize");
+}
 
                     return classCondition && ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1) ? true : false;
                 } else {
@@ -1623,6 +1625,8 @@ function UI_SimpleAsyncListColumn(options) {
         deferred.done(function(obj) {
             uiLoadingAnim.remove();
             content.append(obj.jqObj.children());
+//searchBar.find("input")[0].value="";
+			searchBar.find("input").trigger("keydown");
 
         });
     }

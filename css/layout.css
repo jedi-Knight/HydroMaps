@@ -228,7 +228,7 @@ div::-webkit-scrollbar-thumb{
     opacity: 0;
     text-align: center;
 }
-.ui-control-filter.active .close-button{
+.active .ui-control-filter .close-button{
     opacity: 1;
     cursor: pointer;
 }
@@ -647,10 +647,12 @@ div.leaflet-control-layers-separator{
 
 .leaflet-google-layer{
     -webkit-filter: contrast(0.8);
+filter: contrast(0.8);
 }
 
 .leaflet-google-layer.normal{
     -webkit-filter: contrast(0.8);
+filter: contrast(0.8);
 }
 
 .leaflet-marker-icon.small img{
@@ -1475,6 +1477,7 @@ a.wiki{
     left: 10px;
     padding: 10px;
     cursor: pointer;
+color: #33aada;
 /*    background-color: rgba(255,255,255,0.8)*/
 }
 
@@ -1600,7 +1603,7 @@ body *{
 }
 
 /*
-.slider-sliding .ui-switch-label{
+.slider-sliding *{
     color: #eeeeee;
 }
 .slider-sliding ._id_0 .ui-switch-label{
@@ -1640,15 +1643,27 @@ body *{
 .slider-sliding{
     cursor: default;
     pointer-events: none;
-    color: #cccccc;
+    /*color: #cccccc;*/
 }
 
-.slider-sliding span{
+.slider-sliding .leaflet-control-layers-overlays *, .slider-sliding .ui-switchboard *{
+pointer-events: none;
+}
+
+.slider-sliding [_id] span{
     color: #cccccc;
 }
 
 .slider-sliding ._id_0 span{
     color: #333333;
+}
+
+.slider-sliding input[type=checkbox]{
+opacity: 0.5;
+}
+
+.slider-sliding ._id_0 input[type=checkbox], .slider-sliding .miscellaneous-controls input[type=checkbox]{
+opacity:1;
 }
 
 input[type=checkbox]{
@@ -1660,4 +1675,10 @@ input[type=checkbox]{
 }
 .switches-busy{
     cursor: wait;
+}
+.leaflet-marker-icon{
+pointer-events: none;
+}
+.leaflet-marker-icon div{
+pointer-events: all;
 }
