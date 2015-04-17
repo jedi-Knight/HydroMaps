@@ -251,6 +251,8 @@ function PanelDocumentModel(pointAttributes, docdef) { //TODO: full of temporary
         tabs: _docdef.tabs
     };
 
+    _docdef.titleBar = true;
+
     return _docdef;
 
 }
