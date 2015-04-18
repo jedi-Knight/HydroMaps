@@ -723,6 +723,19 @@ filter: contrast(0.8);
     z-index: 999 !important;
 }*/
 
+.leaflet-marker-icon.reserved.mega{
+    z-index: 11004 !important;
+}
+.leaflet-marker-icon.reserved.large{
+    z-index: 11003 !important;
+}
+.leaflet-marker-icon.reserved.medium{
+    z-index: 11002 !important;
+}
+.leaflet-marker-icon.reserved.small{
+    z-index: 11001 !important;
+}
+
 .leaflet-marker-icon.operational.mega{
     z-index: 10004 !important;
 }
@@ -930,7 +943,8 @@ span.marker-label-districts.dark-background{
 /*    box-shadow: inset 0 1px 5px 0px rgba(0, 0, 0, .5), */
     background: transparent;
     margin-top: -80px;
-    margin-left: 260px;
+/*    margin-left: 260px;*/
+    margin-left: 224px;
 /*    background: -moz-repeating-linear-gradient(left,black, transparent 0.2%, transparent 6.25%);*/
 }
 
@@ -1117,7 +1131,8 @@ span.marker-label-districts.dark-background{
     display: inline-block;
     position: absolute;
 /*    margin-left: 1050px;*/
-    margin-left: 1000px;
+/*    margin-left: 1000px;*/
+    margin-left: 964px;
     margin-top: -56px; 
 	margin-top: -99px;
 }
@@ -1129,7 +1144,7 @@ span.marker-label-districts.dark-background{
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{  
 /*    margin-top: -5px;*/
     margin-top: 10px;
-    z-index: 2234234;  
+    z-index: 14000;  
     width: 25px;  
     height: 25px;  
 /*    cursor: pointer;  */
@@ -1427,6 +1442,9 @@ a.wiki{
 ._id_4 .ui-switch-icon{
     background-color: #e78ac3;
 }
+._id_5 .ui-switch-icon{
+    background-color: #9b89ff;
+}
 
 /*
 ._id_5 .ui-switch-label{
@@ -1454,11 +1472,12 @@ a.wiki{
     background-color: rgba(255,255,255,0.8);
     padding: 10px;
     border: #999999 thin solid;
-    top: 50px;
+    top: 46px;
     left: 50%;
-    margin-left: -350px;
+    margin-left: -436px;
     width: 700px;
     height: 500px;
+    z-index: 20000;
 }
 
 #about .close-button{
@@ -1681,4 +1700,38 @@ pointer-events: none;
 }
 .leaflet-marker-icon div{
 pointer-events: all;
+}
+
+@media (max-width: 1050px){
+    .leaflet-control-layers-expanded{
+        padding-bottom: 0px;
+    }
+    .leaflet-container .leaflet-control-attribution{
+        font-size: .83em;
+    }
+    #slider{
+        width: 480px;
+        margin-left: 164px;
+    }
+    #slider span.scale-marking{
+        background-size: 484px;
+        width: 582px;
+    }
+    
+    .numberCircle{
+        margin-top: -92px;
+        margin-left: 660px;
+        width: 50px;
+        height: 50px;
+        font-size: 18pt;
+    }
+    #slider.inactive+.numberCircle{
+        font-size: 10pt;
+        margin-top: -96px;
+    }
+    .ui-switch-icon{
+        width: 16px;
+        height: 16px;
+        margin: 0px 4px -2px 0px;
+    }
 }

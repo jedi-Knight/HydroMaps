@@ -40,7 +40,11 @@ config = {
             "icon-src": "markers/survey-applied.png"
         },
 
-
+        "reserved": {
+            "src": "reserved.geojson",
+            "title": "Reserved Projects",
+            "icon-src": "markers/all-projects.png"
+        },
 
         "all-projects": {
             "src": "all-projects.geojson",

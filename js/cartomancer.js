@@ -116,6 +116,14 @@ map.setZoom(map.getZoom()+1);
 
             }
         },
+        "reserved": {
+            "layerGroups": {
+                "mega": L.layerGroup(),
+                "large": L.layerGroup(),
+                "medium": L.layerGroup(),
+                "small": L.layerGroup()
+            }
+        },
 
 
 

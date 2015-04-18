@@ -505,6 +505,7 @@
     padding: 10px;
     background-color: rgba(255,255,255,0.6);
     border: #999999 thin solid;
+    z-index: 15000;
 }
 .image.media{
     width: 640px;
@@ -521,6 +522,12 @@
     background-color: rgba(255,255,255,0.8);
     color: #333333;
     box-shadow: none;
+}
+
+@media (max-width: 1050px){
+    .splash-screen{
+        left: 200px;
+    }
 }
 /**/
 /****/
