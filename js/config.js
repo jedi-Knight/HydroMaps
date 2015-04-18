@@ -85,7 +85,8 @@ config = {
             opacity: 0.8,
             weight: 1,
             fillColor: "#aaccee",
-            fillOpacity: 0.4
+            fillOpacity: 0.4,
+            clickable: false
         },
         "highlight-circle": {
             fillOpacity: 0,

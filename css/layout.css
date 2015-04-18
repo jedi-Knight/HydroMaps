@@ -1698,7 +1698,7 @@ input[type=checkbox]{
 .leaflet-marker-icon{
 pointer-events: none;
 }
-.leaflet-marker-icon div{
+.leaflet-marker-icon div, .leaflet-marker-icon.project-extent-rectangle-close-button{
 pointer-events: all;
 }
 
