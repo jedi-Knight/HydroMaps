@@ -484,7 +484,7 @@ function PanelDocument(documentModel) {
     //    var document_header = new Header();
 
     $(_panelDocument).attr({
-        class: "panel float panel-document has-tabs"
+        "class": "panel float panel-document has-tabs"
     }).append(function() {
         var returnArray = $(titleBar).add(_header).add(_body).add(_footer);
         /*returnArray.push(titleBar);
@@ -575,7 +575,7 @@ function Tabs() {
             _tab = $("<div/>").addClass("panel-document-tab inactive");
             _tabTrigger = new UI_Button({
                 attributes: {
-                    class: "trigger tab-trigger " + tabsJson.tabs[tab].title,
+                    "class": "trigger tab-trigger " + tabsJson.tabs[tab].title,
                     title: tabsJson.tabs[tab].title.replace(/_/g, " ")
                 },
                 eventHandlers: {
@@ -612,7 +612,7 @@ function UI_SlidingTabs(options) {
     var deferred = $.Deferred();
     setTimeout(function() {
         var uiElement = $("<div/>");
-        options.attributes.class += " ui-sliding-tabs";
+        options.attributes["class"] += " ui-sliding-tabs";
         uiElement.attr(options.attributes);
 
         for (var c in options.tabs) {
@@ -620,7 +620,7 @@ function UI_SlidingTabs(options) {
             var content = $("<div class='content'/>");
             var tabTrigger = new UI_Button({
                 attributes: {
-                    class: "trigger"
+                    "class": "trigger"
                 },
                 eventHandlers: {
                     click: function(e) {
@@ -665,7 +665,7 @@ function UI_SlidingTabs(options) {
  var content = $("<div class='content'/>");
  var tabTrigger = new UI_Button({
  attributes: {
- class: "trigger"
+ "class": "trigger"
  },
  eventHandlers: {
  click: function(e) {
@@ -760,7 +760,7 @@ function UI_Button(initObj) {
 var UI_CloseButton = function() {
     return new UI_Button({
         attributes: {
-            class: "close trigger"
+            "class": "close trigger"
         },
         eventHandlers: {
             click: function(e) {
@@ -777,7 +777,7 @@ function UI_Thumbnail(thumbUrl, mediaOptions) {
     thumbnail.addClass("trigger thumbnail").append(function() {
         return $("<img/>").attr({
             src: thumbUrl,
-            class: "icon"
+            "class": "icon"
         }).css("z-index", 1);
     }).attr({
         title: "Click to View the Photograph"
@@ -790,7 +790,7 @@ function UI_Thumbnail(thumbUrl, mediaOptions) {
  thumbnail.addClass("trigger thumbnail").append(function() {
  return $("<div/>").append($("<img/>").attr({
  src: thumbUrl
- //,class: "icon"
+ //,"class": "icon"
  })).addClass("icon");
  }).attr({
  title: "Click to View the Photograph"
@@ -839,7 +839,7 @@ function UI_ThumbnailView(srcObject) {
 
         new UI_Button({
             attributes: {
-                class: "ui-slider-button-prev",
+                "class": "ui-slider-button-prev",
                 title: "Previous photo"
             },
             eventHandlers: {
@@ -852,7 +852,7 @@ function UI_ThumbnailView(srcObject) {
         }).appendTo(sliderNav);
         new UI_Button({
             attributes: {
-                class: "ui-slider-button-next",
+                "class": "ui-slider-button-next",
                 title: "Next photo"
             },
             eventHandlers: {
@@ -887,7 +887,7 @@ function MediaDocument(src) {
     //$("<div/>").addClass("leaflet-popup-content-wrapper").append($("<div/>").addClass("leaflet-popup-content").append(viewer)).appendTo(container);
     $("<div/>").addClass("media-document").append(function() {
         return $("<img/>").attr({
-            class: "image media",
+            "class": "image media",
             src: src
         });
     }).appendTo(viewer);
@@ -944,7 +944,7 @@ function UI_TabularColumn(options) {
 function UI_ExtensionColumns(options) {
     var column = new UI_TabularColumn(options);
     this.getUI = function(guiOptions) {
-        return $(column.getUI(guiOptions)).addClass(options.class);
+        return $(column.getUI(guiOptions)).addClass(options["class"]);
     };
 }
 
@@ -958,7 +958,7 @@ function UI_ColumnPageSwitcher(options) {
         for (var c in _buttons) {
             (new UI_Button({
                 attributes: {
-                    class: Number(c) ? "btn-next" : "btn-prev"
+                    "class": Number(c) ? "btn-next" : "btn-prev"
                 },
                 eventHandlers: {
                     click: function(e) {
@@ -1021,7 +1021,7 @@ function UI_PageSwitcher(options) {
 
     var buttonNext = new UI_Button({
         attributes: {
-            class: "btn-next"
+            "class": "btn-next"
         },
         eventHandlers: {
             click: function(e) {
@@ -1040,7 +1040,7 @@ function UI_PageSwitcher(options) {
 
     var buttonPrev = new UI_Button({
         attributes: {
-            class: "btn-prev"
+            "class": "btn-prev"
         },
         eventHandlers: {
             click: function(e) {
@@ -1240,7 +1240,7 @@ function UI_Control_Filter(options) {
                     //if(!$(this).find("img").length){
                     $("<img/>").attr({
                         src: options.filterByElements[ui.value].icon,
-                        class: options.filterByElements[ui.value].className,
+                        "class": options.filterByElements[ui.value].className,
                     }).prependTo($(this).children(".zui-selectbox-selector"));
                     //}
                 });
@@ -1400,7 +1400,7 @@ $(this).removeClass("emphasize");
         })).append(function(){
             return new UI_Button({
                 attributes:{
-                    class: "close-button"
+                    "class": "close-button"
                 },
                 eventHandlers:{
                     click: function(){
@@ -1461,7 +1461,7 @@ function UI_VerticalTabbedColumn(options) {
         tabs.append(function() {
             var tabTrigger = new UI_Button({
                 attributes: {
-                    class: "ui-tab-trigger",
+                    "class": "ui-tab-trigger",
                     title: options.tabs[tab]["title"],
                     "_id": tab
                 },
@@ -1552,7 +1552,7 @@ function UI_DropdownMenuColumn(options) {
      tabs.append(function() {
      var tabTrigger = new UI_Button({
      attributes: {
-     class: "ui-tab-trigger",
+     "class": "ui-tab-trigger",
      title: options.tabs[tab]["title"],
      "_id": tab
      },
