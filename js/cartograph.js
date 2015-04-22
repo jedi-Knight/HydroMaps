@@ -34,10 +34,7 @@ function Map(options) {
     //osmTileLayer.addTo(map);
 
 
-    L.control.attribution({
-        position: "bottomright",
-        prefix: false
-    }).addAttribution('Project By <a href="http://www.facebook.com/nitifoundation">Niti Foundation</a> | Map by <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs </a>  |   Data from <a href="http://www.doed.gov.np/issued_licenses.php">Department of Electricity</a> as of 16 March 2015 | <a href="downloads/hydromapsprojects.zip">Download the Data</a> | <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>').addTo(map);
+    eval(atob("TC5jb250cm9sLmF0dHJpYnV0aW9uKHsgICBwb3NpdGlvbjogJ2JvdHRvbXJpZ2h0JywgICAgICAgcHJlZml4OiBmYWxzZX0pLmFkZEF0dHJpYnV0aW9uKGF0b2IoJ1VISnZhbVZqZENCQ2VTQThZU0JvY21WbVBTSm9kSFJ3T2k4dmQzZDNMbVpoWTJWaWIyOXJMbU52YlM5dWFYUnBabTkxYm1SaGRHbHZiaUkrVG1sMGFTQkdiM1Z1WkdGMGFXOXVQQzloUGlCOElFMWhjQ0JpZVNBOFlTQm9jbVZtUFNKb2RIUndPaTh2YTJGMGFHMWhibVIxYkdsMmFXNW5iR0ZpY3k1dmNtY2lQa3RoZEdodFlXNWtkU0JNYVhacGJtY2dUR0ZpY3lBOEwyRStJQ0I4SUNBZ1JHRjBZU0JtY205dElEeGhJR2h5WldZOUltaDBkSEE2THk5M2QzY3VaRzlsWkM1bmIzWXVibkF2YVhOemRXVmtYMnhwWTJWdWMyVnpMbkJvY0NJK1JHVndZWEowYldWdWRDQnZaaUJGYkdWamRISnBZMmwwZVR3dllUNGdZWE1nYjJZZ01UWWdUV0Z5WTJnZ01qQXhOU0I4SUR4aElHaHlaV1k5SW1SdmQyNXNiMkZrY3k5b2VXUnliMjFoY0hOd2NtOXFaV04wY3k1NmFYQWlQa1J2ZDI1c2IyRmtJSFJvWlNCRVlYUmhQQzloUGlCOElEeGhJR2h5WldZOUltaDBkSEE2THk5c1pXRm1iR1YwYW5NdVkyOXRJaUIwYVhSc1pUMGlRU0JLVXlCc2FXSnlZWEo1SUdadmNpQnBiblJsY21GamRHbDJaU0J0WVhCeklqNU1aV0ZtYkdWMFBDOWhQZz09JykpLmFkZFRvKG1hcCk="));
     //L.control.scale().addTo(map);
 
     //map.addLayer(osmTileLayer);
