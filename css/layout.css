@@ -723,16 +723,16 @@ filter: contrast(0.8);
     z-index: 999 !important;
 }*/
 
-.leaflet-marker-icon.reserved.mega{
+.leaflet-marker-icon.other-projects.mega{
     z-index: 11004 !important;
 }
-.leaflet-marker-icon.reserved.large{
+.leaflet-marker-icon.other-projects.large{
     z-index: 11003 !important;
 }
-.leaflet-marker-icon.reserved.medium{
+.leaflet-marker-icon.other-projects.medium{
     z-index: 11002 !important;
 }
-.leaflet-marker-icon.reserved.small{
+.leaflet-marker-icon.other-projects.small{
     z-index: 11001 !important;
 }
 
