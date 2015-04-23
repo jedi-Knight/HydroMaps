@@ -116,7 +116,7 @@ map.setZoom(map.getZoom()+1);
 
             }
         },
-        "reserved": {
+        "other-projects": {
             "layerGroups": {
                 "mega": L.layerGroup(),
                 "large": L.layerGroup(),
