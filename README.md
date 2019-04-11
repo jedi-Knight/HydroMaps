@@ -2,7 +2,7 @@
 
 ## Introduction
 This is an interactive web-GIS map of hydropower projects in Nepal.
-The map is live at www.kathmandulivinglabs.org/
+The map is live at www.kathmandulivinglabs.org/hydropower/ as of April 11, 2019.
 
 ## Installation
 Clone this repo into the web server path.
