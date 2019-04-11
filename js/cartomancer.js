@@ -15,9 +15,6 @@ $(document).ready(function() {
                     boundary: nepalBorderLatLngArray,
                     doubleClickZoom: false
                 })
-            },
-            "Satellite Imagery": {
-                "tileLayer": new L.Google()
             }
         }
     });
